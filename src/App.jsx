@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
-import { AiOutlineLike, AiFillLike } from 'react-icons/ai';
-import { BiComment } from 'react-icons/bi';
+import { useEffect, useState } from "react";
+import { AiOutlineLike, AiFillLike } from "react-icons/ai";
+import { BiComment } from "react-icons/bi";
 
-import { getPosts, getSession, getUsers } from './api';
+import { getPosts, getSession, getUsers } from "./api";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -29,6 +29,33 @@ function App() {
     }
   };
 
+  const handleCLickLike = (postId) => {
+    setPosts((prevPosts) => {
+      return prevPosts.map((post) => {
+        if (post.id === postId) {
+          const like = post.likes.find((like) => like.userId === user.id);
+          if (like) {
+            return {
+              ...post,
+              likes: post.likes.filter((like) => like.userId !== user.id),
+              newLikes: post.newLikes - 1,
+              numberOfLikes: post.numberLikes - 1,
+            };
+          } else {
+            return {
+              ...post,
+              likes: [...post.likes, { userId: user.id }],
+              newLikes: post.newLikes + 1,
+              numberOfLikes: post.numberOfLikes + 1,
+            };
+          }
+        } else {
+          return post;
+        }
+      });
+    });
+  };
+
   return (
     <div>
       <header className="fixed top-0 left-0 w-full z-50 bg-white shadow-md">
@@ -37,9 +64,9 @@ function App() {
           {user ? (
             <button className="h-9 w-9 bg-blue-500 rounded-full text-white">
               {user.name
-                .split(' ')
+                .split(" ")
                 .map((value) => value.charAt(0))
-                .join('')}
+                .join("")}
             </button>
           ) : null}
         </div>
@@ -48,14 +75,17 @@ function App() {
         <div className="h-16" />
         <div className="space-y-2 mt-8">
           {posts.map((post) => (
-            <div key={post.id} className="max-w-7xl mx-auto px-6 py-4 bg-white rounded-md">
+            <div
+              key={post.id}
+              className="max-w-7xl mx-auto px-6 py-4 bg-white rounded-md"
+            >
               <div className="font-medium text-lg">{post.title}</div>
               <div className="text-gray-500">{post.body}</div>
               <div className="flex items-center space-x-6 mt-4">
                 <button onClick={() => handleToggleComments(post.id)}>
                   <BiComment /> {post.comments.length}
                 </button>
-                <button>
+                <button onClick={() => handleCLickLike(post.id)}>
                   {post.likes.some((like) => like.userId === user.id) ? (
                     <AiFillLike size={20} />
                   ) : (
@@ -64,11 +94,20 @@ function App() {
                   {post.likes.length}
                 </button>
               </div>
-              <ul className={`mt-6 ${showComments && showComments === post.id ? '' : 'hidden'}`}>
+              <ul
+                className={`mt-6 ${
+                  showComments && showComments === post.id ? "" : "hidden"
+                }`}
+              >
                 {post.comments.map((comment) => (
-                  <li key={comment.id} className="max-w-7xl mx-auto py-2 bg-white rounded-md">
+                  <li
+                    key={comment.id}
+                    className="max-w-7xl mx-auto py-2 bg-white rounded-md"
+                  >
                     <div className="text-sm text-gray-500">{comment.body}</div>
-                    <div className="text-sm mt-1">{users.find((user) => user.id === comment.userId)?.name}</div>
+                    <div className="text-sm mt-1">
+                      {users.find((user) => user.id === comment.userId)?.name}
+                    </div>
                   </li>
                 ))}
               </ul>
