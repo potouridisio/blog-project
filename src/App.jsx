@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
-import { AiOutlineLike, AiFillLike } from 'react-icons/ai';
-import { BiComment } from 'react-icons/bi';
+import { useEffect, useState } from "react";
+import { AiOutlineLike, AiFillLike } from "react-icons/ai";
+import { BiComment } from "react-icons/bi";
 
-import { getPosts, getSession, getUsers } from './api';
+import { getPosts, getSession, getUsers } from "./api";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -10,6 +10,7 @@ function App() {
   const [posts, setPosts] = useState([]);
   // false ή κάποιο id
   const [showComments, setShowComments] = useState(false);
+  const [showLike, setShowLike] = useState(false);
 
   useEffect(() => {
     // επιστρέφει { user }
@@ -29,6 +30,33 @@ function App() {
     }
   };
 
+  const handleLike = (postId) => {
+    if (showLike === postId) {
+      setShowLike(false);
+    } else {
+      setShowLike(postId);
+    }
+
+    // console.log(user);
+    const newPosts = posts.map((post) => {
+      if (post.id === postId) {
+        const like = post.likes.find((like) => like.userId === user.id);
+        if (like) {
+          const newLikes = post.likes.filter((like) => like.userId !== user.id);
+          return { ...post, likes: newLikes };
+        } else {
+          const newLikes = [
+            ...post.likes,
+            { id: post.likes.length + 1, userId: user.id },
+          ];
+          return { ...post, likes: newLikes };
+        }
+      }
+      return post;
+    });
+    setPosts(newPosts);
+  };
+
   return (
     <div>
       <header className="fixed top-0 left-0 w-full z-50 bg-white shadow-md">
@@ -37,9 +65,9 @@ function App() {
           {user ? (
             <button className="h-9 w-9 bg-blue-500 rounded-full text-white">
               {user.name
-                .split(' ')
+                .split(" ")
                 .map((value) => value.charAt(0))
-                .join('')}
+                .join("")}
             </button>
           ) : null}
         </div>
@@ -48,14 +76,17 @@ function App() {
         <div className="h-16" />
         <div className="space-y-2 mt-8">
           {posts.map((post) => (
-            <div key={post.id} className="max-w-7xl mx-auto px-6 py-4 bg-white rounded-md">
+            <div
+              key={post.id}
+              className="max-w-7xl mx-auto px-6 py-4 bg-white rounded-md"
+            >
               <div className="font-medium text-lg">{post.title}</div>
               <div className="text-gray-500">{post.body}</div>
               <div className="flex items-center space-x-6 mt-4">
                 <button onClick={() => handleToggleComments(post.id)}>
                   <BiComment /> {post.comments.length}
                 </button>
-                <button>
+                <button onClick={() => handleLike(post.id)}>
                   {post.likes.some((like) => like.userId === user.id) ? (
                     <AiFillLike size={20} />
                   ) : (
@@ -63,15 +94,41 @@ function App() {
                   )}
                   {post.likes.length}
                 </button>
+
+                {showLike === post.id ? (
+                  <ul>
+                    {post.likes.map((like) => {
+                      const user = users.find(
+                        (user) => user.id === like.userId
+                      );
+                      return (
+                        <li key={like.userId}>
+                          {user ? (
+                            <div className="text-sm text-gray-500">
+                              {user.name}
+                            </div>
+                          ) : null}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                ) : null}
               </div>
+
               {showComments === post.id ? (
                 <ul>
                   {post.comments.map((comment) => {
-                    const user = users.find((user) => user.id === comment.userId);
+                    const user = users.find(
+                      (user) => user.id === comment.userId
+                    );
                     return (
                       <li key={comment.id}>
-                        <div className="text-sm text-gray-500">{comment.body}</div>
-                        {user ? <div className="text-sm mt-1">{user.name}</div> : null}
+                        <div className="text-sm text-gray-500">
+                          {comment.body}
+                        </div>
+                        {user ? (
+                          <div className="text-sm mt-1">{user.name}</div>
+                        ) : null}
                       </li>
                     );
                   })}
