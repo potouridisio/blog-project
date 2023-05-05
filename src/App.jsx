@@ -9,7 +9,7 @@ function App() {
   const [users, setUsers] = useState([]);
   const [posts, setPosts] = useState([]);
   // false ή κάποιο id
-  const [showComments, setShowComments] = useState(false);
+  const [expandedComments, setExpandedComments] = useState(false);
 
   useEffect(() => {
     // επιστρέφει { user }
@@ -22,10 +22,10 @@ function App() {
   }, []);
 
   const handleToggleComments = (postId) => {
-    if (showComments === postId) {
-      setShowComments(false);
+    if (expandedComments === postId) {
+      setExpandedComments(false);
     } else {
-      setShowComments(postId);
+      setExpandedComments(postId);
     }
   };
 
@@ -64,7 +64,7 @@ function App() {
                   {post.likes.length}
                 </button>
               </div>
-              {showComments === post.id ? (
+              {expandedComments === post.id ? (
                 <ul>
                   {post.comments.map((comment) => {
                     const user = users.find((user) => user.id === comment.userId);
