@@ -129,6 +129,12 @@ export function getUsers() {
           email: 'jack.doe@example',
           role: 'user',
         },
+        {
+          id: 4,
+          name: 'John Smith',
+          email: 'john.smith@example.com',
+          role: 'user',
+        },
       ]);
     }, 1000);
   });
