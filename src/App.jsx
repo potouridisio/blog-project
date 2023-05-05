@@ -64,14 +64,19 @@ function App() {
                   {post.likes.length}
                 </button>
               </div>
-              <ul className={`mt-6 ${showComments && showComments === post.id ? '' : 'hidden'}`}>
-                {post.comments.map((comment) => (
-                  <li key={comment.id} className="max-w-7xl mx-auto py-2 bg-white rounded-md">
-                    <div className="text-sm text-gray-500">{comment.body}</div>
-                    <div className="text-sm mt-1">{users.find((user) => user.id === comment.userId)?.name}</div>
-                  </li>
-                ))}
-              </ul>
+              {showComments === post.id ? (
+                <ul>
+                  {post.comments.map((comment) => {
+                    const user = users.find((user) => user.id === comment.userId);
+                    return (
+                      <li key={comment.id}>
+                        <div className="text-sm text-gray-500">{comment.body}</div>
+                        {user ? <div className="text-sm mt-1">{user.name}</div> : null}
+                      </li>
+                    );
+                  })}
+                </ul>
+              ) : null}
             </div>
           ))}
         </div>
