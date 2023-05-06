@@ -1,184 +1,230 @@
 import { useEffect, useState } from 'react';
 import { AiOutlineLike, AiFillLike } from 'react-icons/ai';
-import { BiComment, BiCommentCheck} from 'react-icons/bi';
-
 
 import { getPosts, getSession, getUsers } from './api';
+import { getInitials, getInitialsColor, timeAgo, truncateBody } from './utils';
 
+// η App είναι ένα functional component
+// ένα functional component είναι μία συνάρτηση που επιστρέφει JSX
+// η App επιστρέφει JSX που περιέχει το header και το main
+// το header περιέχει το όνομα της εφαρμογής και το κουμπί του χρήστη
+// το main περιέχει τα posts της εφαρμογής
 function App() {
+  // ο χρήστης που έχει κάνει login
   const [user, setUser] = useState(null);
+  // ένας πίνακας με τους χρήστες της εφαρμογής
   const [users, setUsers] = useState([]);
+  // ένας πίνακας με τα posts της εφαρμογής
   const [posts, setPosts] = useState([]);
-  // false ή κάποιο id
-  const [showComments, setShowComments] = useState(false);
-  const [fillLike, setFillLike] = useState(true);
-  const [checkedComments, setCheckedComments] = useState(false);
-  const [showAddCommentArea, setShowAddCommentArea] = useState(false);
-  const [textOfComment, setTextOfComment] = useState('');
+  // ένας πίνακας με τα id των posts που έχουν ανοιχτά τα σχόλια
+  const [expandedComments, setExpandedComments] = useState([]);
+
+  const [expandedPosts, setExpandedPosts] = useState([]);
+
 
   useEffect(() => {
-    // επιστρέφει { user }
+    // οι εντολές μέσα στο useEffect θα εκτελεστούν μόνο μία φορά
+    // όταν το component φορτωθεί για πρώτη φορά
+
+    // η getSession επιστρέφει ένα promise που όταν ολοκληρωθεί
+    // θα έχει τα δεδομένα του χρήστη
     getSession().then((data) => {
       setUser(data.user);
     });
-    // επιστρέφει []
-    getPosts().then(setPosts);
+    // η getPosts επιστρέφει ένα promise που όταν ολοκληρωθεί
+    // θα έχει τα δεδομένα των posts
+    getPosts().then((data) => {
+      setPosts(data);
+    });
+    // η getUsers επιστρέφει ένα promise που όταν ολοκληρωθεί
+    // θα έχει τα δεδομένα των χρηστών
     getUsers().then(setUsers);
   }, []);
 
+  // η handleToggleComment θα καλείται όταν ο χρήστης πατάει το κουμπί
+  // για να ανοίξει/κλείσει τα σχόλια ενός post
+  const handleToggleComment = (event, postId) => {
+    event.preventDefault();
 
-  const handleToggleComments = (postId) => {
-    if (showComments === postId) {
-      setShowComments(false);
+    // αν το postId υπάρχει στον πίνακα expandedComments
+    if (expandedComments.includes(postId)) {
+      // τότε το αφαιρούμε
+      setExpandedComments(expandedComments.filter((id) => id !== postId));
     } else {
-      setShowComments(postId);
+      // αλλιώς το προσθέτουμε
+      setExpandedComments([...expandedComments, postId]);
     }
   };
 
-  const handleToggleLikes = (postId, likes) => {
-    if(likes.find ( (like) => like.userId === user.id)  ) {
-      setFillLike(false);
-      posts.find( (post) => post.id === postId).likes.splice(
-        likes.indexOf(likes.find( (like) => like.userId === user.id)), 1)
+
+
+
+  const handleToggleLikes = (postId) => {
+    let updatedPosts = posts.slice(0);
+    let updatedLikes = updatedPosts[postId].likes;
+
+    if (updatedLikes.some( (like) => like.userId === user.id )){
+      updatedLikes = updatedLikes.filter(like => like.userId !== user.id)
+    } else {
+      updatedLikes = [...updatedLikes, { id : updatedLikes.at(-1).id + 1 ,
+                                         userId : user.id
+                                       } ]
+    }
+    
+    updatedPosts[postId] = {...updatedPosts[postId], likes: updatedLikes};
+
+    setPosts(updatedPosts);
+
+  }
+
+
+
+  const handleSeeMoreLink = (event, postId) => {
+    event.preventDefault();
+    if(expandedPosts.includes(postId)){
+      setExpandedPosts(expandedPosts.filter((id) => id !== postId));
     }else {
-      posts.find( (post) => post.id === postId).likes.push(
-        { id: (likes.at(-1).id) + 1, 
-          userId : user.id
-        }); 
-      setFillLike(postId);
-    }     
-  };
-
-  const handleAddComment = (postId) => {
-     if (showAddCommentArea === postId) {
-      setShowAddCommentArea(false);
-    } else {
-      setShowAddCommentArea(postId);
+      setExpandedPosts([...expandedPosts, postId]);
     }
   }
 
-  const handleCommentArea = (e) => {
-    setTextOfComment(e.target.value);
-  }
 
-  const handlePostComment = (postId, comments) => { 
-    if(textOfComment){
-        handleAddComment(postId);
-        posts.find( (post) => post.id === postId).comments.push(
-          { id: comments.at(-1).id + 1 , 
-            body: textOfComment, 
-            userId: user.id
-          });
-        setCheckedComments(true);  
-    }
-  }
 
-  const handleDeleteComment = (postId, comments) => {
-        setCheckedComments(false);
-        posts.find( (post) => post.id === postId).comments.splice(
-          comments.indexOf(comments.find( (comment) => comment.userId === user.id), 1));
-  }
+
+  // βρίσκουμε τα αρχικά του χρήστη
+  const userInitials = user ? getInitials(user.name) : '';
 
   return (
-    <div>
-      <header className="fixed top-0 left-0 w-full z-50 bg-white shadow-md">
-        <div className="h-16 flex items-center max-w-7xl mx-auto px-6 justify-between">
-          <div className="font-medium text-lg">Blog Project</div>
+    <div className="flex min-h-screen bg-gray-100">
+      <header className="fixed top-0 left-0 w-full z-50 bg-white shadow">
+        <div className="h-16 flex items-center max-w-6xl mx-auto px-6 justify-between">
+          <div className="font-semibold text-xl">Blog Project</div>
           {user ? (
-            <button className="h-9 w-9 bg-blue-500 rounded-full text-white" title={user.name}>
-              {user.name
-                .split(' ')
-                .map((value) => value.charAt(0))
-                .join('')}
+            // αν ο χρήστης έχει κάνει login
+            // δηλαδή έχουμε τα δεδομένα του στο user
+            // τότε εμφανίζουμε το κουμπί με τα αρχικά του
+            // π.χ. αν ο χρήστης έχει το όνομα "John Doe"
+            // τότε το κουμπί θα έχει τα αρχικά "JD"
+            <button
+              className="flex items-center justify-center text-center h-10 w-10 rounded-full text-white font-semibold"
+              style={{ backgroundColor: getInitialsColor(userInitials) }}
+            >
+              {userInitials}
             </button>
-          ) : null}
+          ) : // αλλιώς τίποτα
+          null}
         </div>
       </header>
-
-      <main>
+      <main className="max-w-6xl mx-auto grow p-6">
         <div className="h-16" />
-        <div className="space-y-2 mt-8">
-          {posts.map((post) => (
-            <div key={post.id} className="max-w-7xl mx-auto px-6 py-4 bg-white rounded-md">
-              <div className="font-medium text-lg">{post.title}</div>
-              <div className="text-gray-500">{post.body}</div>
-              <div className="flex items-center space-x-6 mt-4">
-                <button onClick={(e) => {
-                  e.stopPropagation();
-                  handleToggleComments(post.id)
-                }}
-                >
-                  { post.comments.some(comment => comment.userId === user.id) && checkedComments?
-                    <BiCommentCheck size={20} /> 
-                    :
-                    <BiComment size={20} /> }
-                    {post.comments.length}                 
-                </button>
+        <div className="space-y-6 mt-6">
+          {
+            // για κάθε post
+            posts.map((post, index) => (
+              // εμφανίζουμε τον τίτλο και το κείμενο του περικομμένο στους 240 χαρακτήρες
+              // καθώς και τα σχόλια και τα likes
+              // το κουμπί για τα likes έχει τον αριθμό των likes
+              // και είναι διαφορετικό αν ο χρήστης έχει κάνει like
+              // ή όχι στο post
+              // το κουμπί για τα σχόλια έχει τον αριθμό των σχολίων
+              // και εμφανίζει τα σχόλια αν είναι κλειστά
+              <div key={post.id} className="p-6 bg-white rounded-lg shadow">
+                <div className="font-semibold text-lg mb-3">{post.title}</div>
+                <div className="text-gray-500">
 
-                <button onClick ={(e) => { 
-                  e.stopPropagation();
-                  handleToggleLikes(post.id, post.likes);
-                }}
-                >              
-                  {post.likes.some((like) => like.userId === user.id) ? (
-                    <AiFillLike size={20} />
-                  ) : (
-                    <AiOutlineLike size={20} />
-                  )}
-                  {post.likes.length}
-                </button>               
-              </div>
 
-              { showAddCommentArea ? 
-                <div className={`mt-6 ${showAddCommentArea && showAddCommentArea === post.id ? '' : 'hidden'}`}>  
-                  <textarea id='comment' 
-                            placeholder = "Write your comment..." 
-                            className='rounded border px-6 py-2 mt-4 text-sm shadow-xl w-full'                          
-                            onChange = {handleCommentArea}>                       
-                </textarea>
-                <button className='rounded border px-6 py-2 mt-4 text-sm shadow-xl'
-                      onClick = {() =>  handlePostComment(post.id, post.comments)}
-                >
-                  Add your comment
-                </button>
-                <button className='rounded border px-6 py-2 mt-4 text-sm shadow-xl'
-                        onClick = {() => handleAddComment(post.id)}
-                >
-                  Cancel
-                </button>
+                  {expandedPosts.includes(post.id) ? 
+                      post.body : 
+                      truncateBody(post.body)}&nbsp;
+                      <a className={expandedPosts.includes(post.id) ? 'hidden': "text-gray-500 font-semibold hover:underline" }
+                        href="#"
+                        onClick = {(event) =>  handleSeeMoreLink(event, post.id)}   
+                      >
+                        See more
+                      </a>
+
+
                 </div>
-              :          
-                <button className='rounded border px-6 py-2 mt-4 text-sm shadow-xl'
-                      onClick = {() => handleAddComment(post.id)}
-                >
-                  Add a Comment ...
-                </button>
-                  } 
 
-              <ul className={`mt-6 ${showComments && showComments === post.id ? '' : 'hidden'}`}>
-                {post.comments.map((comment) => (
-                  <li key={comment.id} className="max-w-7xl mx-auto py-2 bg-white rounded-md">            
-                    {user.id === comment.userId ? 
-                      <>
-                       <div className="text-sm text-gray-500">{comment.body}
-                         <button className='rounded border px-1 py-1 ml-8 text-sm shadow-xl text-red-500'
-                                 onClick = { () => handleDeleteComment(post.id, post.comments)}>
-                           Delete Comment
-                         </button>
-                       </div>
-                       <div className="text-sm mt-1">{user.name}</div>  
-                      </> 
-                      :
-                      <>
-                        <div className="text-sm text-gray-500">{comment.body}</div> 
-                        <div className="text-sm mt-1">{users.find((user) => user.id === comment.userId)?.name}</div>
-                      </>
+                <div className="flex items-center justify-between mt-6">
+                  <button className="inline-flex items-center text-sm text-gray-500"
+                          onClick = {() => handleToggleLikes(index)}
+                  >
+                    {
+                      // ο χρήστης έχει κάνει like στο post
+                      // ανάλογα με αυτό εμφανίζουμε το κατάλληλο εικονίδιο
+                      // και τον αριθμό των likes
+                      // π.χ. αν ο χρήστης έχει κάνει like το post έχουμε:
+                      // <AiFillLike /> 1
+                      // αλλιώς έχουμε:
+                      // <AiOutlineLike /> 0
+                      post.likes.some((like) => like.userId === user.id) ? (
+                        <AiFillLike className="fill-blue-500 shrink-0" size={20} />
+                      ) : (
+                        <AiOutlineLike className="shrink-0" size={20} />
+                      )
                     }
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+                    &nbsp;
+                    {post.likes.length}
+                  </button>
+
+                  <a
+                    className="text-sm text-gray-500 hover:underline"
+                    href="#"
+                    onClick={(event) => handleToggleComment(event, post.id)}
+                  >
+                    {post.comments.length} comments
+                  </a>
+                </div>
+                {
+                  // αν το post έχει ανοιχτά τα σχόλια
+                  // τότε εμφανίζουμε τα σχόλια
+                  // αλλιώς τίποτα
+                  expandedComments.includes(post.id) ? (
+                    <ul className="flex flex-col items-start space-y-3 py-3 mt-6">
+                      {
+                        // για κάθε σχόλιο
+                        post.comments.map((comment) => {
+                          // βρίσκουμε τον χρήστη που έκανε το σχόλιο
+                          const commentUser = users.find((user) => user.id === comment.userId);
+                          // βρίσκουμε τα αρχικά του χρήστη
+                          const initials = commentUser ? getInitials(commentUser.name) : '';
+
+                          return (
+                            // εμφανίζουμε το σχόλιο
+                            // με τα αρχικά του χρήστη που το έκανε
+                            // και το όνομα του χρήστη που το έκανε
+                            // καθώς και το κείμενο του σχολίου
+                            // και τον χρόνο που πέρασε από τότε που έγινε
+                            <li className="relative flex flex-col pl-10" key={comment.id}>
+                              <div
+                                className="absolute flex items-center justify-center text-center text-sm left-0 top-0 h-8 w-8 text-white rounded-full font-semibold"
+                                style={{ backgroundColor: getInitialsColor(initials) }}
+                              >
+                                {initials}
+                              </div>
+                              <div className="bg-gray-50 px-3 py-1.5 rounded-lg">
+                                {
+                                  // αν έχουμε τον χρήστη που έκανε το σχόλιο
+                                  // τότε εμφανίζουμε το όνομά του
+                                  // αλλιώς τίποτα
+                                  commentUser ? <div className="text-sm font-semibold">{commentUser.name}</div> : null
+                                }
+                                <div className="text-sm text-gray-500">{comment.body}</div>
+                              </div>
+                              <p className="text-xs text-gray-500 ml-auto mt-0.5">
+                                {timeAgo(new Date(comment.createdAt))}
+                              </p>
+                            </li>
+                          );
+                        })
+                      }
+                    </ul>
+                  ) : null
+                }
+              </div>
+            ))
+          }
         </div>
       </main>
     </div>

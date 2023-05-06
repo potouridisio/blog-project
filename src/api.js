@@ -1,3 +1,5 @@
+import { getRandomNumber } from './utils';
+
 export function getPosts() {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -11,16 +13,19 @@ export function getPosts() {
               id: 1,
               body: 'Great advice! Thanks for sharing.',
               userId: 2,
+              createdAt: '2023-05-06T09:10:41.702Z',
             },
             {
               id: 2,
               body: 'I totally agree. Learning the basics is crucial.',
               userId: 3,
+              createdAt: '2023-05-05T16:34:22.056Z',
             },
             {
               id: 3,
               body: "I'm having a hard time with CSS. Any tips?",
               userId: 4,
+              createdAt: '2023-05-04T18:45:19.333Z',
             },
           ],
           likes: [
@@ -43,11 +48,13 @@ export function getPosts() {
               id: 1,
               body: "I've been trying to learn responsive design. It's challenging, but I know it's worth it.",
               userId: 3,
+              createdAt: '2023-05-06T01:22:05.452Z',
             },
             {
               id: 2,
               body: "I completely agree. Responsive design is a must-have in today's digital landscape.",
               userId: 4,
+              createdAt: '2023-05-05T11:56:17.932Z',
             },
           ],
           likes: [
@@ -66,16 +73,25 @@ export function getPosts() {
               id: 1,
               body: "I've been using React for a while now and I love it.",
               userId: 2,
+              createdAt: '2023-05-05T08:30:00.000Z',
             },
             {
               id: 2,
               body: "I'm just starting out with front-end development. Which framework do you recommend?",
               userId: 3,
+              createdAt: '2023-05-05T09:15:00.000Z',
             },
             {
               id: 3,
               body: "I'm not very familiar with Git. Do you have any resources to recommend?",
               userId: 4,
+              createdAt: '2023-05-05T10:00:00.000Z',
+            },
+            {
+              id: 4,
+              body: "I recommend checking out the Git documentation on their official website. It's very thorough and easy to follow.",
+              userId: 1,
+              createdAt: '2023-05-06T11:30:00.000Z',
             },
           ],
           likes: [
@@ -94,7 +110,7 @@ export function getPosts() {
           ],
         },
       ]);
-    }, 1000);
+    }, getRandomNumber());
   });
 }
 
@@ -104,12 +120,12 @@ export function getSession() {
       resolve({
         user: {
           id: 1,
-          name: 'John Doe',
-          email: 'john.doe@example',
+          name: 'Adam Johnson',
+          email: 'adam.johnson@example',
           role: 'admin',
         },
       });
-    }, 1000);
+    }, getRandomNumber());
   });
 }
 
@@ -118,24 +134,30 @@ export function getUsers() {
     setTimeout(() => {
       resolve([
         {
+          id: 1,
+          name: 'Adam Johnson',
+          email: 'adam.johnson@example',
+          role: 'admin',
+        },
+        {
           id: 2,
-          name: 'Jane Doe',
-          email: 'jane.doe@example',
+          name: 'Emily Green',
+          email: 'emily.green@example',
           role: 'admin',
         },
         {
           id: 3,
-          name: 'Jack Doe',
-          email: 'jack.doe@example',
+          name: 'Robert Davis',
+          email: 'robert.davis@example',
           role: 'user',
         },
         {
           id: 4,
-          name: 'John Smith',
-          email: 'john.smith@example.com',
+          name: 'Sophie White',
+          email: 'sophie.white@example.com',
           role: 'user',
         },
       ]);
-    }, 1000);
+    }, getRandomNumber());
   });
 }
