@@ -104,8 +104,8 @@ export function getSession() {
       resolve({
         user: {
           id: 1,
-          name: 'John Doe',
-          email: 'john.doe@example',
+          name: 'Adam Johnson',
+          email: 'adam.johnson@example',
           role: 'admin',
         },
       });
@@ -119,26 +119,26 @@ export function getUsers() {
       resolve([
         {
           id: 1,
-          name: 'John Doe',
-          email: 'john.doe@example',
+          name: 'Adam Johnson',
+          email: 'adam.johnson@example',
           role: 'admin',
         },
         {
           id: 2,
-          name: 'Jane Doe',
-          email: 'jane.doe@example',
+          name: 'Emily Green',
+          email: 'emily.green@example',
           role: 'admin',
         },
         {
           id: 3,
-          name: 'Jack Doe',
-          email: 'jack.doe@example',
+          name: 'Robert Davis',
+          email: 'robert.davis@example',
           role: 'user',
         },
         {
           id: 4,
-          name: 'John Smith',
-          email: 'john.smith@example.com',
+          name: 'Sophie White',
+          email: 'sophie.white@example.com',
           role: 'user',
         },
       ]);

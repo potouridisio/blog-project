@@ -53,6 +53,9 @@ function App() {
     }
   };
 
+  // βρίσκουμε τα αρχικά του χρήστη
+  const userInitials = user ? getInitials(user.name) : '';
+
   return (
     <div className="flex min-h-screen bg-gray-100">
       <header className="fixed top-0 left-0 w-full z-50 bg-white shadow">
@@ -64,8 +67,11 @@ function App() {
             // τότε εμφανίζουμε το κουμπί με τα αρχικά του
             // π.χ. αν ο χρήστης έχει το όνομα "John Doe"
             // τότε το κουμπί θα έχει τα αρχικά "JD"
-            <button className="flex items-center justify-center text-center h-10 w-10 bg-blue-500 rounded-full text-white font-semibold">
-              {getInitials(user.name)}
+            <button
+              className="flex items-center justify-center text-center h-10 w-10 rounded-full text-white font-semibold"
+              style={{ backgroundColor: getInitialsColor(userInitials) }}
+            >
+              {userInitials}
             </button>
           ) : // αλλιώς τίποτα
           null}
