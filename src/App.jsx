@@ -8,8 +8,7 @@ function App() {
   const [user, setUser] = useState(null);
   const [users, setUsers] = useState([]);
   const [posts, setPosts] = useState([]);
-  // false ή κάποιο id
-  const [expandedComments, setExpandedComments] = useState(false);
+  const [expandedComments, setExpandedComments] = useState([]);
 
   useEffect(() => {
     // επιστρέφει { user }
@@ -21,11 +20,11 @@ function App() {
     getUsers().then(setUsers);
   }, []);
 
-  const handleToggleComments = (postId) => {
-    if (expandedComments === postId) {
-      setExpandedComments(false);
+  const handleToggleComment = (postId) => {
+    if (expandedComments.includes(postId)) {
+      setExpandedComments(expandedComments.filter((id) => id !== postId));
     } else {
-      setExpandedComments(postId);
+      setExpandedComments([...expandedComments, postId]);
     }
   };
 
@@ -52,7 +51,7 @@ function App() {
               <div className="font-medium text-lg">{post.title}</div>
               <div className="text-gray-500">{post.body}</div>
               <div className="flex items-center space-x-6 mt-4">
-                <button onClick={() => handleToggleComments(post.id)}>
+                <button onClick={() => handleToggleComment(post.id)}>
                   <BiComment /> {post.comments.length}
                 </button>
                 <button>
@@ -64,7 +63,7 @@ function App() {
                   {post.likes.length}
                 </button>
               </div>
-              {expandedComments === post.id ? (
+              {expandedComments.includes(post.id) ? (
                 <ul>
                   {post.comments.map((comment) => {
                     const user = users.find((user) => user.id === comment.userId);
