@@ -118,6 +118,12 @@ export function getUsers() {
     setTimeout(() => {
       resolve([
         {
+          id: 1,
+          name: 'John Doe',
+          email: 'john.doe@example',
+          role: 'admin',
+        },
+        {
           id: 2,
           name: 'Jane Doe',
           email: 'jane.doe@example',
