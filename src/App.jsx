@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { AiOutlineLike, AiFillLike } from 'react-icons/ai';
 
 import { getPosts, getSession, getUsers } from './api';
-import { getInitials, getInitialsColor, truncateBody } from './utils';
+import { getInitials, getInitialsColor, timeAgo, truncateBody } from './utils';
 
 // η App είναι ένα functional component
 // ένα functional component είναι μία συνάρτηση που επιστρέφει JSX
@@ -144,7 +144,9 @@ function App() {
                             // εμφανίζουμε το σχόλιο
                             // με τα αρχικά του χρήστη που το έκανε
                             // και το όνομα του χρήστη που το έκανε
-                            <li className="relative pl-10" key={comment.id}>
+                            // καθώς και το κείμενο του σχολίου
+                            // και τον χρόνο που πέρασε από τότε που έγινε
+                            <li className="relative flex flex-col pl-10" key={comment.id}>
                               <div
                                 className="absolute flex items-center justify-center text-center text-sm left-0 top-0 h-8 w-8 text-white rounded-full font-semibold"
                                 style={{ backgroundColor: getInitialsColor(initials) }}
@@ -160,6 +162,9 @@ function App() {
                                 }
                                 <div className="text-sm text-gray-500">{comment.body}</div>
                               </div>
+                              <p className="text-xs text-gray-500 ml-auto mt-0.5">
+                                {timeAgo(new Date(comment.createdAt))}
+                              </p>
                             </li>
                           );
                         })

@@ -7,7 +7,6 @@ export function getInitials(name) {
 
 // επιστρέφει μία τυχαία χρωματική τιμή
 // ανάλογα με τα αρχικά του ονόματος
-// https://stackoverflow.com/a/16348977/1825390
 export function getInitialsColor(initials) {
   const colors = [
     '#f44336',
@@ -43,4 +42,34 @@ export function truncateBody(body) {
     return body.slice(0, 240).split(' ').slice(0, -1).join(' ') + '...';
   }
   return body;
+}
+
+// επιστρέφει έναν τυχαίο αριθμό μεταξύ 1000 και 5000
+export function getRandomNumber() {
+  return Math.floor(Math.random() * 5000) + 1000;
+}
+
+// επιστρέφει την ημερομηνία σε μορφή "πριν από 2 λεπτά"
+// αντί για "2021-05-06T11:30:00.000Z"
+export function timeAgo(date) {
+  const seconds = Math.floor((new Date() - date) / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(seconds / 3600);
+  const days = Math.floor(seconds / 86400);
+  const months = Math.floor(seconds / 2592000);
+  const years = Math.floor(seconds / 31536000);
+
+  if (seconds < 60) {
+    return 'Just now';
+  } else if (minutes < 60) {
+    return `${minutes} minute${minutes !== 1 ? 's' : ''} ago`;
+  } else if (hours < 24) {
+    return `${hours} hour${hours !== 1 ? 's' : ''} ago`;
+  } else if (days < 30) {
+    return `${days} day${days !== 1 ? 's' : ''} ago`;
+  } else if (months < 12) {
+    return `${months} month${months !== 1 ? 's' : ''} ago`;
+  } else {
+    return `${years} year${years !== 1 ? 's' : ''} ago`;
+  }
 }
