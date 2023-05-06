@@ -36,3 +36,11 @@ export function getInitialsColor(initials) {
     .reduce((sum, charCode) => sum + charCode, 0);
   return colors[charCodeSum % colors.length];
 }
+
+// truncate body to 240 characters, do not cut words
+export function truncateBody(body) {
+  if (body.length > 240) {
+    return body.slice(0, 240).split(' ').slice(0, -1).join(' ') + '...';
+  }
+  return body;
+}

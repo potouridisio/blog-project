@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { AiOutlineLike, AiFillLike } from 'react-icons/ai';
 
 import { getPosts, getSession, getUsers } from './api';
-import { getInitials, getInitialsColor } from './utils';
+import { getInitials, getInitialsColor, truncateBody } from './utils';
 
 // η App είναι ένα functional component
 // ένα functional component είναι μία συνάρτηση που επιστρέφει JSX
@@ -83,7 +83,7 @@ function App() {
           {
             // για κάθε post
             posts.map((post) => (
-              // εμφανίζουμε τον τίτλο και το κείμενο του
+              // εμφανίζουμε τον τίτλο και το κείμενο του περικομμένο στους 240 χαρακτήρες
               // καθώς και τα σχόλια και τα likes
               // το κουμπί για τα likes έχει τον αριθμό των likes
               // και είναι διαφορετικό αν ο χρήστης έχει κάνει like
@@ -92,7 +92,12 @@ function App() {
               // και εμφανίζει τα σχόλια αν είναι κλειστά
               <div key={post.id} className="p-6 bg-white rounded-lg shadow">
                 <div className="font-semibold text-lg mb-3">{post.title}</div>
-                <div className="text-gray-500">{post.body}</div>
+                <div className="text-gray-500">
+                  {truncateBody(post.body)}&nbsp;
+                  <a className="text-gray-500 font-semibold hover:underline" href="#">
+                    See more
+                  </a>
+                </div>
                 <div className="flex items-center justify-between mt-6">
                   <button className="inline-flex items-center text-sm text-gray-500">
                     {
@@ -132,10 +137,12 @@ function App() {
                         post.comments.map((comment) => {
                           // βρίσκουμε τον χρήστη που έκανε το σχόλιο
                           const commentUser = users.find((user) => user.id === comment.userId);
+                          // βρίσκουμε τα αρχικά του χρήστη
                           const initials = commentUser ? getInitials(commentUser.name) : '';
 
                           return (
                             // εμφανίζουμε το σχόλιο
+                            // με τα αρχικά του χρήστη που το έκανε
                             // και το όνομα του χρήστη που το έκανε
                             <li className="relative pl-10" key={comment.id}>
                               <div
