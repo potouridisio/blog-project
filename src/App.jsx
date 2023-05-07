@@ -180,8 +180,8 @@ function App() {
                           post.comments.map((comment) => {
                             // βρίσκουμε τον χρήστη που έκανε το σχόλιο
                             const commentUser = users.find((user) => user.id === comment.userId);
-                            // βρίσκουμε τα αρχικά του χρήστη
-                            const initials = commentUser ? getInitials(commentUser.name) : '';
+                            // βρίσκουμε τα αρχικά του χρήστη που έκανε το σχόλιο
+                            const commentUserInitials = commentUser ? getInitials(commentUser.name) : '';
 
                             return (
                               // εμφανίζουμε το σχόλιο
@@ -192,9 +192,9 @@ function App() {
                               <li className="relative flex flex-col pl-10" key={comment.id}>
                                 <div
                                   className="absolute flex items-center justify-center text-center text-sm left-0 top-0 h-8 w-8 text-white rounded-full font-semibold"
-                                  style={{ backgroundColor: getInitialsColor(initials) }}
+                                  style={{ backgroundColor: getInitialsColor(commentUserInitials) }}
                                 >
-                                  {initials}
+                                  {commentUserInitials}
                                 </div>
                                 <div className="bg-gray-100 px-3 py-1.5 rounded-lg">
                                   {
