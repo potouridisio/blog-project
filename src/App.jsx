@@ -53,8 +53,46 @@ function App() {
     }
   };
 
+  // η handleToggleLike θα καλείται όταν ο χρήστης πατάει το κουμπί
+  // για να κάνει like/unlike ένα post
+  const handleToggleLike = (postIndex) => {
+    // δημιουργούμε έναν κλώνο του πίνακα posts
+    // για να μπορέσουμε να τον τροποποιήσουμε
+    // χωρίς να αλλάξουμε τον αρχικό πίνακα
+    const newPosts = structuredClone(posts);
+
+    // βρίσκουμε το post που θέλουμε να κάνουμε like/unlike
+    const post = newPosts[postIndex];
+
+    // βρίσκουμε το like του χρήστη στο post
+    const like = post.likes.find((like) => like.userId === user.id);
+
+    // αν ο χρήστης έχει κάνει like στο post
+    if (like) {
+      // τότε το αφαιρούμε
+      post.likes = post.likes.filter((like) => like.userId !== user.id);
+    } else {
+      // αλλιώς το προσθέτουμε
+      post.likes.push({
+        // το id του like είναι το μεγαλύτερο id των υπαρχόντων likes + 1
+        id: Math.max(...post.likes.map((like) => like.id)) + 1,
+        // το userId είναι το id του χρήστη που έκανε login
+        userId: user.id,
+      });
+    }
+
+    // αντικαθιστούμε τον πίνακα posts με τον κλώνο
+    setPosts(newPosts);
+  };
+
+  // αν δεν έχουμε τον χρήστη ή τους χρήστες ή τα posts
+  // τότε εμφανίζουμε το loading message
+  if (!user || !users.length || !posts.length) {
+    return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
+  }
+
   // βρίσκουμε τα αρχικά του χρήστη
-  const userInitials = user ? getInitials(user.name) : '';
+  const userInitials = getInitials(user.name);
 
   return (
     <div className="flex min-h-screen bg-gray-100">
@@ -82,7 +120,7 @@ function App() {
         <div className="space-y-6 mt-6">
           {
             // για κάθε post
-            posts.map((post) => (
+            posts.map((post, index) => (
               // εμφανίζουμε τον τίτλο και το κείμενο του περικομμένο στους 240 χαρακτήρες
               // καθώς και τα σχόλια και τα likes
               // το κουμπί για τα likes έχει τον αριθμό των likes
@@ -99,7 +137,10 @@ function App() {
                   </a>
                 </div>
                 <div className="flex items-center justify-between mt-6">
-                  <button className="inline-flex items-center text-sm text-gray-500">
+                  <button
+                    className="inline-flex items-center text-sm text-gray-500"
+                    onClick={() => handleToggleLike(index)}
+                  >
                     {
                       // ο χρήστης έχει κάνει like στο post
                       // ανάλογα με αυτό εμφανίζουμε το κατάλληλο εικονίδιο
