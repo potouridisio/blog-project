@@ -174,7 +174,7 @@ function App() {
                   expandedComments.includes(post.id) ? (
                     <>
                       <hr className="border-t-gray-200 mb-4 mt-6" />
-                      <ul className="flex flex-col items-start space-y-3 py-3 mt-4">
+                      <ul className="flex flex-col items-start space-y-3 py-3">
                         {
                           // για κάθε σχόλιο
                           post.comments.map((comment) => {
