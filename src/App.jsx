@@ -172,45 +172,48 @@ function App() {
                   // τότε εμφανίζουμε τα σχόλια
                   // αλλιώς τίποτα
                   expandedComments.includes(post.id) ? (
-                    <ul className="flex flex-col items-start space-y-3 py-3 mt-6">
-                      {
-                        // για κάθε σχόλιο
-                        post.comments.map((comment) => {
-                          // βρίσκουμε τον χρήστη που έκανε το σχόλιο
-                          const commentUser = users.find((user) => user.id === comment.userId);
-                          // βρίσκουμε τα αρχικά του χρήστη
-                          const initials = commentUser ? getInitials(commentUser.name) : '';
+                    <>
+                      <hr className="border-t-gray-200 mb-4 mt-6" />
+                      <ul className="flex flex-col items-start space-y-3 py-3 mt-4">
+                        {
+                          // για κάθε σχόλιο
+                          post.comments.map((comment) => {
+                            // βρίσκουμε τον χρήστη που έκανε το σχόλιο
+                            const commentUser = users.find((user) => user.id === comment.userId);
+                            // βρίσκουμε τα αρχικά του χρήστη
+                            const initials = commentUser ? getInitials(commentUser.name) : '';
 
-                          return (
-                            // εμφανίζουμε το σχόλιο
-                            // με τα αρχικά του χρήστη που το έκανε
-                            // και το όνομα του χρήστη που το έκανε
-                            // καθώς και το κείμενο του σχολίου
-                            // και τον χρόνο που πέρασε από τότε που έγινε
-                            <li className="relative flex flex-col pl-10" key={comment.id}>
-                              <div
-                                className="absolute flex items-center justify-center text-center text-sm left-0 top-0 h-8 w-8 text-white rounded-full font-semibold"
-                                style={{ backgroundColor: getInitialsColor(initials) }}
-                              >
-                                {initials}
-                              </div>
-                              <div className="bg-gray-50 px-3 py-1.5 rounded-lg">
-                                {
-                                  // αν έχουμε τον χρήστη που έκανε το σχόλιο
-                                  // τότε εμφανίζουμε το όνομά του
-                                  // αλλιώς τίποτα
-                                  commentUser ? <div className="text-sm font-semibold">{commentUser.name}</div> : null
-                                }
-                                <div className="text-sm text-gray-500">{comment.body}</div>
-                              </div>
-                              <p className="text-xs text-gray-500 ml-auto mt-0.5">
-                                {timeAgo(new Date(comment.createdAt))}
-                              </p>
-                            </li>
-                          );
-                        })
-                      }
-                    </ul>
+                            return (
+                              // εμφανίζουμε το σχόλιο
+                              // με τα αρχικά του χρήστη που το έκανε
+                              // και το όνομα του χρήστη που το έκανε
+                              // καθώς και το κείμενο του σχολίου
+                              // και τον χρόνο που πέρασε από τότε που έγινε
+                              <li className="relative flex flex-col pl-10" key={comment.id}>
+                                <div
+                                  className="absolute flex items-center justify-center text-center text-sm left-0 top-0 h-8 w-8 text-white rounded-full font-semibold"
+                                  style={{ backgroundColor: getInitialsColor(initials) }}
+                                >
+                                  {initials}
+                                </div>
+                                <div className="bg-gray-100 px-3 py-1.5 rounded-lg">
+                                  {
+                                    // αν έχουμε τον χρήστη που έκανε το σχόλιο
+                                    // τότε εμφανίζουμε το όνομά του
+                                    // αλλιώς τίποτα
+                                    commentUser ? <div className="text-sm font-semibold">{commentUser.name}</div> : null
+                                  }
+                                  <div className="text-sm text-gray-500">{comment.body}</div>
+                                </div>
+                                <p className="text-xs text-gray-500 ml-auto mt-0.5">
+                                  {timeAgo(new Date(comment.createdAt))}
+                                </p>
+                              </li>
+                            );
+                          })
+                        }
+                      </ul>
+                    </>
                   ) : null
                 }
               </div>
