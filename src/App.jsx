@@ -98,7 +98,7 @@ function App() {
     <div className="flex min-h-screen bg-gray-100">
       <header className="fixed top-0 left-0 w-full z-50 bg-white shadow">
         <div className="h-16 flex items-center max-w-6xl mx-auto px-6 justify-between">
-          <div className="font-semibold text-xl">Blog Project</div>
+          <h1 className="font-semibold text-xl">Blog Project</h1>
           {user ? (
             // αν ο χρήστης έχει κάνει login
             // δηλαδή έχουμε τα δεδομένα του στο user
@@ -129,13 +129,13 @@ function App() {
               // το κουμπί για τα σχόλια έχει τον αριθμό των σχολίων
               // και εμφανίζει τα σχόλια αν είναι κλειστά
               <div key={post.id} className="p-6 bg-white rounded-lg shadow">
-                <div className="font-semibold text-lg mb-3">{post.title}</div>
-                <div className="text-gray-500">
+                <h2 className="font-semibold text-lg mb-3">{post.title}</h2>
+                <p className="text-gray-500">
                   {truncateBody(post.body)}&nbsp;
                   <a className="text-gray-500 font-semibold hover:underline" href="#">
                     See more
                   </a>
-                </div>
+                </p>
                 <div className="flex items-center justify-between mt-6">
                   <button
                     className="inline-flex items-center text-sm text-gray-500"
@@ -201,9 +201,9 @@ function App() {
                                     // αν έχουμε τον χρήστη που έκανε το σχόλιο
                                     // τότε εμφανίζουμε το όνομά του
                                     // αλλιώς τίποτα
-                                    commentUser ? <div className="text-sm font-semibold">{commentUser.name}</div> : null
+                                    commentUser ? <h3 className="text-sm font-semibold">{commentUser.name}</h3> : null
                                   }
-                                  <div className="text-sm text-gray-500">{comment.body}</div>
+                                  <p className="text-sm text-gray-500">{comment.body}</p>
                                 </div>
                                 <p className="text-xs text-gray-500 ml-auto mt-0.5">
                                   {timeAgo(new Date(comment.createdAt))}
