@@ -132,7 +132,7 @@ function App() {
                 <h2 className="font-semibold text-lg mb-3">{post.title}</h2>
                 <p className="text-gray-500">
                   {truncateBody(post.body)}&nbsp;
-                  <a className="text-gray-500 font-semibold hover:underline" href="#">
+                  <a className="font-semibold hover:underline" href="#">
                     See more
                   </a>
                 </p>
@@ -191,7 +191,7 @@ function App() {
                               // και τον χρόνο που πέρασε από τότε που έγινε
                               <li className="relative flex flex-col pl-10" key={comment.id}>
                                 <div
-                                  className="absolute flex items-center justify-center text-center text-sm left-0 top-0 h-8 w-8 text-white rounded-full font-semibold"
+                                  className="absolute flex items-center justify-center text-center text-xs left-0 top-0 h-8 w-8 text-white rounded-full font-semibold"
                                   style={{ backgroundColor: getInitialsColor(commentUserInitials) }}
                                 >
                                   {commentUserInitials}
@@ -203,7 +203,7 @@ function App() {
                                     // αλλιώς τίποτα
                                     commentUser ? <h3 className="text-sm font-semibold">{commentUser.name}</h3> : null
                                   }
-                                  <p className="text-sm text-gray-500">{comment.body}</p>
+                                  <p className="text-gray-500">{comment.body}</p>
                                 </div>
                                 <p className="text-xs text-gray-500 ml-auto mt-0.5">
                                   {timeAgo(new Date(comment.createdAt))}
