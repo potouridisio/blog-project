@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { AiOutlineLike, AiFillLike } from 'react-icons/ai';
+import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 
 import { getPosts, getSession, getUsers } from './api';
 import { getInitials, getInitialsColor, timeAgo, truncateBody } from './utils';
@@ -146,13 +146,13 @@ function App() {
                       // ανάλογα με αυτό εμφανίζουμε το κατάλληλο εικονίδιο
                       // και τον αριθμό των likes
                       // π.χ. αν ο χρήστης έχει κάνει like το post έχουμε:
-                      // <AiFillLike /> 1
+                      // <AiFillHeart /> 1
                       // αλλιώς έχουμε:
-                      // <AiOutlineLike /> 0
+                      // <AiOutlineHeart /> 0
                       post.likes.some((like) => like.userId === user.id) ? (
-                        <AiFillLike className="fill-blue-500 shrink-0" size={20} />
+                        <AiFillHeart className="shrink-0 fill-red-500" size={20} />
                       ) : (
-                        <AiOutlineLike className="shrink-0" size={20} />
+                        <AiOutlineHeart className="shrink-0 fill-gray-500" size={20} />
                       )
                     }
                     &nbsp;
