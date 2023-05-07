@@ -189,7 +189,7 @@ function App() {
                               // και το όνομα του χρήστη που το έκανε
                               // καθώς και το κείμενο του σχολίου
                               // και τον χρόνο που πέρασε από τότε που έγινε
-                              <li className="relative flex flex-col pl-10" key={comment.id}>
+                              <li className="relative flex flex-col items-end pl-10" key={comment.id}>
                                 <div
                                   className="absolute flex items-center justify-center text-center text-xs left-0 top-0 h-8 w-8 text-white rounded-full font-semibold"
                                   style={{ backgroundColor: getInitialsColor(commentUserInitials) }}
@@ -205,9 +205,7 @@ function App() {
                                   }
                                   <p className="text-gray-500">{comment.body}</p>
                                 </div>
-                                <p className="text-xs text-gray-500 ml-auto mt-0.5">
-                                  {timeAgo(new Date(comment.createdAt))}
-                                </p>
+                                <p className="text-xs text-gray-500 mt-0.5">{timeAgo(new Date(comment.createdAt))}</p>
                               </li>
                             );
                           })
