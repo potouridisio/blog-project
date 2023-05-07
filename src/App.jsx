@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
+import { AiFillHeart, AiOutlineHeart, AiOutlineSend } from 'react-icons/ai';
 
 import { getPosts, getSession, getUsers } from './api';
 import { getInitials, getInitialsColor, timeAgo, truncateBody } from './utils';
@@ -75,6 +75,47 @@ function App() {
 
     // αντικαθιστούμε τον πίνακα posts με τον κλώνο
     setPosts(newPosts);
+  };
+
+  // η handleCommentSubmit θα καλείται όταν ο χρήστης πατάει το κουμπί
+  // για να κάνει submit το σχόλιο που έγραψε
+  const handleCommentSubmit = (event, index) => {
+    event.preventDefault();
+
+    // το πεδίο της φόρμας που έχει το κείμενο του σχολίου
+    const commentField = event.target.elements.comment;
+
+    // αν το κείμενο του σχολίου είναι κενό
+    // τότε δεν κάνουμε τίποτα
+    if (!commentField.value) {
+      return;
+    } else {
+      // αλλιώς δημιουργούμε έναν κλώνο του πίνακα posts
+      // για να μπορέσουμε να τον τροποποιήσουμε
+      // χωρίς να αλλάξουμε τον αρχικό πίνακα
+      const newPosts = structuredClone(posts);
+
+      // βρίσκουμε το post που θέλουμε να προσθέσουμε το σχόλιο
+      const post = newPosts[index];
+
+      // προσθέτουμε το σχόλιο
+      post.comments.push({
+        // το id του σχολίου είναι το μεγαλύτερο id των υπαρχόντων σχολίων + 1
+        id: Math.max(...post.comments.map((comment) => comment.id)) + 1,
+        // το userId είναι το id του χρήστη που έκανε login
+        userId: user.id,
+        // το κείμενο του σχολίου είναι το κείμενο που έγραψε ο χρήστης
+        body: commentField.value,
+        // η ημερομηνία δημιουργίας είναι η τρέχουσα ημερομηνία
+        createdAt: new Date(),
+      });
+
+      // αντικαθιστούμε τον πίνακα posts με τον κλώνο
+      setPosts(newPosts);
+
+      // καθαρίζουμε το πεδίο της φόρμας
+      commentField.value = '';
+    }
   };
 
   // αν δεν έχουμε τον χρήστη ή τους χρήστες ή τα posts
@@ -193,7 +234,7 @@ function App() {
                                     // αν έχουμε τον χρήστη που έκανε το σχόλιο
                                     // τότε εμφανίζουμε το όνομά του
                                     // αλλιώς τίποτα
-                                    commentUser ? <h3 className="text-sm font-medium">{commentUser.name}</h3> : null
+                                    commentUser ? <h3 className="text-sm font-semibold">{commentUser.name}</h3> : null
                                   }
                                   <p className="text-sm text-gray-500">{comment.body}</p>
                                 </div>
@@ -202,6 +243,30 @@ function App() {
                             );
                           })
                         }
+                        <li className="relative flex flex-col items-end pl-10 w-full">
+                          <div
+                            className="absolute flex items-center justify-center text-center text-xs left-0 top-0 h-8 w-8 text-white rounded-full font-medium select-none"
+                            style={{ backgroundColor: getInitialsColor(userInitials) }}
+                          >
+                            {userInitials}
+                          </div>
+                          <form
+                            className="bg-gray-100 rounded-lg py-0.5 w-full"
+                            onSubmit={(event) => handleCommentSubmit(event, index)}
+                          >
+                            <input
+                              autoComplete="new-comment"
+                              className="bg-transparent px-3 py-1.5 text-sm text-gray-500 placeholder-gray-500 w-full focus:outline-none"
+                              name="comment"
+                              placeholder="Write a comment..."
+                            />
+                            <div className="flex items-center justify-end pb-2 px-3">
+                              <button className="p-1.5 -mb-1.5 -mr-2 rounded-full" type="submit">
+                                <AiOutlineSend className="fill-gray-500" size={20} />
+                              </button>
+                            </div>
+                          </form>
+                        </li>
                       </ul>
                     </>
                   ) : null
