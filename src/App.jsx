@@ -1,34 +1,15 @@
-import { useEffect, useState } from 'react';
-import { AiFillHeart, AiOutlineHeart, AiOutlineSend } from 'react-icons/ai';
+import { getInitials, getInitialsColor } from './utils';
 
-import { getPosts, getSession, getUsers } from './api';
-import { getInitials, getInitialsColor, timeAgo, truncateBody } from './utils';
+// useContext
+
+import PostCard from './PostCard';
+import { usePosts, useUser, useUsers } from './hooks';
 
 function App() {
-  const [user, setUser] = useState(null);
-  const [users, setUsers] = useState([]);
-  const [posts, setPosts] = useState([]);
-  const [expandedComments, setExpandedComments] = useState([]);
-
-  useEffect(() => {
-    getSession().then((data) => {
-      setUser(data.user);
-    });
-    getPosts().then((data) => {
-      setPosts(data);
-    });
-    getUsers().then(setUsers);
-  }, []);
-
-  const handleToggleComment = (event, postId) => {
-    event.preventDefault();
-
-    if (expandedComments.includes(postId)) {
-      setExpandedComments(expandedComments.filter((id) => id !== postId));
-    } else {
-      setExpandedComments([...expandedComments, postId]);
-    }
-  };
+  const user = useUser();
+  const posts = usePosts();
+  // const [posts, setPosts] = useState(initialPosts);
+  const users = useUsers();
 
   const handleToggleLike = (postIndex) => {
     const newPosts = structuredClone(posts);
@@ -45,15 +26,11 @@ function App() {
       });
     }
 
-    setPosts(newPosts);
+    // setPosts(newPosts);
   };
 
-  const handleCommentSubmit = (event, index) => {
-    event.preventDefault();
-
-    const commentField = event.target.elements.comment;
-
-    if (!commentField.value) {
+  const handleCommentSubmit = (comment, index) => {
+    if (!comment) {
       return;
     } else {
       const newPosts = structuredClone(posts);
@@ -62,13 +39,11 @@ function App() {
       post.comments.push({
         id: Math.max(...post.comments.map((comment) => comment.id)) + 1,
         userId: user.id,
-        body: commentField.value,
+        body: comment,
         createdAt: new Date().toISOString(),
       });
 
-      setPosts(newPosts);
-
-      commentField.value = '';
+      // setPosts(newPosts);
     }
   };
 
@@ -94,89 +69,16 @@ function App() {
       <main className="max-w-6xl mx-auto grow p-6">
         <div className="h-16" />
         <div className="space-y-6 mt-6">
-          {posts.map((post, index) => (
-            <div key={post.id} className="p-6 bg-white rounded-lg shadow">
-              <h2 className="font-semibold text-lg mb-3">{post.title}</h2>
-              <p className="text-sm text-gray-500">
-                {truncateBody(post.body)}&nbsp;
-                <a className="font-medium hover:underline" href="#">
-                  See more
-                </a>
-              </p>
-              <div className="flex items-center justify-between mt-6">
-                <button
-                  className="inline-flex items-center text-sm text-gray-500"
-                  onClick={() => handleToggleLike(index)}
-                >
-                  {post.likes.some((like) => like.userId === user.id) ? (
-                    <AiFillHeart className="shrink-0 fill-red-500" size={20} />
-                  ) : (
-                    <AiOutlineHeart className="shrink-0 fill-gray-500" size={20} />
-                  )}
-                  &nbsp;
-                  {post.likes.length}
-                </button>
-
-                <a
-                  className="text-sm text-gray-500 hover:underline"
-                  href="#"
-                  onClick={(event) => handleToggleComment(event, post.id)}
-                >
-                  {post.comments.length} comments
-                </a>
-              </div>
-              {expandedComments.includes(post.id) ? (
-                <>
-                  <hr className="border-t-gray-200 mb-4 mt-6" />
-                  <ul className="flex flex-col items-start space-y-3 py-3">
-                    {post.comments.map((comment) => {
-                      const commentUser = users.find((user) => user.id === comment.userId);
-                      const commentUserInitials = commentUser ? getInitials(commentUser.name) : '';
-
-                      return (
-                        <li className="relative flex flex-col items-end pl-10" key={comment.id}>
-                          <div
-                            className="absolute flex items-center justify-center text-center text-xs left-0 top-0 h-8 w-8 text-white rounded-full font-medium select-none"
-                            style={{ backgroundColor: getInitialsColor(commentUserInitials) }}
-                          >
-                            {commentUserInitials}
-                          </div>
-                          <div className="bg-gray-100 px-3 py-1.5 rounded-lg">
-                            {commentUser ? <h3 className="text-sm font-semibold">{commentUser.name}</h3> : null}
-                            <p className="text-sm text-gray-500">{comment.body}</p>
-                          </div>
-                          <p className="text-xs text-gray-500 mt-0.5">{timeAgo(new Date(comment.createdAt))}</p>
-                        </li>
-                      );
-                    })}
-                    <li className="relative flex flex-col items-end pl-10 w-full">
-                      <div
-                        className="absolute flex items-center justify-center text-center text-xs left-0 top-0 h-8 w-8 text-white rounded-full font-medium select-none"
-                        style={{ backgroundColor: getInitialsColor(userInitials) }}
-                      >
-                        {userInitials}
-                      </div>
-                      <form
-                        className="bg-gray-100 rounded-lg py-0.5 w-full"
-                        onSubmit={(event) => handleCommentSubmit(event, index)}
-                      >
-                        <input
-                          autoComplete="new-password"
-                          className="bg-transparent px-3 py-1.5 text-sm text-gray-500 placeholder-gray-500 w-full focus:outline-none"
-                          name="comment"
-                          placeholder="Write a comment..."
-                        />
-                        <div className="flex items-center justify-end pb-2 px-3">
-                          <button className="p-1.5 -mb-1.5 -mr-2 rounded-full" type="submit">
-                            <AiOutlineSend className="fill-gray-500" size={20} />
-                          </button>
-                        </div>
-                      </form>
-                    </li>
-                  </ul>
-                </>
-              ) : null}
-            </div>
+          {/* eslint-disable-next-line no-unused-vars */}
+          {posts.map(({ id, ...post }, index) => (
+            <PostCard
+              key={post.id}
+              user={user}
+              users={users}
+              onSubmitComment={(comment) => handleCommentSubmit(comment, index)}
+              onClickLike={() => handleToggleLike(index)}
+              {...post}
+            />
           ))}
         </div>
       </main>
