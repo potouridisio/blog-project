@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
-import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
+import { useEffect, useState } from "react";
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 
-import { getPosts, getSession, getUsers } from './api';
-import { getInitials, getInitialsColor, timeAgo, truncateBody } from './utils';
+import { getPosts, getSession, getUsers } from "./api";
+import { getInitials, getInitialsColor, timeAgo, truncateBody } from "./utils";
 
 // η App επιστρέφει JSX που περιέχει το header και το main, το header περιέχει το όνομα της εφαρμογής
 // και το κουμπί του χρήστη και το main τα posts
@@ -15,6 +15,7 @@ function App() {
   const [posts, setPosts] = useState([]);
   // ένας πίνακας με τα id των posts που έχουν ανοιχτά τα σχόλια
   const [expandedComments, setExpandedComments] = useState([]);
+  const [expandedPosts, setExpandedPosts] = useState([]);
 
   useEffect(() => {
     // οι εντολές μέσα στο useEffect θα εκτελεστούν μόνο μία φορά όταν το component φορτωθεί για πρώτη
@@ -77,10 +78,22 @@ function App() {
     setPosts(newPosts);
   };
 
+  const handleTogglePosts = (postId) => {
+    if (expandedPosts.includes(postId)) {
+      setExpandedPosts(expandedPosts.filter((id) => id !== postId));
+    } else {
+      setExpandedPosts([...expandedPosts, postId]);
+    }
+  };
+
   // αν δεν έχουμε τον χρήστη ή τους χρήστες ή τα posts
   // τότε εμφανίζουμε το loading message
   if (!user || !users.length || !posts.length) {
-    return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        Loading...
+      </div>
+    );
   }
 
   // βρίσκουμε τα αρχικά του χρήστη
@@ -122,9 +135,22 @@ function App() {
               // και εμφανίζει τα σχόλια αν είναι κλειστά
               <div key={post.id} className="p-6 bg-white rounded-lg shadow">
                 <h2 className="font-semibold text-lg mb-3">{post.title}</h2>
+                {expandedPosts.includes(post.id) ? (
+                  <p className="text-sm text-gray-500">{post.body}</p>
+                ) : (
+                  <p className="text-sm text-gray-500"></p>
+                )}
                 <p className="text-sm text-gray-500">
                   {truncateBody(post.body)}&nbsp;
-                  <a className="font-medium hover:underline" href="#">
+                  <a
+                    className={
+                      expandedPosts.includes(post.id)
+                        ? "hidden"
+                        : "font-medium hover:underline"
+                    }
+                    href="#"
+                    onClick={() => handleTogglePosts(post.id)}
+                  >
                     See more
                   </a>
                 </p>
@@ -142,9 +168,15 @@ function App() {
                       // αλλιώς έχουμε:
                       // <AiOutlineHeart /> 0
                       post.likes.some((like) => like.userId === user.id) ? (
-                        <AiFillHeart className="shrink-0 fill-red-500" size={20} />
+                        <AiFillHeart
+                          className="shrink-0 fill-red-500"
+                          size={20}
+                        />
                       ) : (
-                        <AiOutlineHeart className="shrink-0 fill-gray-500" size={20} />
+                        <AiOutlineHeart
+                          className="shrink-0 fill-gray-500"
+                          size={20}
+                        />
                       )
                     }
                     &nbsp;
@@ -171,9 +203,13 @@ function App() {
                           // για κάθε σχόλιο
                           post.comments.map((comment) => {
                             // βρίσκουμε τον χρήστη που έκανε το σχόλιο
-                            const commentUser = users.find((user) => user.id === comment.userId);
+                            const commentUser = users.find(
+                              (user) => user.id === comment.userId
+                            );
                             // βρίσκουμε τα αρχικά του χρήστη που έκανε το σχόλιο
-                            const commentUserInitials = commentUser ? getInitials(commentUser.name) : '';
+                            const commentUserInitials = commentUser
+                              ? getInitials(commentUser.name)
+                              : "";
 
                             return (
                               // εμφανίζουμε το σχόλιο
@@ -181,10 +217,16 @@ function App() {
                               // και το όνομα του χρήστη που το έκανε
                               // καθώς και το κείμενο του σχολίου
                               // και τον χρόνο που πέρασε από τότε που έγινε
-                              <li className="relative flex flex-col items-end pl-10" key={comment.id}>
+                              <li
+                                className="relative flex flex-col items-end pl-10"
+                                key={comment.id}
+                              >
                                 <div
                                   className="absolute flex items-center justify-center text-center text-xs left-0 top-0 h-8 w-8 text-white rounded-full font-medium select-none"
-                                  style={{ backgroundColor: getInitialsColor(commentUserInitials) }}
+                                  style={{
+                                    backgroundColor:
+                                      getInitialsColor(commentUserInitials),
+                                  }}
                                 >
                                   {commentUserInitials}
                                 </div>
@@ -193,11 +235,19 @@ function App() {
                                     // αν έχουμε τον χρήστη που έκανε το σχόλιο
                                     // τότε εμφανίζουμε το όνομά του
                                     // αλλιώς τίποτα
-                                    commentUser ? <h3 className="text-sm font-medium">{commentUser.name}</h3> : null
+                                    commentUser ? (
+                                      <h3 className="text-sm font-medium">
+                                        {commentUser.name}
+                                      </h3>
+                                    ) : null
                                   }
-                                  <p className="text-sm text-gray-500">{comment.body}</p>
+                                  <p className="text-sm text-gray-500">
+                                    {comment.body}
+                                  </p>
                                 </div>
-                                <p className="text-xs text-gray-500 mt-0.5">{timeAgo(new Date(comment.createdAt))}</p>
+                                <p className="text-xs text-gray-500 mt-0.5">
+                                  {timeAgo(new Date(comment.createdAt))}
+                                </p>
                               </li>
                             );
                           })
