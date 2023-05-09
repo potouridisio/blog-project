@@ -25,7 +25,7 @@ export default function PostCard({ body, comments, likes, onComment, onLike, ses
       <h2 className="mb-3 text-lg font-semibold">{title}</h2>
       <p className="text-sm text-gray-500">
         {expandedBody ? body : truncate(body)}&nbsp;
-        <a className="font-medium hover:underline" onClick={() => setExpandedBody(!expandedBody)}>
+        <a className="cursor-pointer font-medium hover:underline" onClick={() => setExpandedBody(!expandedBody)}>
           See {expandedBody ? 'less' : 'more'}
         </a>
       </p>
@@ -39,7 +39,10 @@ export default function PostCard({ body, comments, likes, onComment, onLike, ses
           &nbsp;
           {likes.length}
         </button>
-        <a className="text-sm text-gray-500 hover:underline" onClick={() => setExpandedComments(!expandedComments)}>
+        <a
+          className="cursor-pointer text-sm text-gray-500 hover:underline"
+          onClick={() => setExpandedComments(!expandedComments)}
+        >
           {comments.length} comments
         </a>
       </div>
