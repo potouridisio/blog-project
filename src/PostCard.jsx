@@ -5,26 +5,16 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import CommentForm from './CommentForm';
 import { getInitials, getInitialsColor, timeAgo, truncateBody } from './utils';
 
-export default function PostCard({ user, title, body, likes, comments, users, onClickLike, onSubmitComment }) {
+export default function PostCard({ body, comments, likes, onClickLike, onSubmitComment, title, user, users }) {
   const [expandedBody, setExpandedBody] = useState(false);
   const [expandedComments, setExpandedComments] = useState(false);
-
-  const handleClickSeeMore = (event) => {
-    event.preventDefault();
-    setExpandedBody(!expandedBody);
-  };
-
-  const handleToggleComment = (event) => {
-    event.preventDefault();
-    setExpandedComments(!expandedComments);
-  };
 
   return (
     <div className="rounded-lg bg-white p-6 shadow">
       <h2 className="mb-3 text-lg font-semibold">{title}</h2>
       <p className="text-sm text-gray-500">
         {expandedBody ? body : truncateBody(body)}&nbsp;
-        <a className="font-medium hover:underline" href="#" onClick={handleClickSeeMore}>
+        <a className="font-medium hover:underline" onClick={() => setExpandedBody(!expandedBody)}>
           See {expandedBody ? 'less' : 'more'}
         </a>
       </p>
@@ -38,8 +28,7 @@ export default function PostCard({ user, title, body, likes, comments, users, on
           &nbsp;
           {likes.length}
         </button>
-
-        <a className="text-sm text-gray-500 hover:underline" href="#" onClick={(event) => handleToggleComment(event)}>
+        <a className="text-sm text-gray-500 hover:underline" onClick={() => setExpandedComments(!expandedComments)}>
           {comments.length} comments
         </a>
       </div>

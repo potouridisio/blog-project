@@ -17,8 +17,8 @@ export function CommentForm({ onSubmit }) {
         autoComplete="new-comment"
         className="w-full bg-transparent px-3 py-1.5 text-sm text-gray-500 placeholder-gray-500 focus:outline-none"
         name="comment"
-        placeholder="Write a comment..."
         onChange={(event) => setValue(event.target.value)}
+        placeholder="Write a comment..."
         value={value}
       />
       <div className="flex items-center justify-end px-3 pb-2">

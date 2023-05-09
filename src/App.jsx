@@ -1,7 +1,5 @@
 import { getInitials, getInitialsColor } from './utils';
 
-// useContext
-
 import PostCard from './PostCard';
 import { usePosts, useUser, useUsers } from './hooks';
 
@@ -31,16 +29,16 @@ function App() {
 
   const handleCommentSubmit = (comment, index) => {
     if (!comment) {
-      return;
+      return undefined;
     } else {
       const newPosts = structuredClone(posts);
       const post = newPosts[index];
 
       post.comments.push({
-        id: Math.max(...post.comments.map((comment) => comment.id)) + 1,
-        userId: user.id,
         body: comment,
         createdAt: new Date().toISOString(),
+        id: Math.max(...post.comments.map((comment) => comment.id)) + 1,
+        userId: user.id,
       });
 
       // setPosts(newPosts);
@@ -72,12 +70,12 @@ function App() {
           {/* eslint-disable-next-line no-unused-vars */}
           {posts.map(({ id, ...post }, index) => (
             <PostCard
+              {...post}
               key={post.id}
+              onClickLike={() => handleToggleLike(index)}
+              onSubmitComment={(comment) => handleCommentSubmit(comment, index)}
               user={user}
               users={users}
-              onSubmitComment={(comment) => handleCommentSubmit(comment, index)}
-              onClickLike={() => handleToggleLike(index)}
-              {...post}
             />
           ))}
         </div>
