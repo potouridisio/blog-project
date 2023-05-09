@@ -84,29 +84,27 @@ export default function PostCard({
               const commentUserInitials = commentUser ? getInitials(commentUser.name) : '';
 
               return (
-                <li className="relative flex flex-col items-end pl-10" key={comment.id}>
+                <li className="flex" key={comment.id}>
                   <div
-                    className="absolute left-0 top-0 flex h-8 w-8 select-none items-center justify-center rounded-full text-center text-xs font-medium text-white"
-                    style={{
-                      backgroundColor: getInitialsColor(commentUserInitials),
-                    }}
+                    className="mr-2 flex h-8 w-8 select-none items-center justify-center rounded-full text-center text-xs font-medium text-white"
+                    style={{ backgroundColor: getInitialsColor(commentUserInitials) }}
                   >
                     {commentUserInitials}
                   </div>
-                  <div className="rounded-lg bg-gray-100 px-3 py-1.5">
-                    {commentUser ? <h4 className="text-sm font-semibold">{commentUser.name}</h4> : null}
-                    <p className="text-sm text-gray-500">{comment.body}</p>
+                  <div className="flex flex-col items-end">
+                    <div className="rounded-lg bg-gray-100 px-3 py-1.5">
+                      {commentUser ? <h4 className="text-sm font-semibold">{commentUser.name}</h4> : null}
+                      <p className="text-sm text-gray-500">{comment.body}</p>
+                    </div>
+                    <p className="mr-2 mt-0.5 text-xs text-gray-500">{timeAgo(new Date(comment.createdAt))}</p>
                   </div>
-                  <p className="mr-2 mt-0.5 text-xs text-gray-500">{timeAgo(new Date(comment.createdAt))}</p>
                 </li>
               );
             })}
-            <li className="relative flex w-full flex-col items-end pl-10">
+            <li className="flex w-full">
               <div
-                className="absolute left-0 top-0 flex h-8 w-8 select-none items-center justify-center rounded-full text-center text-xs font-medium text-white"
-                style={{
-                  backgroundColor: getInitialsColor(getInitials(session.user.name)),
-                }}
+                className="mr-2 flex h-8 w-8 select-none items-center justify-center rounded-full text-center text-xs font-medium text-white"
+                style={{ backgroundColor: getInitialsColor(getInitials(session.user.name)) }}
               >
                 {getInitials(session.user.name)}
               </div>
