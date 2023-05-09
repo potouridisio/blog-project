@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { AiOutlineSend } from 'react-icons/ai';
 
-export function CommentForm({ onSubmit }) {
+export default function CommentForm({ onSubmit }) {
   const [value, setValue] = useState('');
 
   const handleSubmit = (event) => {
