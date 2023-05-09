@@ -1,12 +1,8 @@
-// η getInitials επιστρέφει τα αρχικά ενός ονόματος
-// π.χ. για τον χρήστη "John Doe" επιστρέφει "JD"
 export function getInitials(name) {
   const [firstName, lastName] = name.split(' ');
   return `${firstName[0]}${lastName[0]}`;
 }
 
-// επιστρέφει μία τυχαία χρωματική τιμή
-// ανάλογα με τα αρχικά του ονόματος
 export function getInitialsColor(initials) {
   const colors = [
     '#f44336',
@@ -36,7 +32,6 @@ export function getInitialsColor(initials) {
   return colors[charCodeSum % colors.length];
 }
 
-// truncate body to 240 characters, do not cut words
 export function truncateBody(body) {
   if (body.length > 240) {
     return body.slice(0, 240).split(' ').slice(0, -1).join(' ') + '...';
@@ -44,13 +39,10 @@ export function truncateBody(body) {
   return body;
 }
 
-// επιστρέφει έναν τυχαίο αριθμό μεταξύ 1000 και 5000
 export function getRandomNumber() {
   return Math.floor(Math.random() * 5000) + 1000;
 }
 
-// επιστρέφει την ημερομηνία σε μορφή "πριν από 2 λεπτά"
-// αντί για "2021-05-06T11:30:00.000Z"
 export function timeAgo(date) {
   const seconds = Math.floor((new Date() - date) / 1000);
   const minutes = Math.floor(seconds / 60);
