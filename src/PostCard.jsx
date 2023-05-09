@@ -14,19 +14,46 @@ import { getInitials, getInitialsColor, timeAgo, truncate } from './utils';
 // session: το session του χρήστη
 // title: ο τίτλος του post
 // users: οι χρήστες της εφαρμογής
-export default function PostCard({ body, comments, likes, onComment, onLike, session, title, users }) {
+export default function PostCard({
+  body,
+  comments,
+  createdAt,
+  likes,
+  onComment,
+  onLike,
+  session,
+  title,
+  userId,
+  users,
+}) {
   // το expandedBody είναι true αν έχει γίνει κλικ στο "See more"
   const [expandedBody, setExpandedBody] = useState(false);
   // το expandedComments είναι true αν έχει γίνει κλικ στο "x comments"
   const [expandedComments, setExpandedComments] = useState(false);
 
+  const postUser = users.find((user) => user.id === userId);
+
   return (
     <div className="rounded-lg bg-white p-6 shadow">
-      <h2 className="mb-3 text-lg font-semibold">{title}</h2>
+      <div className="mb-6 flex items-center">
+        <div
+          className="flex h-10 w-10 select-none items-center justify-center rounded-full text-center font-medium text-white"
+          style={{
+            backgroundColor: getInitialsColor(getInitials(postUser.name)),
+          }}
+        >
+          {getInitials(postUser.name)}
+        </div>
+        <div className="ml-2">
+          <h3 className="text-sm font-semibold">{postUser.name}</h3>
+          <p className="text-xs text-gray-500">{timeAgo(new Date(createdAt))}</p>
+        </div>
+      </div>
+      <h2 className="mb-2 text-lg font-bold">{title}</h2>
       <p className="text-sm text-gray-500">
         {expandedBody ? body : truncate(body)}&nbsp;
         {!expandedBody ? (
-          <a className="cursor-pointer font-medium hover:underline" onClick={() => setExpandedBody(true)}>
+          <a className="cursor-pointer font-semibold hover:underline" onClick={() => setExpandedBody(true)}>
             See more
           </a>
         ) : null}
@@ -67,10 +94,10 @@ export default function PostCard({ body, comments, likes, onComment, onLike, ses
                     {commentUserInitials}
                   </div>
                   <div className="rounded-lg bg-gray-100 px-3 py-1.5">
-                    {commentUser ? <h3 className="text-sm font-semibold">{commentUser.name}</h3> : null}
+                    {commentUser ? <h4 className="text-sm font-semibold">{commentUser.name}</h4> : null}
                     <p className="text-sm text-gray-500">{comment.body}</p>
                   </div>
-                  <p className="mt-0.5 text-xs text-gray-500">{timeAgo(new Date(comment.createdAt))}</p>
+                  <p className="mr-2 mt-0.5 text-xs text-gray-500">{timeAgo(new Date(comment.createdAt))}</p>
                 </li>
               );
             })}
