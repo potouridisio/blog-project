@@ -27,8 +27,9 @@ function App() {
       post.likes = post.likes.filter((like) => like.userId !== session.user.id);
     } else {
       post.likes.push({
-        // βρίσκουμε το μεγαλύτερο id των likes και προσθέτουμε 1
-        id: Math.max(...post.likes.map((like) => like.id)) + 1,
+        // το id του νέου like είναι ένα τυχαίο string
+        id: crypto.randomUUID(),
+        // το userId του νέου like είναι το id του χρήστη που έκανε login
         userId: session.user.id,
       });
     }
@@ -50,8 +51,11 @@ function App() {
       // προσθέτουμε το σχόλιο στο post
       post.comments.push({
         body: comment,
+        // το createdAt του νέου σχολίου είναι η τρέχουσα ημερομηνία
         createdAt: new Date().toISOString(),
-        id: Math.max(...post.comments.map((comment) => comment.id)) + 1,
+        // το id του νέου σχολίου είναι ένα τυχαίο string
+        id: crypto.randomUUID(),
+        // το userId του νέου σχολίου είναι το id του χρήστη που έκανε login
         userId: session.user.id,
       });
 
