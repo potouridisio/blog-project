@@ -54,14 +54,14 @@ export function timeAgo(date) {
   if (seconds < 60) {
     return 'Just now';
   } else if (minutes < 60) {
-    return `${minutes} minute${minutes !== 1 ? 's' : ''} ago`;
+    return `${minutes}m`;
   } else if (hours < 24) {
-    return `${hours} hour${hours !== 1 ? 's' : ''} ago`;
+    return `${hours}h`;
   } else if (days < 30) {
-    return `${days} day${days !== 1 ? 's' : ''} ago`;
+    return `${days}d`;
   } else if (months < 12) {
-    return `${months} month${months !== 1 ? 's' : ''} ago`;
+    return `${months}m`;
   } else {
-    return `${years} year${years !== 1 ? 's' : ''} ago`;
+    return `${years}y`;
   }
 }
