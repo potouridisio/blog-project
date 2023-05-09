@@ -1,7 +1,6 @@
-import { getInitials, getInitialsColor } from './utils';
-
-import PostCard from './PostCard';
 import { usePosts, useSession, useUsers } from './hooks';
+import PostCard from './PostCard';
+import { getInitials, getInitialsColor } from './utils';
 
 function App() {
   const session = useSession();
@@ -70,12 +69,12 @@ function App() {
           {/* eslint-disable-next-line no-unused-vars */}
           {posts.map(({ id, ...post }, index) => (
             <PostCard
-              {...post}
-              key={post.id}
+              key={id}
               onClickLike={() => handleToggleLike(index)}
               onSubmitComment={(comment) => handleCommentSubmit(comment, index)}
               user={session.user}
               users={users}
+              {...post}
             />
           ))}
         </div>
