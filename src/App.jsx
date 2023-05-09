@@ -8,12 +8,11 @@ function App() {
   // const [posts, setPosts] = useState(initialPosts);
   const users = useUsers();
 
-  const handleToggleLike = (postIndex) => {
+  const handleLike = (postIndex) => {
     const newPosts = structuredClone(posts);
     const post = newPosts[postIndex];
 
     const like = post.likes.find((like) => like.userId === session.user.id);
-
     if (like) {
       post.likes = post.likes.filter((like) => like.userId !== session.user.id);
     } else {
@@ -26,7 +25,7 @@ function App() {
     // setPosts(newPosts);
   };
 
-  const handleCommentSubmit = (comment, index) => {
+  const handleComment = (comment, index) => {
     if (!comment) {
       return undefined;
     } else {
@@ -70,8 +69,8 @@ function App() {
           {posts.map(({ id, ...post }, index) => (
             <PostCard
               key={id}
-              onClickLike={() => handleToggleLike(index)}
-              onSubmitComment={(comment) => handleCommentSubmit(comment, index)}
+              onComment={(comment) => handleComment(comment, index)}
+              onLike={() => handleLike(index)}
               user={session.user}
               users={users}
               {...post}

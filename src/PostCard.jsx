@@ -5,7 +5,7 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import CommentForm from './CommentForm';
 import { getInitials, getInitialsColor, timeAgo, truncateBody } from './utils';
 
-export default function PostCard({ body, comments, likes, onClickLike, onSubmitComment, title, user, users }) {
+export default function PostCard({ body, comments, likes, onComment, onLike, title, user, users }) {
   const [expandedBody, setExpandedBody] = useState(false);
   const [expandedComments, setExpandedComments] = useState(false);
 
@@ -19,7 +19,7 @@ export default function PostCard({ body, comments, likes, onClickLike, onSubmitC
         </a>
       </p>
       <div className="mt-6 flex items-center justify-between">
-        <button className="inline-flex items-center text-sm text-gray-500" onClick={onClickLike}>
+        <button className="inline-flex items-center text-sm text-gray-500" onClick={onLike}>
           {likes.some((like) => like.userId === user.id) ? (
             <AiFillHeart className="shrink-0 fill-red-500" size={20} />
           ) : (
@@ -67,7 +67,7 @@ export default function PostCard({ body, comments, likes, onClickLike, onSubmitC
               >
                 {getInitials(user.name)}
               </div>
-              <CommentForm onSubmit={onSubmitComment} />
+              <CommentForm onSubmit={onComment} />
             </li>
           </ul>
         </>
