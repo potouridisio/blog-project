@@ -34,6 +34,8 @@ export const POSTS = [
       {
         id: crypto.randomUUID(),
         body: 'Great advice! Thanks for sharing.',
+        // χρησιμοποιούμε το id του χρήστη από τον πίνακα USERS για να συνδέσουμε το σχόλιο με τον χρήστη
+        // επειδή αν χρησιμοποιούσαμε το crypto.randomUUID() θα έφτιαχνε ένα νέο id και δεν θα μπορούσαμε να συνδέσουμε το σχόλιο με τον χρήστη
         userId: USERS[1].id,
         createdAt: '2023-05-06T09:10:41.702Z',
       },
