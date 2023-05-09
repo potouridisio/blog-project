@@ -1,3 +1,5 @@
+// import { useEffect, useState } from 'react';
+
 import { usePosts, useSession, useUsers } from './hooks';
 import PostCard from './PostCard';
 import { getInitials, getInitialsColor } from './utils';
@@ -34,6 +36,7 @@ function App() {
       });
     }
 
+    // αντικαθιστούμε τον πίνακα posts με τον νέο πίνακα posts
     // setPosts(newPosts);
   };
 
@@ -59,6 +62,7 @@ function App() {
         userId: session.user.id,
       });
 
+      // αντικαθιστούμε τον πίνακα posts με τον νέο πίνακα posts
       // setPosts(newPosts);
     }
   };
