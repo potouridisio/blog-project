@@ -2,12 +2,18 @@
 import { useState } from 'react';
 import { AiOutlineSend } from 'react-icons/ai';
 
+// η CommentForm δέχεται το παρακάτω prop:
+// onSubmit: η συνάρτηση που καλείται με το σχόλιο όταν γίνεται submit της φόρμας
 export default function CommentForm({ onSubmit }) {
+  // το value είναι το περιεχόμενο του input
   const [value, setValue] = useState('');
 
+  // η handleSubmit καλείται όταν γίνεται submit της φόρμας
   const handleSubmit = (event) => {
     event.preventDefault();
+    // καλούμε την onSubmit με το value
     onSubmit(value);
+    // κάνουμε reset το value
     setValue('');
   };
 

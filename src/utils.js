@@ -32,11 +32,11 @@ export function getInitialsColor(initials) {
   return colors[charCodeSum % colors.length];
 }
 
-export function truncateBody(body) {
-  if (body.length > 240) {
-    return body.slice(0, 240).split(' ').slice(0, -1).join(' ') + '...';
+export function truncate(str) {
+  if (str.length > 240) {
+    return str.slice(0, 240).split(' ').slice(0, -1).join(' ') + '...';
   }
-  return body;
+  return str;
 }
 
 export function getRandomNumber() {

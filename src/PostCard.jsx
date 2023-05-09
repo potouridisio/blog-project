@@ -3,24 +3,35 @@ import { useState } from 'react';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 
 import CommentForm from './CommentForm';
-import { getInitials, getInitialsColor, timeAgo, truncateBody } from './utils';
+import { getInitials, getInitialsColor, timeAgo, truncate } from './utils';
 
-export default function PostCard({ body, comments, likes, onComment, onLike, title, user, users }) {
+// η PostCard δέχεται τα παρακάτω props:
+// body: το κείμενο του post
+// comments: τα σχόλια του post
+// likes: τα likes του post
+// onComment: η συνάρτηση που καλείται με το σχόλιο όταν γίνεται submit της φόρμας
+// onLike: η συνάρτηση που καλείται όταν γίνεται like στο post
+// session: το session του χρήστη
+// title: ο τίτλος του post
+// users: οι χρήστες της εφαρμογής
+export default function PostCard({ body, comments, likes, onComment, onLike, session, title, users }) {
+  // το expandedBody είναι true αν έχει γίνει κλικ στο "See more"
   const [expandedBody, setExpandedBody] = useState(false);
+  // το expandedComments είναι true αν έχει γίνει κλικ στο "x comments"
   const [expandedComments, setExpandedComments] = useState(false);
 
   return (
     <div className="rounded-lg bg-white p-6 shadow">
       <h2 className="mb-3 text-lg font-semibold">{title}</h2>
       <p className="text-sm text-gray-500">
-        {expandedBody ? body : truncateBody(body)}&nbsp;
+        {expandedBody ? body : truncate(body)}&nbsp;
         <a className="font-medium hover:underline" onClick={() => setExpandedBody(!expandedBody)}>
           See {expandedBody ? 'less' : 'more'}
         </a>
       </p>
       <div className="mt-6 flex items-center justify-between">
         <button className="inline-flex items-center text-sm text-gray-500" onClick={onLike}>
-          {likes.some((like) => like.userId === user.id) ? (
+          {likes.some((like) => like.userId === session.user.id) ? (
             <AiFillHeart className="shrink-0 fill-red-500" size={20} />
           ) : (
             <AiOutlineHeart className="shrink-0 fill-gray-500" size={20} />
@@ -62,10 +73,10 @@ export default function PostCard({ body, comments, likes, onComment, onLike, tit
               <div
                 className="absolute left-0 top-0 flex h-8 w-8 select-none items-center justify-center rounded-full text-center text-xs font-medium text-white"
                 style={{
-                  backgroundColor: getInitialsColor(getInitials(user.name)),
+                  backgroundColor: getInitialsColor(getInitials(session.user.name)),
                 }}
               >
-                {getInitials(user.name)}
+                {getInitials(session.user.name)}
               </div>
               <CommentForm onSubmit={onComment} />
             </li>
