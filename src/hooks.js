@@ -14,6 +14,18 @@ export function usePosts() {
   return posts;
 }
 
+export function useSession() {
+  const [session, setSession] = useState(null);
+
+  useEffect(() => {
+    getSession().then((data) => {
+      setSession(data);
+    });
+  }, []);
+
+  return session;
+}
+
 export function useUsers() {
   const [users, setUsers] = useState([]);
 
@@ -24,16 +36,4 @@ export function useUsers() {
   }, []);
 
   return users;
-}
-
-export function useUser() {
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    getSession().then((data) => {
-      setUser(data.user);
-    });
-  }, []);
-
-  return user;
 }

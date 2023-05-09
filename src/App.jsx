@@ -1,10 +1,10 @@
 import { getInitials, getInitialsColor } from './utils';
 
 import PostCard from './PostCard';
-import { usePosts, useUser, useUsers } from './hooks';
+import { usePosts, useSession, useUsers } from './hooks';
 
 function App() {
-  const user = useUser();
+  const session = useSession();
   const posts = usePosts();
   // const [posts, setPosts] = useState(initialPosts);
   const users = useUsers();
@@ -13,14 +13,14 @@ function App() {
     const newPosts = structuredClone(posts);
     const post = newPosts[postIndex];
 
-    const like = post.likes.find((like) => like.userId === user.id);
+    const like = post.likes.find((like) => like.userId === session.user.id);
 
     if (like) {
-      post.likes = post.likes.filter((like) => like.userId !== user.id);
+      post.likes = post.likes.filter((like) => like.userId !== session.user.id);
     } else {
       post.likes.push({
         id: Math.max(...post.likes.map((like) => like.id)) + 1,
-        userId: user.id,
+        userId: session.user.id,
       });
     }
 
@@ -38,18 +38,18 @@ function App() {
         body: comment,
         createdAt: new Date().toISOString(),
         id: Math.max(...post.comments.map((comment) => comment.id)) + 1,
-        userId: user.id,
+        userId: session.user.id,
       });
 
       // setPosts(newPosts);
     }
   };
 
-  if (!user || !users.length || !posts.length) {
+  if (!session || !users.length || !posts.length) {
     return <div className="flex min-h-screen items-center justify-center">Loading...</div>;
   }
 
-  const userInitials = getInitials(user.name);
+  const userInitials = getInitials(session.user.name);
 
   return (
     <div className="flex min-h-screen bg-gray-100">
@@ -74,7 +74,7 @@ function App() {
               key={post.id}
               onClickLike={() => handleToggleLike(index)}
               onSubmitComment={(comment) => handleCommentSubmit(comment, index)}
-              user={user}
+              user={session.user}
               users={users}
             />
           ))}
