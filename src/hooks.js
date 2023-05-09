@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+
 import { getPosts, getSession, getUsers } from './api';
 
 export function usePosts() {
@@ -6,8 +7,6 @@ export function usePosts() {
 
   useEffect(() => {
     getPosts().then((data) => {
-      console.log('posts', data);
-
       setPosts(data);
     });
   }, []);
