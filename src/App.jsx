@@ -48,27 +48,27 @@ function App() {
   };
 
   if (!user || !users.length || !posts.length) {
-    return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
+    return <div className="flex min-h-screen items-center justify-center">Loading...</div>;
   }
 
   const userInitials = getInitials(user.name);
 
   return (
     <div className="flex min-h-screen bg-gray-100">
-      <header className="fixed top-0 left-0 w-full z-50 bg-white shadow">
-        <div className="h-16 flex items-center max-w-6xl mx-auto px-6 justify-between">
-          <h1 className="font-semibold text-xl">Blog Project</h1>
+      <header className="fixed left-0 top-0 z-50 w-full bg-white shadow">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
+          <h1 className="text-xl font-semibold">Blog Project</h1>
           <button
-            className="flex items-center justify-center text-center h-10 w-10 rounded-full text-white font-medium select-none"
+            className="flex h-10 w-10 select-none items-center justify-center rounded-full text-center font-medium text-white"
             style={{ backgroundColor: getInitialsColor(userInitials) }}
           >
             {userInitials}
           </button>
         </div>
       </header>
-      <main className="max-w-6xl mx-auto grow p-6">
+      <main className="mx-auto max-w-6xl grow p-6">
         <div className="h-16" />
-        <div className="space-y-6 mt-6">
+        <div className="mt-6 space-y-6">
           {/* eslint-disable-next-line no-unused-vars */}
           {posts.map(({ id, ...post }, index) => (
             <PostCard
