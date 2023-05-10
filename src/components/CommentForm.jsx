@@ -29,7 +29,7 @@ export default function CommentForm({ onSubmit }) {
         value={value}
       />
       <div className="flex items-center justify-end px-3 pb-2">
-        <button className="-mb-1.5 -mr-2 rounded-full p-1.5" type="submit">
+        <button className="-mb-1.5 -mr-2 rounded-full p-1.5 hover:bg-gray-200" type="submit">
           <AiOutlineSend className="fill-gray-500" size={20} />
         </button>
       </div>
