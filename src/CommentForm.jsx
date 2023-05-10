@@ -20,7 +20,7 @@ export default function CommentForm({ onSubmit }) {
   return (
     <form className="w-full rounded-lg bg-gray-100 py-0.5" onSubmit={handleSubmit}>
       <input
-        autoComplete="new-comment"
+        autoComplete="off"
         className="w-full bg-transparent px-3 py-1.5 text-sm text-inherit placeholder-gray-500 focus:outline-none"
         name="comment"
         onChange={(event) => setValue(event.target.value)}
