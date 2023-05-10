@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
+import PostCard from './components/PostCard';
 import { usePosts, useSession, useUsers } from './hooks';
-import PostCard from './PostCard';
 import { getInitials, getInitialsColor } from './utils';
 
 function App() {
