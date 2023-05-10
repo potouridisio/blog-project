@@ -11,11 +11,23 @@ import CommentForm from './CommentForm';
 // comments: τα σχόλια του post
 // likes: τα likes του post
 // onComment: η συνάρτηση που καλείται με το σχόλιο όταν γίνεται submit της φόρμας
+// onDeleteComment: η συνάρτηση που καλείται όταν διαγράφεται ένα σχόλιο
 // onLike: η συνάρτηση που καλείται όταν γίνεται like στο post
 // title: ο τίτλος του post
 // userId: το id του χρήστη που έκανε το post
 // users: οι χρήστες της εφαρμογής
-export default function PostCard({ body, comments, createdAt, likes, onComment, onLike, title, userId, users }) {
+export default function PostCard({
+  body,
+  comments,
+  createdAt,
+  likes,
+  onComment,
+  // onDeleteComment,
+  onLike,
+  title,
+  userId,
+  users,
+}) {
   // το session είναι το session του χρήστη που έχει κάνει login
   const session = useContext(SessionContext);
   // το expandedBody είναι true αν έχει γίνει κλικ στο "See more"
@@ -106,13 +118,16 @@ export default function PostCard({ body, comments, createdAt, likes, onComment, 
                           size={20}
                         />
                       </button>
-                      {/* <div className="absolute left-1/2 mt-2 w-32 -translate-x-1/2 rounded-lg bg-white shadow-md ring-1 ring-black ring-opacity-5">
-                      <div className="py-1.5">
-                        <a href="#" className="block px-3 py-1.5 text-sm font-medium text-gray-500 hover:bg-gray-100">
-                          Delete
-                        </a>
-                      </div>
-                    </div> */}
+                      {/* <div className="absolute left-1/2 z-10 mt-2 w-32 -translate-x-1/2 rounded-lg bg-white shadow-md ring-1 ring-black ring-opacity-5">
+                        <div className="py-1.5">
+                          <a
+                            className="block cursor-pointer px-3 py-1.5 text-sm font-medium text-gray-500 hover:bg-gray-100"
+                            onClick={() => onDeleteComment()}
+                          >
+                            Delete
+                          </a>
+                        </div>
+                      </div> */}
                     </div>
                   ) : null}
                 </li>
