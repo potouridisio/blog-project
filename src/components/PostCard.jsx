@@ -35,7 +35,7 @@ export default function PostCard({
   // το expandedComments είναι true αν έχει γίνει κλικ στο "x comments"
   const [expandedComments, setExpandedComments] = useState(false);
   // το isOpen είναι το id του σχολίου που είναι ανοιχτό το μενού του διαφορετικά είναι false
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
 
   // βρίσκουμε τον χρήστη που έκανε το post
   const postUser = users.find((user) => user.id === userId);
