@@ -76,6 +76,13 @@ export default function PostCard({ body, comments, createdAt, likes, onComment, 
               const commentUser = users.find((user) => user.id === comment.userId);
               const commentUserInitials = commentUser ? getInitials(commentUser.name) : '';
 
+              // αν το σχόλιο έχει γίνει από τον χρήστη που έχει κάνει login
+              // ή το post έχει γίνει από τον χρήστη που έχει κάνει login
+              // ή αν ο χρήστης που έχει κάνει login είναι admin
+              // τότε μπορεί να διαγράψει το σχόλιο
+              const canDelete =
+                comment.userId === session.user.id || userId === session.user.id || session.user.type === 'admin';
+
               return (
                 <li className="group flex" key={comment.id}>
                   <div
@@ -91,18 +98,23 @@ export default function PostCard({ body, comments, createdAt, likes, onComment, 
                     </div>
                     <p className="mr-2 mt-0.5 text-xs text-gray-500">{timeAgo(new Date(comment.createdAt))}</p>
                   </div>
-                  <div className="relative -mt-[1.125rem] ml-0.5 self-center">
-                    <button className="rounded-full p-1.5 hover:bg-gray-100" tabIndex={-1}>
-                      <AiOutlineMore className="rotate-90 fill-gray-500 opacity-0 group-hover:opacity-100" size={20} />
-                    </button>
-                    {/* <div className="absolute left-1/2 mt-2 w-32 -translate-x-1/2 rounded-lg bg-white shadow-md ring-1 ring-black ring-opacity-5">
+                  {canDelete ? (
+                    <div className="relative -mt-[1.125rem] ml-0.5 self-center">
+                      <button className="rounded-full p-1.5 hover:bg-gray-100" tabIndex={-1}>
+                        <AiOutlineMore
+                          className="rotate-90 fill-gray-500 opacity-0 group-hover:opacity-100"
+                          size={20}
+                        />
+                      </button>
+                      {/* <div className="absolute left-1/2 mt-2 w-32 -translate-x-1/2 rounded-lg bg-white shadow-md ring-1 ring-black ring-opacity-5">
                       <div className="py-1.5">
                         <a href="#" className="block px-3 py-1.5 text-sm font-medium text-gray-500 hover:bg-gray-100">
                           Delete
                         </a>
                       </div>
                     </div> */}
-                  </div>
+                    </div>
+                  ) : null}
                 </li>
               );
             })}
