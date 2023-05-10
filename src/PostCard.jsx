@@ -59,7 +59,7 @@ export default function PostCard({
         ) : null}
       </p>
       <div className="mt-6 flex items-center justify-between">
-        <button className="inline-flex items-center text-sm text-gray-500" onClick={onLike}>
+        <button className="inline-flex select-none items-center text-sm text-gray-500" onClick={onLike}>
           {likes.some((like) => like.userId === session.user.id) ? (
             <AiFillHeart className="shrink-0 fill-red-500" size={20} />
           ) : (
@@ -69,7 +69,7 @@ export default function PostCard({
           {likes.length}
         </button>
         <a
-          className="cursor-pointer text-sm text-gray-500 hover:underline"
+          className="cursor-pointer select-none text-sm text-gray-500 hover:underline"
           onClick={() => setExpandedComments(!expandedComments)}
         >
           {comments.length} comments
