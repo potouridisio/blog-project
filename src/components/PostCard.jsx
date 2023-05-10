@@ -37,6 +37,18 @@ export default function PostCard({
   // το isOpen είναι το id του σχολίου που είναι ανοιχτό το μενού του διαφορετικά είναι false
   // const [isOpen, setIsOpen] = useState(false);
 
+  // // η handleXComments καλείται όταν γίνεται κλικ στο "x comments"
+  const handleXComments = (event) => {
+    event.preventDefault();
+    setExpandedComments(!expandedComments);
+  };
+
+  // η handleSeeMore καλείται όταν γίνεται κλικ στο "See more"
+  const handleSeeMore = (event) => {
+    event.preventDefault();
+    setExpandedBody(true);
+  };
+
   // βρίσκουμε τον χρήστη που έκανε το post
   const postUser = users.find((user) => user.id === userId);
 
@@ -58,7 +70,7 @@ export default function PostCard({
       <p className="text-sm text-gray-500">
         {expandedBody ? body : truncate(body)}&nbsp;
         {!expandedBody ? (
-          <a className="cursor-pointer font-medium hover:underline" onClick={() => setExpandedBody(true)}>
+          <a className="cursor-pointer font-medium hover:underline" href="#" onClick={handleSeeMore}>
             See more
           </a>
         ) : null}
@@ -75,7 +87,8 @@ export default function PostCard({
         </button>
         <a
           className="cursor-pointer select-none text-sm text-gray-500 hover:underline"
-          onClick={() => setExpandedComments(!expandedComments)}
+          href="#"
+          onClick={handleXComments}
         >
           {comments.length} comments
         </a>
