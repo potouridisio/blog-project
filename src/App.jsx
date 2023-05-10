@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 
 import PostCard from './components/PostCard';
-import { usePosts, useSession, useUsers } from './hooks';
-import { getInitials, getInitialsColor } from './utils';
+import { usePosts, useSession, useUsers } from './lib/hooks';
+import { getInitials, getInitialsColor } from './lib/utils';
 
 function App() {
   // η useSession() επιστρέφει ένα αντικείμενο με τις τιμές των isLoading και session

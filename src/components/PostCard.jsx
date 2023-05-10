@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 
-import { getInitials, getInitialsColor, timeAgo, truncate } from '../utils';
+import { getInitials, getInitialsColor, timeAgo, truncate } from '../lib/utils';
 import CommentForm from './CommentForm';
 
 // η PostCard δέχεται τα παρακάτω props:
