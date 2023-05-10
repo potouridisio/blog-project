@@ -39,21 +39,21 @@ export default function PostCard({
     <div className="rounded-lg bg-white p-6 shadow">
       <div className="mb-6 flex items-center">
         <div
-          className="flex h-10 w-10 select-none items-center justify-center rounded-full text-center font-medium text-white"
+          className="mr-2 flex h-10 w-10 select-none items-center justify-center rounded-full text-center font-medium text-white"
           style={{ backgroundColor: getInitialsColor(getInitials(postUser.name)) }}
         >
           {getInitials(postUser.name)}
         </div>
-        <div className="ml-2">
+        <div>
           <h3 className="text-sm font-semibold">{postUser.name}</h3>
           <p className="text-xs text-gray-500">{timeAgo(new Date(createdAt))}</p>
         </div>
       </div>
-      <h2 className="mb-2 text-lg font-bold">{title}</h2>
+      <h2 className="mb-2 text-lg font-semibold">{title}</h2>
       <p className="text-sm text-gray-500">
         {expandedBody ? body : truncate(body)}&nbsp;
         {!expandedBody ? (
-          <a className="cursor-pointer font-semibold hover:underline" onClick={() => setExpandedBody(true)}>
+          <a className="cursor-pointer font-medium hover:underline" onClick={() => setExpandedBody(true)}>
             See more
           </a>
         ) : null}
