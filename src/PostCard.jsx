@@ -13,6 +13,7 @@ import { getInitials, getInitialsColor, timeAgo, truncate } from './utils';
 // onLike: η συνάρτηση που καλείται όταν γίνεται like στο post
 // session: το session του χρήστη
 // title: ο τίτλος του post
+// userId: το id του χρήστη που έκανε το post
 // users: οι χρήστες της εφαρμογής
 export default function PostCard({
   body,
@@ -31,6 +32,7 @@ export default function PostCard({
   // το expandedComments είναι true αν έχει γίνει κλικ στο "x comments"
   const [expandedComments, setExpandedComments] = useState(false);
 
+  // βρίσκουμε τον χρήστη που έκανε το post
   const postUser = users.find((user) => user.id === userId);
 
   return (
@@ -38,9 +40,7 @@ export default function PostCard({
       <div className="mb-6 flex items-center">
         <div
           className="flex h-10 w-10 select-none items-center justify-center rounded-full text-center font-medium text-white"
-          style={{
-            backgroundColor: getInitialsColor(getInitials(postUser.name)),
-          }}
+          style={{ backgroundColor: getInitialsColor(getInitials(postUser.name)) }}
         >
           {getInitials(postUser.name)}
         </div>
