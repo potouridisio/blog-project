@@ -1,8 +1,10 @@
+// η getInitials επιστρέφει τα αρχικά του ονόματος
 export function getInitials(name) {
   const [firstName, lastName] = name.split(' ');
   return `${firstName[0]}${lastName[0]}`;
 }
 
+// η getInitialsColor επιστρέφει ένα χρώμα από μια λίστα χρωμάτων με βάση τα αρχικά
 export function getInitialsColor(initials) {
   const colors = [
     '#f44336',
@@ -32,6 +34,7 @@ export function getInitialsColor(initials) {
   return colors[charCodeSum % colors.length];
 }
 
+// η truncate κόβει το string στα 240 χαρακτήρες και προσθέτει τρεις τελείες
 export function truncate(str) {
   if (str.length > 240) {
     return str.slice(0, 240).split(' ').slice(0, -1).join(' ') + '...';
@@ -39,10 +42,12 @@ export function truncate(str) {
   return str;
 }
 
+// η getRandomNumber επιστρέφει έναν τυχαίο αριθμό μεταξύ 1000 και 6000
 export function getRandomNumber() {
   return Math.floor(Math.random() * 5000) + 1000;
 }
 
+// η timeAgo επιστρέφει τον χρόνο που έχει περάσει από μια συγκεκριμένη ημερομηνία
 export function timeAgo(date) {
   const seconds = Math.floor((new Date() - date) / 1000);
   const minutes = Math.floor(seconds / 60);
