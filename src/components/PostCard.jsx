@@ -131,7 +131,7 @@ export default function PostCard({
                           size={20}
                         />
                       </button>
-                      {/* <div className="absolute left-1/2 z-10 mt-2 w-32 -translate-x-1/2 rounded-lg bg-white shadow-md ring-1 ring-black ring-opacity-5">
+                      {/* <div className="absolute left-1/2 z-10 mt-2 w-32 -translate-x-1/2 transform rounded-lg bg-white shadow-md ring-1 ring-black ring-opacity-5">
                         <div className="py-1.5">
                           <a
                             className="block cursor-pointer px-3 py-1.5 text-sm font-medium text-gray-500 hover:bg-gray-100"
