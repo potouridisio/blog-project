@@ -3,8 +3,8 @@ import { useContext, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { AiFillHeart, AiOutlineHeart, AiOutlineMore } from 'react-icons/ai';
 
-import { SessionContext } from '../App';
 import { timeAgo, truncate } from '../lib/utils';
+import { SessionContext } from '../App';
 import Avatar from './Avatar';
 import CommentForm from './CommentForm';
 
