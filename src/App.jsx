@@ -137,6 +137,16 @@ function App() {
             ))}
           </div>
         </main>
+        {/* <div className="fixed left-0 top-0 z-50 h-full w-full bg-gray-700 opacity-75" />
+        <div className="fixed left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2 transform rounded-lg bg-white shadow-lg">
+          <div className="p-6">
+            <h2 className="mb-2 text-lg font-semibold">Dialog title</h2>
+            <p className="text-sm text-gray-500">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nec purus sit amet quam lacinia tincidunt sed
+              vel nibh. Nulla facilisi.
+            </p>
+          </div>
+        </div> */}
       </div>
     </SessionContext.Provider>
   );
