@@ -3,7 +3,8 @@ import { useContext, useState } from 'react';
 import { AiFillHeart, AiOutlineHeart, AiOutlineMore } from 'react-icons/ai';
 
 import { SessionContext } from '../App';
-import { getInitials, getInitialsColor, timeAgo, truncate } from '../lib/utils';
+import { timeAgo, truncate } from '../lib/utils';
+import Avatar from './Avatar';
 import CommentForm from './CommentForm';
 
 // η PostCard δέχεται τα παρακάτω props:
@@ -60,12 +61,7 @@ export default function PostCard({
   return (
     <div className="rounded-lg bg-white p-6 shadow">
       <div className="mb-6 flex items-center">
-        <div
-          className="mr-2 flex h-10 w-10 select-none items-center justify-center rounded-full text-center font-medium text-white"
-          style={{ backgroundColor: getInitialsColor(getInitials(postUser.name)) }}
-        >
-          {getInitials(postUser.name)}
-        </div>
+        <Avatar className="mr-2">{postUser.name}</Avatar>
         <div>
           <h3 className="text-sm font-semibold">{postUser.name}</h3>
           <p className="text-xs text-gray-500">{timeAgo(new Date(createdAt))}</p>
@@ -104,7 +100,6 @@ export default function PostCard({
           <ul className="flex flex-col items-start space-y-3 py-4">
             {comments.map((comment) => {
               const commentUser = users.find((user) => user.id === comment.userId);
-              const commentUserInitials = commentUser ? getInitials(commentUser.name) : '';
 
               // αν το σχόλιο έχει γίνει από τον χρήστη που έχει κάνει login
               // ή το post έχει γίνει από τον χρήστη που έχει κάνει login
@@ -115,12 +110,9 @@ export default function PostCard({
 
               return (
                 <li className="group flex" key={comment.id}>
-                  <div
-                    className="mr-2 flex h-8 w-8 select-none items-center justify-center rounded-full text-center text-xs font-medium text-white"
-                    style={{ backgroundColor: getInitialsColor(commentUserInitials) }}
-                  >
-                    {commentUserInitials}
-                  </div>
+                  <Avatar className="mr-2" size="small">
+                    {commentUser.name}
+                  </Avatar>
                   <div className="flex flex-col items-end">
                     <div className="rounded-lg bg-gray-100 px-3 py-1.5">
                       {commentUser ? <h4 className="text-sm font-semibold">{commentUser.name}</h4> : null}
@@ -162,12 +154,9 @@ export default function PostCard({
               );
             })}
             <li className="flex w-full">
-              <div
-                className="mr-2 flex h-8 w-8 select-none items-center justify-center rounded-full text-center text-xs font-medium text-white"
-                style={{ backgroundColor: getInitialsColor(getInitials(session.user.name)) }}
-              >
-                {getInitials(session.user.name)}
-              </div>
+              <Avatar className="mr-2" size="small">
+                {session.user.name}
+              </Avatar>
               <CommentForm onSubmit={onComment} />
             </li>
           </ul>
