@@ -22,7 +22,7 @@ export default function PostCard({
   createdAt,
   likes,
   onComment,
-  // onDeleteComment,
+  onDeleteComment,
   onLike,
   title,
   userId,
@@ -35,7 +35,12 @@ export default function PostCard({
   // το expandedComments είναι true αν έχει γίνει κλικ στο "x comments"
   const [expandedComments, setExpandedComments] = useState(false);
   // το isOpen είναι το id του σχολίου που είναι ανοιχτό το μενού του διαφορετικά είναι false
-  // const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleDelete = (commentId) => {
+    onDeleteComment(commentId);
+    setIsOpen(false);
+  };
 
   // // η handleXComments καλείται όταν γίνεται κλικ στο "x comments"
   const handleXComments = (event) => {
@@ -125,22 +130,32 @@ export default function PostCard({
                   </div>
                   {canDelete ? (
                     <div className="relative -mt-[1.125rem] ml-0.5 self-center">
-                      <button className="rounded-full p-1.5 hover:bg-gray-100" tabIndex={-1}>
+                      <button
+                        className="rounded-full p-1.5 hover:bg-gray-100"
+                        onClick={() => {
+                          setIsOpen(comment.id);
+                        }}
+                        tabIndex={-1}
+                      >
                         <AiOutlineMore
                           className="rotate-90 fill-gray-500 opacity-0 group-hover:opacity-100"
                           size={20}
                         />
                       </button>
-                      {/* <div className="absolute left-1/2 z-10 mt-2 w-32 -translate-x-1/2 transform rounded-lg bg-white shadow-md ring-1 ring-black ring-opacity-5">
+                      <div
+                        className={`absolute left-1/2 z-10 mt-2${
+                          isOpen === comment.id ? '' : ' hidden'
+                        } w-32 -translate-x-1/2 transform rounded-lg bg-white shadow-md ring-1 ring-black ring-opacity-5`}
+                      >
                         <div className="py-1.5">
                           <a
                             className="block cursor-pointer px-3 py-1.5 text-sm font-medium text-gray-500 hover:bg-gray-100"
-                            onClick={() => onDeleteComment(comment.id)}
+                            onClick={() => handleDelete(comment.id)}
                           >
                             Delete
                           </a>
                         </div>
-                      </div> */}
+                      </div>
                     </div>
                   ) : null}
                 </li>
