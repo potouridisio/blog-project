@@ -1,4 +1,4 @@
-// import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { usePosts, useSession, useUsers } from './hooks';
 import PostCard from './PostCard';
@@ -8,12 +8,20 @@ function App() {
   // η useSession() επιστρέφει ένα αντικείμενο με τις τιμές των isLoading και session
   const { isLoading: isLoadingSession, session } = useSession();
   // η usePosts() επιστρέφει ένα αντικείμενο με τις τιμές των isLoading και posts
-  const { isLoading: isLoadingPosts, posts } = usePosts();
-  // const [posts, setPosts] = useState(initialPosts);
+  const { isLoading: isLoadingPosts, posts: initialPosts } = usePosts();
+  const [posts, setPosts] = useState(initialPosts);
   // η useUsers() επιστρέφει ένα αντικείμενο με τις τιμές των isLoading και users
   const { isLoading: isLoadingUsers, users } = useUsers();
   // η isLoadingInitialData είναι true αν οι τιμές των isLoadingSession, isLoadingPosts και isLoadingUsers είναι true
   const isLoadingInitialData = isLoadingPosts || isLoadingSession || isLoadingUsers;
+
+  // η useEffect() καλείται όταν αλλάζει η τιμή του initialPosts
+  useEffect(() => {
+    // αν η τιμή του initialPosts είναι διαφορετική από το posts τότε αντικαθιστούμε το posts με το initialPosts
+    if (initialPosts) {
+      setPosts(initialPosts);
+    }
+  }, [initialPosts]);
 
   // η handleLike() δέχεται το index του post που έγινε like
   const handleLike = (postIndex) => {
@@ -37,7 +45,7 @@ function App() {
     }
 
     // αντικαθιστούμε τον πίνακα posts με τον νέο πίνακα posts
-    // setPosts(newPosts);
+    setPosts(newPosts);
   };
 
   // η handleComment() δέχεται το σχόλιο και το index του post στο οποίο έγινε το σχόλιο
@@ -63,7 +71,7 @@ function App() {
       });
 
       // αντικαθιστούμε τον πίνακα posts με τον νέο πίνακα posts
-      // setPosts(newPosts);
+      setPosts(newPosts);
     }
   };
 
