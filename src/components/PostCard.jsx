@@ -1,7 +1,8 @@
 /* eslint-disable react/prop-types */
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 
+import { SessionContext } from '../App';
 import { getInitials, getInitialsColor, timeAgo, truncate } from '../lib/utils';
 import CommentForm from './CommentForm';
 
@@ -11,22 +12,12 @@ import CommentForm from './CommentForm';
 // likes: τα likes του post
 // onComment: η συνάρτηση που καλείται με το σχόλιο όταν γίνεται submit της φόρμας
 // onLike: η συνάρτηση που καλείται όταν γίνεται like στο post
-// session: το session του χρήστη
 // title: ο τίτλος του post
 // userId: το id του χρήστη που έκανε το post
 // users: οι χρήστες της εφαρμογής
-export default function PostCard({
-  body,
-  comments,
-  createdAt,
-  likes,
-  onComment,
-  onLike,
-  session,
-  title,
-  userId,
-  users,
-}) {
+export default function PostCard({ body, comments, createdAt, likes, onComment, onLike, title, userId, users }) {
+  // το session είναι το session του χρήστη που έχει κάνει login
+  const session = useContext(SessionContext);
   // το expandedBody είναι true αν έχει γίνει κλικ στο "See more"
   const [expandedBody, setExpandedBody] = useState(false);
   // το expandedComments είναι true αν έχει γίνει κλικ στο "x comments"

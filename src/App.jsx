@@ -1,8 +1,11 @@
-import { useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 
 import PostCard from './components/PostCard';
 import { usePosts, useSession, useUsers } from './lib/hooks';
 import { getInitials, getInitialsColor } from './lib/utils';
+
+// το SessionContext είναι ένα context που περιέχει το session του χρήστη
+export const SessionContext = createContext(null);
 
 function App() {
   // η useSession() επιστρέφει ένα αντικείμενο με τις τιμές των isLoading και session
@@ -83,35 +86,40 @@ function App() {
   const userInitials = getInitials(session.user.name);
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      <header className="fixed left-0 top-0 z-50 w-full bg-white shadow">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-          <h1 className="text-xl font-semibold">Blog Project</h1>
-          <button
-            className="flex h-10 w-10 select-none items-center justify-center rounded-full text-center font-medium text-white"
-            style={{ backgroundColor: getInitialsColor(userInitials) }}
-          >
-            {userInitials}
-          </button>
-        </div>
-      </header>
-      <main className="mx-auto max-w-6xl grow p-6">
-        <div className="h-16" />
-        <div className="mt-6 space-y-6">
-          {/* eslint-disable-next-line no-unused-vars */}
-          {posts.map(({ id, ...post }, index) => (
-            <PostCard
-              key={id}
-              onComment={(comment) => handleComment(comment, index)}
-              onLike={() => handleLike(index)}
-              session={session}
-              users={users}
-              {...post}
-            />
-          ))}
-        </div>
-      </main>
-    </div>
+    // το SessionContext.Provider περιέχει το session του χρήστη σαν value
+    // όλα τα παιδιά του SessionContext.Provider μπορούν να έχουν πρόσβαση στο session του χρήστη
+    // χρησιμοποιώντας το useContext(SessionContext)
+    <SessionContext.Provider value={session}>
+      <div className="flex min-h-screen bg-gray-100">
+        <header className="fixed left-0 top-0 z-50 w-full bg-white shadow">
+          <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
+            <h1 className="text-xl font-semibold">Blog Project</h1>
+            <button
+              className="flex h-10 w-10 select-none items-center justify-center rounded-full text-center font-medium text-white"
+              style={{ backgroundColor: getInitialsColor(userInitials) }}
+            >
+              {userInitials}
+            </button>
+          </div>
+        </header>
+        <main className="mx-auto max-w-6xl grow p-6">
+          <div className="h-16" />
+          <div className="mt-6 space-y-6">
+            {/* eslint-disable-next-line no-unused-vars */}
+            {posts.map(({ id, ...post }, index) => (
+              <PostCard
+                key={id}
+                onComment={(comment) => handleComment(comment, index)}
+                onLike={() => handleLike(index)}
+                session={session}
+                users={users}
+                {...post}
+              />
+            ))}
+          </div>
+        </main>
+      </div>
+    </SessionContext.Provider>
   );
 }
 
