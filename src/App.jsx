@@ -26,31 +26,6 @@ function App() {
     }
   }, [initialPosts]);
 
-  // η handleLike() δέχεται το index του post που έγινε like
-  const handleLike = (postIndex) => {
-    // αντιγράφουμε τον πίνακα posts
-    const newPosts = posts.slice().map((obj) => Object.assign({}, obj));
-
-    // βρίσκουμε το post που έγινε like
-    const post = newPosts[postIndex];
-    // βρίσκουμε το like του χρήστη στο post
-    const like = post.likes.find((like) => like.userId === session.user.id);
-    // αν υπάρχει like του χρήστη στο post τότε το αφαιρούμε, αλλιώς το προσθέτουμε
-    if (like) {
-      post.likes = post.likes.filter((like) => like.userId !== session.user.id);
-    } else {
-      post.likes.push({
-        // το id του νέου like είναι ένα τυχαίο string
-        id: crypto.randomUUID(),
-        // το userId του νέου like είναι το id του χρήστη που έκανε login
-        userId: session.user.id,
-      });
-    }
-
-    // αντικαθιστούμε τον πίνακα posts με τον νέο πίνακα posts
-    setPosts(newPosts);
-  };
-
   // η handleComment() δέχεται το σχόλιο και το index του post στο οποίο έγινε το σχόλιο
   const handleComment = (comment, postIndex) => {
     // αν δεν υπάρχει σχόλιο τότε επιστρέφουμε undefined
@@ -62,6 +37,7 @@ function App() {
 
       // βρίσκουμε το post στο οποίο έγινε το σχόλιο
       const post = newPosts[postIndex];
+
       // προσθέτουμε το σχόλιο στο post
       post.comments.push({
         body: comment,
@@ -76,6 +52,48 @@ function App() {
       // αντικαθιστούμε τον πίνακα posts με τον νέο πίνακα posts
       setPosts(newPosts);
     }
+  };
+
+  // η handleDeleteComment() δέχεται το id του σχολίου που διαγράφεται και το index του post στο οποίο έγινε το σχόλιο
+  const handleDeleteComment = (commentId, postIndex) => {
+    // αντιγράφουμε τον πίνακα posts
+    const newPosts = posts.slice().map((obj) => Object.assign({}, obj));
+
+    // βρίσκουμε το post στο οποίο έγινε το σχόλιο
+    const post = newPosts[postIndex];
+
+    // αφαιρούμε το σχόλιο από το post
+    post.comments = post.comments.filter((comment) => comment.id !== commentId);
+
+    // αντικαθιστούμε τον πίνακα posts με τον νέο πίνακα posts
+    setPosts(newPosts);
+  };
+
+  // η handleLike() δέχεται το index του post που έγινε like
+  const handleLike = (postIndex) => {
+    // αντιγράφουμε τον πίνακα posts
+    const newPosts = posts.slice().map((obj) => Object.assign({}, obj));
+
+    // βρίσκουμε το post που έγινε like
+    const post = newPosts[postIndex];
+
+    // βρίσκουμε το like του χρήστη στο post
+    const like = post.likes.find((like) => like.userId === session.user.id);
+
+    // αν υπάρχει like του χρήστη στο post τότε το αφαιρούμε, αλλιώς το προσθέτουμε
+    if (like) {
+      post.likes = post.likes.filter((like) => like.userId !== session.user.id);
+    } else {
+      post.likes.push({
+        // το id του νέου like είναι ένα τυχαίο string
+        id: crypto.randomUUID(),
+        // το userId του νέου like είναι το id του χρήστη που έκανε login
+        userId: session.user.id,
+      });
+    }
+
+    // αντικαθιστούμε τον πίνακα posts με τον νέο πίνακα posts
+    setPosts(newPosts);
   };
 
   // αν οι τιμές των isLoadingSession, isLoadingPosts και isLoadingUsers είναι true τότε επιστρέφουμε το μήνυμα "Loading..."
@@ -110,6 +128,7 @@ function App() {
               <PostCard
                 key={id}
                 onComment={(comment) => handleComment(comment, index)}
+                onDeleteComment={(commentId) => handleDeleteComment(commentId, index)}
                 onLike={() => handleLike(index)}
                 session={session}
                 users={users}
