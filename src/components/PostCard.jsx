@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useContext, useState } from 'react';
-import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
+import { AiFillHeart, AiOutlineHeart, AiOutlineMore } from 'react-icons/ai';
 
 import { SessionContext } from '../App';
 import { getInitials, getInitialsColor, timeAgo, truncate } from '../lib/utils';
@@ -22,6 +22,8 @@ export default function PostCard({ body, comments, createdAt, likes, onComment, 
   const [expandedBody, setExpandedBody] = useState(false);
   // το expandedComments είναι true αν έχει γίνει κλικ στο "x comments"
   const [expandedComments, setExpandedComments] = useState(false);
+  // το isOpen είναι το id του σχολίου που είναι ανοιχτό το μενού του διαφορετικά είναι false
+  const [isOpen, setIsOpen] = useState(false);
 
   // βρίσκουμε τον χρήστη που έκανε το post
   const postUser = users.find((user) => user.id === userId);
@@ -69,13 +71,13 @@ export default function PostCard({ body, comments, createdAt, likes, onComment, 
       {expandedComments ? (
         <>
           <hr className="mb-4 mt-6 border-t-gray-200" />
-          <ul className="flex flex-col items-start space-y-3 py-3">
+          <ul className="flex flex-col items-start space-y-3 py-4">
             {comments.map((comment) => {
               const commentUser = users.find((user) => user.id === comment.userId);
               const commentUserInitials = commentUser ? getInitials(commentUser.name) : '';
 
               return (
-                <li className="flex" key={comment.id}>
+                <li className="group flex" key={comment.id}>
                   <div
                     className="mr-2 flex h-8 w-8 select-none items-center justify-center rounded-full text-center text-xs font-medium text-white"
                     style={{ backgroundColor: getInitialsColor(commentUserInitials) }}
@@ -88,6 +90,18 @@ export default function PostCard({ body, comments, createdAt, likes, onComment, 
                       <p className="text-sm text-gray-500">{comment.body}</p>
                     </div>
                     <p className="mr-2 mt-0.5 text-xs text-gray-500">{timeAgo(new Date(comment.createdAt))}</p>
+                  </div>
+                  <div className="relative -mt-[1.125rem] ml-0.5 self-center">
+                    <button className="rounded-full p-1.5 hover:bg-gray-100" tabIndex={-1}>
+                      <AiOutlineMore className="rotate-90 fill-gray-500 opacity-0 group-hover:opacity-100" size={20} />
+                    </button>
+                    {/* <div className="absolute left-1/2 mt-2 w-32 -translate-x-1/2 rounded-lg bg-white shadow-md ring-1 ring-black ring-opacity-5">
+                      <div className="py-1.5">
+                        <a href="#" className="block px-3 py-1.5 text-sm font-medium text-gray-500 hover:bg-gray-100">
+                          Delete
+                        </a>
+                      </div>
+                    </div> */}
                   </div>
                 </li>
               );
