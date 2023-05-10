@@ -49,7 +49,7 @@ function App() {
   };
 
   // η handleComment() δέχεται το σχόλιο και το index του post στο οποίο έγινε το σχόλιο
-  const handleComment = (comment, index) => {
+  const handleComment = (comment, postIndex) => {
     // αν δεν υπάρχει σχόλιο τότε επιστρέφουμε undefined
     if (!comment) {
       return undefined;
@@ -58,7 +58,7 @@ function App() {
       const newPosts = posts.slice().map((obj) => Object.assign({}, obj));
 
       // βρίσκουμε το post στο οποίο έγινε το σχόλιο
-      const post = newPosts[index];
+      const post = newPosts[postIndex];
       // προσθέτουμε το σχόλιο στο post
       post.comments.push({
         body: comment,
