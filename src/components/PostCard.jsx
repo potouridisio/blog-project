@@ -38,7 +38,7 @@ export default function PostCard({
   const [expandedComments, setExpandedComments] = useState(false);
   // το isOpen είναι το id του σχολίου που είναι ανοιχτό το μενού του διαφορετικά είναι false
   const [isOpen, setIsOpen] = useState(false);
-  //
+  // το isDialogOpen είναι true αν έχει γίνει κλικ στον τίτλο του post και έχει ανοίξει το modal
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleDelete = (commentId) => {
