@@ -1,12 +1,12 @@
 /* eslint-disable react/prop-types */
 import { useContext, useState } from 'react';
-import { createPortal } from 'react-dom';
 import { AiFillHeart, AiOutlineHeart, AiOutlineMore } from 'react-icons/ai';
 
 import { timeAgo, truncate } from '../lib/utils';
 import { SessionContext } from '../App';
 import Avatar from './Avatar';
 import CommentForm from './CommentForm';
+import Dialog from './Dialog';
 
 // η PostCard δέχεται τα παρακάτω props:
 // body: το κείμενο του post
@@ -170,24 +170,13 @@ export default function PostCard({
         ) : null}
       </div>
 
-      {/* Modal ή Dialog */}
-      {isDialogOpen
-        ? createPortal(
-            <>
-              <div
-                className="fixed left-0 top-0 z-50 h-full w-full bg-gray-700 opacity-75"
-                onClick={() => setIsDialogOpen(false)}
-              />
-              <div className="fixed left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2 transform rounded-lg bg-white shadow-lg">
-                <div className="p-6">
-                  <h2 className="mb-2 text-lg font-semibold">{title}</h2>
-                  <p className="text-sm text-gray-500">{body}</p>
-                </div>
-              </div>
-            </>,
-            document.body,
-          )
-        : null}
+      {/* <Dialog body={body} onClose={() => setIsDialogOpen(false)} open={isDialogOpen} title={title} /> */}
+      <Dialog onClose={() => setIsDialogOpen(false)} open={isDialogOpen}>
+        <div className="p-6">
+          <h2 className="mb-2 text-lg font-semibold">{title}</h2>
+          <p className="text-sm text-gray-500">{body}</p>
+        </div>
+      </Dialog>
     </>
   );
 }
