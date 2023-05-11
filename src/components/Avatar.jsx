@@ -1,10 +1,9 @@
 /* eslint-disable react/prop-types */
 import { getInitials, getInitialsColor } from '../lib/utils';
 
-export default function Avatar({ component: Component = 'div', children, className, size }) {
+export default function Avatar({ children, className, component: Component = 'div', size }) {
   if (typeof children !== 'string') {
     throw new Error('children must be a string!');
-    // return null;
   }
 
   return (
