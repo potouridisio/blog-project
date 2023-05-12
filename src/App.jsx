@@ -108,7 +108,7 @@ function App() {
       </header>
       <main className="mx-auto max-w-6xl grow p-6">
         <div className="h-16" />
-        <div className="mt-6 space-y-6">
+        <div className="space-y-6 py-6">
           {/* eslint-disable-next-line no-unused-vars */}
           {posts.map(({ id, ...post }, index) => (
             <PostCard
