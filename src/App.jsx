@@ -4,7 +4,7 @@ import Avatar from './components/Avatar';
 import PostCard from './components/PostCard';
 import { useAuth } from './lib/auth';
 import { usePosts, useUsers } from './lib/hooks';
-import Dialog from './components/Dialog';
+// import Dialog from './components/Dialog';
 
 function App() {
   const session = useAuth();
