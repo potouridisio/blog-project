@@ -64,7 +64,7 @@ export default function PostCard({
         <div className="mb-6 flex items-center">
           <Avatar className="mr-2">{postUser.name}</Avatar>
           <div>
-            <h3 className="text-sm font-semibold">{postUser.name}</h3>
+            <p className="text-sm font-semibold">{postUser.name}</p>
             <p className="text-xs text-gray-500">{timeAgo(new Date(createdAt))}</p>
           </div>
         </div>
@@ -116,7 +116,7 @@ export default function PostCard({
                     </Avatar>
                     <div className="flex flex-col items-end">
                       <div className="rounded-lg bg-gray-100 px-3 py-1.5">
-                        {commentUser ? <h4 className="text-sm font-semibold">{commentUser.name}</h4> : null}
+                        {commentUser ? <p className="text-sm font-semibold">{commentUser.name}</p> : null}
                         <p className="text-sm text-gray-500">{comment.body}</p>
                       </div>
                       <p className="mr-2 mt-0.5 text-xs text-gray-500">{timeAgo(new Date(comment.createdAt))}</p>
