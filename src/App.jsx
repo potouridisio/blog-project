@@ -4,6 +4,7 @@ import Avatar from './components/Avatar';
 import PostCard from './components/PostCard';
 import { useAuth } from './lib/auth';
 import { usePosts, useUsers } from './lib/hooks';
+import Dialog from './components/Dialog';
 
 function App() {
   const session = useAuth();
@@ -99,31 +100,48 @@ function App() {
   }
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      <header className="fixed left-0 top-0 z-50 w-full bg-white shadow">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-          <h1 className="text-xl font-semibold">Blog Project</h1>
-          <Avatar component="button">{session.user.name}</Avatar>
+    <>
+      <div className="flex min-h-screen bg-gray-100">
+        <header className="fixed left-0 top-0 z-50 w-full bg-white shadow">
+          <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
+            <h1 className="text-xl font-semibold">Blog Project</h1>
+            <Avatar component="button">{session.user.name}</Avatar>
+          </div>
+        </header>
+        <main className="mx-auto max-w-6xl grow p-6">
+          <div className="h-16" />
+          <div className="space-y-6 py-6">
+            {/* eslint-disable-next-line no-unused-vars */}
+            {posts.map(({ id, ...post }, index) => (
+              <PostCard
+                key={id}
+                onComment={(comment) => handleComment(comment, index)}
+                onDeleteComment={(commentId) => handleDeleteComment(commentId, index)}
+                onLike={() => handleLike(index)}
+                session={session}
+                users={users}
+                {...post}
+              />
+            ))}
+          </div>
+        </main>
+      </div>
+
+      {/* <Dialog className="w-full max-w-xl" open>
+        <h3 className="border-b border-b-gray-400 border-opacity-50 p-6 font-semibold">Delete Comment?</h3>
+        <div className="p-6">
+          <p className="text-sm text-gray-500">Are you sure you want to delete this comment?</p>
         </div>
-      </header>
-      <main className="mx-auto max-w-6xl grow p-6">
-        <div className="h-16" />
-        <div className="space-y-6 py-6">
-          {/* eslint-disable-next-line no-unused-vars */}
-          {posts.map(({ id, ...post }, index) => (
-            <PostCard
-              key={id}
-              onComment={(comment) => handleComment(comment, index)}
-              onDeleteComment={(commentId) => handleDeleteComment(commentId, index)}
-              onLike={() => handleLike(index)}
-              session={session}
-              users={users}
-              {...post}
-            />
-          ))}
+        <div className="flex justify-end p-6">
+          <button className="min-w-[6rem] select-none rounded bg-transparent px-4 py-2 text-sm font-medium text-blue-500 hover:bg-gray-100">
+            No
+          </button>
+          <button className="ml-2 min-w-[6rem] select-none rounded bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600">
+            Delete
+          </button>
         </div>
-      </main>
-    </div>
+      </Dialog> */}
+    </>
   );
 }
 
