@@ -6,6 +6,7 @@ import { useAuth } from '../lib/auth';
 import { timeAgo, truncate } from '../lib/utils';
 import Avatar from './Avatar';
 import CommentForm from './CommentForm';
+import Popper from './Popper';
 
 // η PostCard δέχεται τα παρακάτω props:
 // body: το κείμενο του post
@@ -35,12 +36,9 @@ export default function PostCard({
   const [expandedBody, setExpandedBody] = useState(false);
   // το expandedComments είναι true αν έχει γίνει κλικ στο "x comments"
   const [expandedComments, setExpandedComments] = useState(false);
-  // το isOpen είναι το id του σχολίου που είναι ανοιχτό το μενού του διαφορετικά είναι false
-  const [isOpen, setIsOpen] = useState(false);
 
   const handleDelete = (commentId) => {
     onDeleteComment(commentId);
-    setIsOpen(false);
   };
 
   // // η handleXComments καλείται όταν γίνεται κλικ στο "x comments"
@@ -119,21 +117,9 @@ export default function PostCard({
                         <p className="mr-2 mt-0.5 text-xs text-gray-500">{timeAgo(new Date(comment.createdAt))}</p>
                       </div>
                       {canDeleteComment ? (
-                        <div className="relative -mt-[1.125rem] ml-0.5 self-center">
-                          <button
-                            className="rounded-full p-1.5 opacity-0 hover:bg-gray-100 group-hover:opacity-100"
-                            onClick={() => {
-                              setIsOpen(comment.id);
-                            }}
-                            tabIndex={-1}
-                          >
-                            <AiOutlineMore className="rotate-90 fill-gray-500" size={20} />
-                          </button>
-                          <div
-                            className={`absolute left-1/2 z-10 mt-2${
-                              isOpen === comment.id ? '' : ' hidden'
-                            } w-32 -translate-x-1/2 transform rounded-lg bg-white shadow-md ring-1 ring-black ring-opacity-5`}
-                          >
+                        <Popper
+                          className="-mt-[1.125rem] ml-0.5 self-center"
+                          content={
                             <div className="py-1.5">
                               <a
                                 className="block cursor-pointer px-3 py-1.5 text-sm font-medium text-gray-500 hover:bg-gray-100"
@@ -142,8 +128,15 @@ export default function PostCard({
                                 Delete
                               </a>
                             </div>
-                          </div>
-                        </div>
+                          }
+                        >
+                          <button
+                            className="rounded-full p-1.5 opacity-0 hover:bg-gray-100 group-hover:opacity-100"
+                            tabIndex={-1}
+                          >
+                            <AiOutlineMore className="rotate-90 fill-gray-500" size={20} />
+                          </button>
+                        </Popper>
                       ) : null}
                     </li>
                   );
