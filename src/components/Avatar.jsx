@@ -1,6 +1,11 @@
 /* eslint-disable react/prop-types */
 import { getInitials, getInitialsColor } from '../lib/utils';
 
+// το Avatar δέχεται τα παρακάτω props:
+// children: το όνομα του χρήστη
+// className: το className του component
+// component: το component που θα χρησιμοποιηθεί
+// size: το μέγεθος του component
 export default function Avatar({ children, className, component: Component = 'div', size }) {
   if (typeof children !== 'string') {
     throw new Error('children must be a string!');
