@@ -4,12 +4,13 @@ import Avatar from './components/Avatar';
 import PostCard from './components/PostCard';
 import { useAuth } from './lib/auth';
 import { usePosts, useUsers } from './lib/hooks';
-// import Dialog from './components/Dialog';
+import Dialog from './components/Dialog';
 
 function App() {
   const session = useAuth();
   // η usePosts() επιστρέφει ένα αντικείμενο με τις τιμές των isLoading και posts
   const { isLoading: isLoadingPosts, posts: initialPosts } = usePosts();
+  const [open, setOpen] = useState(false);
   const [posts, setPosts] = useState(initialPosts);
   // η useUsers() επιστρέφει ένα αντικείμενο με τις τιμές των isLoading και users
   const { isLoading: isLoadingUsers, users } = useUsers();
@@ -117,7 +118,9 @@ function App() {
                 <PostCard
                   key={id}
                   onComment={(comment) => handleComment(comment, index)}
-                  onDeleteComment={(commentId) => handleDeleteComment(commentId, index)}
+                  onDeleteComment={(commentId) => {
+                    setOpen([commentId, index]);
+                  }}
                   onLike={() => handleLike(index)}
                   session={session}
                   users={users}
@@ -128,20 +131,29 @@ function App() {
         </main>
       </div>
 
-      {/* <Dialog className="w-full max-w-xl" open>
+      <Dialog className="w-full max-w-xl" onClose={() => setOpen(false)} open={Array.isArray(open)}>
         <h3 className="border-b border-b-gray-400 border-opacity-50 p-6 font-semibold">Delete Comment?</h3>
         <div className="p-6">
           <p className="text-sm text-gray-500">Are you sure you want to delete this comment?</p>
         </div>
         <div className="flex justify-end p-6">
-          <button className="min-w-[6rem] select-none rounded bg-transparent px-4 py-2 text-sm font-medium text-blue-500 hover:bg-gray-100">
+          <button
+            className="min-w-[6rem] select-none rounded bg-transparent px-4 py-2 text-sm font-medium text-blue-500 hover:bg-gray-100"
+            onClick={() => setOpen(false)}
+          >
             No
           </button>
-          <button className="ml-2 min-w-[6rem] select-none rounded bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600">
+          <button
+            className="ml-2 min-w-[6rem] select-none rounded bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600"
+            onClick={() => {
+              handleDeleteComment(...open);
+              setOpen(false);
+            }}
+          >
             Delete
           </button>
         </div>
-      </Dialog> */}
+      </Dialog>
     </>
   );
 }
