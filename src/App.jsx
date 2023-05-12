@@ -111,18 +111,19 @@ function App() {
         <main className="mx-auto max-w-6xl grow p-6">
           <div className="h-16" />
           <div className="space-y-6 py-6">
-            {/* eslint-disable-next-line no-unused-vars */}
-            {posts.map(({ id, ...post }, index) => (
-              <PostCard
-                key={id}
-                onComment={(comment) => handleComment(comment, index)}
-                onDeleteComment={(commentId) => handleDeleteComment(commentId, index)}
-                onLike={() => handleLike(index)}
-                session={session}
-                users={users}
-                {...post}
-              />
-            ))}
+            {posts
+              .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+              .map(({ id, ...post }, index) => (
+                <PostCard
+                  key={id}
+                  onComment={(comment) => handleComment(comment, index)}
+                  onDeleteComment={(commentId) => handleDeleteComment(commentId, index)}
+                  onLike={() => handleLike(index)}
+                  session={session}
+                  users={users}
+                  {...post}
+                />
+              ))}
           </div>
         </main>
       </div>
