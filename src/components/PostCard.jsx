@@ -103,12 +103,7 @@ export default function PostCard({
                 .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
                 .map((comment) => {
                   const commentUser = users.find((user) => user.id === comment.userId);
-
-                  // αν το σχόλιο έχει γίνει από τον χρήστη που έχει κάνει login
-                  // ή το post έχει γίνει από τον χρήστη που έχει κάνει login
-                  // ή αν ο χρήστης που έχει κάνει login είναι admin
-                  // τότε μπορεί να διαγράψει το σχόλιο
-                  const canDelete =
+                  const canDeleteComment =
                     comment.userId === session.user.id || userId === session.user.id || session.user.type === 'admin';
 
                   return (
@@ -123,7 +118,7 @@ export default function PostCard({
                         </div>
                         <p className="mr-2 mt-0.5 text-xs text-gray-500">{timeAgo(new Date(comment.createdAt))}</p>
                       </div>
-                      {canDelete ? (
+                      {canDeleteComment ? (
                         <div className="relative -mt-[1.125rem] ml-0.5 self-center">
                           <button
                             className="rounded-full p-1.5 hover:bg-gray-100"
