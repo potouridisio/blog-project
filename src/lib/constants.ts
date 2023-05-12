@@ -23,6 +23,24 @@ export const USERS = [
     email: 'sophie.white@example.com',
     role: 'user',
   },
+  {
+    email: 'john.smith@example',
+    id: crypto.randomUUID(),
+    name: 'John Smith',
+    role: 'admin',
+  },
+  {
+    email: 'sarah.jones@example',
+    id: crypto.randomUUID(),
+    name: 'Sarah Jones',
+    role: 'user',
+  },
+  {
+    email: 'mike.doe@example',
+    id: crypto.randomUUID(),
+    name: 'Mike Doe',
+    role: 'user',
+  },
 ];
 
 export const POSTS = [
@@ -138,5 +156,104 @@ export const POSTS = [
     ],
     title: 'Tools for Front-End Development',
     userId: USERS[0].id,
+  },
+  {
+    body: 'Front-end development is constantly evolving. One of the latest trends is the use of static site generators. These tools can help you create fast, performant websites that are easy to maintain. Some popular options include Gatsby, Next.js, and Hugo.',
+    comments: [
+      {
+        body: "I've been hearing a lot about static site generators lately. Thanks for the recommendation!",
+        createdAt: '2023-05-11T12:45:00.000Z',
+        id: crypto.randomUUID(),
+        userId: USERS[4].id,
+      },
+      {
+        body: "I've used Gatsby before and it's amazing. Highly recommend it!",
+        createdAt: '2023-05-11T14:20:00.000Z',
+        id: crypto.randomUUID(),
+        userId: USERS[2].id,
+      },
+      {
+        body: 'Static site generators are definitely the way of the future. They make it so easy to create high-performing websites.',
+        createdAt: '2023-05-11T16:30:00.000Z',
+        id: crypto.randomUUID(),
+        userId: USERS[3].id,
+      },
+    ],
+    createdAt: '2023-05-11T12:45:00.000Z',
+    id: crypto.randomUUID(),
+    likes: [
+      {
+        id: crypto.randomUUID(),
+        userId: USERS[0].id,
+      },
+      {
+        id: crypto.randomUUID(),
+        userId: USERS[2].id,
+      },
+      {
+        id: crypto.randomUUID(),
+        userId: USERS[3].id,
+      },
+    ],
+    title: 'The Latest Trend in Front-End Development: Static Site Generators',
+    userId: USERS[0].id,
+  },
+  {
+    body: 'The benefits of serverless architecture for web development are numerous. By eliminating the need for infrastructure management and providing automatic scaling, developers can focus on writing code rather than managing servers. Popular serverless platforms include AWS Lambda, Google Cloud Functions, and Microsoft Azure Functions.',
+    comments: [
+      {
+        body: 'I have been using AWS Lambda for some time now and it has made my life so much easier.',
+        createdAt: '2023-05-10T13:45:22.056Z',
+        id: crypto.randomUUID(),
+        userId: USERS[0].id,
+      },
+      {
+        body: 'I am new to serverless architecture. Can you recommend any resources to get started?',
+        createdAt: '2023-05-11T09:15:00.000Z',
+        id: crypto.randomUUID(),
+        userId: USERS[3].id,
+      },
+    ],
+    createdAt: '2023-05-10T13:45:22.056Z',
+    id: crypto.randomUUID(),
+    likes: [
+      {
+        id: crypto.randomUUID(),
+        userId: USERS[2].id,
+      },
+    ],
+    title: 'The Benefits of Serverless Architecture',
+    userId: USERS[1].id,
+  },
+  {
+    body: 'Web performance is crucial to providing a good user experience. A slow-loading website can cause users to abandon your site and move on to a competitor. Some best practices for optimizing website performance include minimizing HTTP requests, optimizing images and other assets, and using a content delivery network (CDN).',
+    comments: [
+      {
+        body: 'I recently started using a CDN for my website and it has made a huge difference in page load times.',
+        createdAt: '2023-05-09T18:30:00.000Z',
+        id: crypto.randomUUID(),
+        userId: USERS[2].id,
+      },
+      {
+        body: 'Thanks for the tips! I will definitely keep these in mind when optimizing my website.',
+        createdAt: '2023-05-10T11:00:00.000Z',
+        id: crypto.randomUUID(),
+        userId: USERS[3].id,
+      },
+    ],
+    createdAt: '2023-05-09T18:30:00.000Z',
+    id: crypto.randomUUID(),
+    likes: [
+      {
+        id: crypto.randomUUID(),
+        userId: USERS[0].id,
+      },
+      {
+        id: crypto.randomUUID(),
+        userId: USERS[1].id,
+      },
+    ],
+    title: 'Best Practices for Optimizing Website Performance',
+    userId: USERS[2].id,
   },
 ];
