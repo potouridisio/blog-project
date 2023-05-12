@@ -57,100 +57,98 @@ export default function PostCard({
   const postUser = users.find((user) => user.id === userId);
 
   return (
-    <>
-      <div className="rounded-lg bg-white p-6 shadow">
-        <div className="mb-6 flex items-center">
-          <Avatar className="mr-2">{postUser.name}</Avatar>
-          <div>
-            <p className="text-sm font-semibold">{postUser.name}</p>
-            <p className="text-xs text-gray-500">{timeAgo(new Date(createdAt))}</p>
-          </div>
+    <div className="rounded-lg bg-white p-6 shadow">
+      <div className="mb-6 flex items-center">
+        <Avatar className="mr-2">{postUser.name}</Avatar>
+        <div>
+          <p className="text-sm font-semibold">{postUser.name}</p>
+          <p className="text-xs text-gray-500">{timeAgo(new Date(createdAt))}</p>
         </div>
-        <h2 className="mb-2 text-lg font-semibold">{title}</h2>
-        <p className="text-sm text-gray-500">
-          {expandedBody ? body : truncate(body)}&nbsp;
-          {!expandedBody ? (
-            <a className="cursor-pointer font-medium hover:underline" href="#" onClick={handleSeeMore}>
-              See more
-            </a>
-          ) : null}
-        </p>
-        <div className="mt-6 flex items-center justify-between">
-          <button className="inline-flex select-none items-center text-sm text-gray-500" onClick={onLike}>
-            {likes.some((like) => like.userId === session.user.id) ? (
-              <AiFillHeart className="shrink-0 fill-red-500" size={20} />
-            ) : (
-              <AiOutlineHeart className="shrink-0 fill-gray-500" size={20} />
-            )}
-            &nbsp;
-            {likes.length}
-          </button>
-          <a
-            className="cursor-pointer select-none text-sm text-gray-500 hover:underline"
-            href="#"
-            onClick={handleXComments}
-          >
-            {comments.length} comments
-          </a>
-        </div>
-        {expandedComments ? (
-          <>
-            <hr className="mb-4 mt-6 border-t-gray-400 border-opacity-50" />
-            <ul className="flex flex-col items-start space-y-3 py-4">
-              {comments
-                .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
-                .map((comment) => {
-                  const commentUser = users.find((user) => user.id === comment.userId);
-                  const canDeleteComment =
-                    comment.userId === session.user.id || userId === session.user.id || session.user.type === 'admin';
-
-                  return (
-                    <li className="group flex" key={comment.id}>
-                      <Avatar className="mr-2" size="small">
-                        {commentUser.name}
-                      </Avatar>
-                      <div className="flex flex-col items-end">
-                        <div className="rounded-lg bg-gray-100 px-3 py-1.5">
-                          {commentUser ? <p className="text-sm font-semibold">{commentUser.name}</p> : null}
-                          <p className="text-sm text-gray-500">{comment.body}</p>
-                        </div>
-                        <p className="mr-2 mt-0.5 text-xs text-gray-500">{timeAgo(new Date(comment.createdAt))}</p>
-                      </div>
-                      {canDeleteComment ? (
-                        <Popper
-                          className="-mt-[1.125rem] ml-0.5 self-center"
-                          content={
-                            <div className="py-1.5">
-                              <a
-                                className="block cursor-pointer px-3 py-1.5 text-sm font-medium text-gray-500 hover:bg-gray-100"
-                                onClick={() => handleDelete(comment.id)}
-                              >
-                                Delete
-                              </a>
-                            </div>
-                          }
-                        >
-                          <button
-                            className="rounded-full p-1.5 opacity-0 hover:bg-gray-100 group-hover:opacity-100"
-                            tabIndex={-1}
-                          >
-                            <AiOutlineMore className="rotate-90 fill-gray-500" size={20} />
-                          </button>
-                        </Popper>
-                      ) : null}
-                    </li>
-                  );
-                })}
-              <li className="flex w-full">
-                <Avatar className="mr-2" size="small">
-                  {session.user.name}
-                </Avatar>
-                <CommentForm onSubmit={onComment} />
-              </li>
-            </ul>
-          </>
-        ) : null}
       </div>
-    </>
+      <h2 className="mb-2 text-lg font-semibold">{title}</h2>
+      <p className="text-sm text-gray-500">
+        {expandedBody ? body : truncate(body)}&nbsp;
+        {!expandedBody ? (
+          <a className="cursor-pointer font-medium hover:underline" href="#" onClick={handleSeeMore}>
+            See more
+          </a>
+        ) : null}
+      </p>
+      <div className="mt-6 flex items-center justify-between">
+        <button className="inline-flex select-none items-center text-sm text-gray-500" onClick={onLike}>
+          {likes.some((like) => like.userId === session.user.id) ? (
+            <AiFillHeart className="shrink-0 fill-red-500" size={20} />
+          ) : (
+            <AiOutlineHeart className="shrink-0 fill-gray-500" size={20} />
+          )}
+          &nbsp;
+          {likes.length}
+        </button>
+        <a
+          className="cursor-pointer select-none text-sm text-gray-500 hover:underline"
+          href="#"
+          onClick={handleXComments}
+        >
+          {comments.length} comments
+        </a>
+      </div>
+      {expandedComments ? (
+        <>
+          <hr className="mb-4 mt-6 border-t-gray-400 border-opacity-50" />
+          <ul className="flex flex-col items-start space-y-3 py-4">
+            {comments
+              .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+              .map((comment) => {
+                const commentUser = users.find((user) => user.id === comment.userId);
+                const canDeleteComment =
+                  comment.userId === session.user.id || userId === session.user.id || session.user.type === 'admin';
+
+                return (
+                  <li className="group flex" key={comment.id}>
+                    <Avatar className="mr-2" size="small">
+                      {commentUser.name}
+                    </Avatar>
+                    <div className="flex flex-col items-end">
+                      <div className="rounded-lg bg-gray-100 px-3 py-1.5">
+                        {commentUser ? <p className="text-sm font-semibold">{commentUser.name}</p> : null}
+                        <p className="text-sm text-gray-500">{comment.body}</p>
+                      </div>
+                      <p className="mr-2 mt-0.5 text-xs text-gray-500">{timeAgo(new Date(comment.createdAt))}</p>
+                    </div>
+                    {canDeleteComment ? (
+                      <Popper
+                        className="-mt-[1.125rem] ml-0.5 self-center"
+                        content={
+                          <div className="py-1.5">
+                            <a
+                              className="block cursor-pointer px-3 py-1.5 text-sm font-medium text-gray-500 hover:bg-gray-100"
+                              onClick={() => handleDelete(comment.id)}
+                            >
+                              Delete
+                            </a>
+                          </div>
+                        }
+                      >
+                        <button
+                          className="rounded-full p-1.5 opacity-0 hover:bg-gray-100 group-hover:opacity-100"
+                          tabIndex={-1}
+                        >
+                          <AiOutlineMore className="rotate-90 fill-gray-500" size={20} />
+                        </button>
+                      </Popper>
+                    ) : null}
+                  </li>
+                );
+              })}
+            <li className="flex w-full">
+              <Avatar className="mr-2" size="small">
+                {session.user.name}
+              </Avatar>
+              <CommentForm onSubmit={onComment} />
+            </li>
+          </ul>
+        </>
+      ) : null}
+    </div>
   );
 }
