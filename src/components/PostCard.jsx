@@ -6,7 +6,6 @@ import { useAuth } from '../lib/auth';
 import { timeAgo, truncate } from '../lib/utils';
 import Avatar from './Avatar';
 import CommentForm from './CommentForm';
-import Dialog from './Dialog';
 
 // η PostCard δέχεται τα παρακάτω props:
 // body: το κείμενο του post
@@ -38,8 +37,6 @@ export default function PostCard({
   const [expandedComments, setExpandedComments] = useState(false);
   // το isOpen είναι το id του σχολίου που είναι ανοιχτό το μενού του διαφορετικά είναι false
   const [isOpen, setIsOpen] = useState(false);
-  // το isDialogOpen είναι true αν έχει γίνει κλικ στον τίτλο του post και έχει ανοίξει το modal
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleDelete = (commentId) => {
     onDeleteComment(commentId);
@@ -71,9 +68,7 @@ export default function PostCard({
             <p className="text-xs text-gray-500">{timeAgo(new Date(createdAt))}</p>
           </div>
         </div>
-        <h2 className="mb-2 cursor-pointer text-lg font-semibold hover:underline" onClick={() => setIsDialogOpen(true)}>
-          {title}
-        </h2>
+        <h2 className="mb-2 text-lg font-semibold">{title}</h2>
         <p className="text-sm text-gray-500">
           {expandedBody ? body : truncate(body)}&nbsp;
           {!expandedBody ? (
@@ -169,12 +164,6 @@ export default function PostCard({
           </>
         ) : null}
       </div>
-      <Dialog onClose={() => setIsDialogOpen(false)} open={isDialogOpen}>
-        <div className="p-6">
-          <h2 className="mb-2 text-lg font-semibold">{title}</h2>
-          <p className="text-sm text-gray-500">{body}</p>
-        </div>
-      </Dialog>
     </>
   );
 }
