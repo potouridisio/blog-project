@@ -169,8 +169,6 @@ export default function PostCard({
           </>
         ) : null}
       </div>
-
-      {/* <Dialog body={body} onClose={() => setIsDialogOpen(false)} open={isDialogOpen} title={title} /> */}
       <Dialog onClose={() => setIsDialogOpen(false)} open={isDialogOpen}>
         <div className="p-6">
           <h2 className="mb-2 text-lg font-semibold">{title}</h2>
