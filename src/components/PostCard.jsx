@@ -121,16 +121,13 @@ export default function PostCard({
                       {canDeleteComment ? (
                         <div className="relative -mt-[1.125rem] ml-0.5 self-center">
                           <button
-                            className="rounded-full p-1.5 hover:bg-gray-100"
+                            className="rounded-full p-1.5 opacity-0 hover:bg-gray-100 group-hover:opacity-100"
                             onClick={() => {
                               setIsOpen(comment.id);
                             }}
                             tabIndex={-1}
                           >
-                            <AiOutlineMore
-                              className="rotate-90 fill-gray-500 opacity-0 group-hover:opacity-100"
-                              size={20}
-                            />
+                            <AiOutlineMore className="rotate-90 fill-gray-500" size={20} />
                           </button>
                           <div
                             className={`absolute left-1/2 z-10 mt-2${
