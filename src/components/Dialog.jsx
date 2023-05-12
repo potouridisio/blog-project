@@ -2,7 +2,12 @@
 
 import Portal from './Portal';
 
+// το Dialog δέχεται τα παρακάτω props:
+// children: τα παιδιά του component
+// open: true αν είναι ανοιχτό το modal διαφορετικά false
+// onClose: η συνάρτηση που καλείται όταν κλείνει το modal
 export default function Dialog({ children, open, onClose }) {
+  // αν το open είναι false επιστρέφουμε null
   if (!open) {
     return null;
   }
