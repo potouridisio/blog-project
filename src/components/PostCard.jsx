@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { AiFillHeart, AiOutlineHeart, AiOutlineMore } from 'react-icons/ai';
 
+import { useAuth } from '../lib/auth';
 import { timeAgo, truncate } from '../lib/utils';
-import { SessionContext } from '../App';
 import Avatar from './Avatar';
 import CommentForm from './CommentForm';
 import Dialog from './Dialog';
@@ -31,7 +31,7 @@ export default function PostCard({
   users,
 }) {
   // το session είναι το session του χρήστη που έχει κάνει login
-  const session = useContext(SessionContext);
+  const session = useAuth();
   // το expandedBody είναι true αν έχει γίνει κλικ στο "See more"
   const [expandedBody, setExpandedBody] = useState(false);
   // το expandedComments είναι true αν έχει γίνει κλικ στο "x comments"
