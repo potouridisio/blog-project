@@ -97,7 +97,7 @@ export default function PostCard({
         </div>
         {expandedComments ? (
           <>
-            <hr className="mb-4 mt-6 border-t-gray-200" />
+            <hr className="mb-4 mt-6 border-t-gray-400 border-opacity-50" />
             <ul className="flex flex-col items-start space-y-3 py-4">
               {comments.map((comment) => {
                 const commentUser = users.find((user) => user.id === comment.userId);
