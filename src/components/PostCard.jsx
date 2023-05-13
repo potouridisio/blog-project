@@ -106,7 +106,7 @@ export default function PostCard({
                 const commentUser = users.find((user) => user.id === comment.userId);
                 // το canDeleteComment είναι true αν ο χρήστης είναι ο δημιουργός του σχολίου ή του post ή είναι admin
                 const canDeleteComment =
-                  comment.userId === session.user.id || userId === session.user.id || session.user.type === 'admin';
+                  comment.userId === session.user.id || userId === session.user.id || session.user.role === 'admin';
                 // το canEditComment είναι true αν ο χρήστης είναι ο δημιουργός του σχολίου
                 const canEditComment = comment.userId === session.user.id;
                 // το showPopper είναι true αν δεν επεξεργάζεται κάποιο σχόλιο και ο χρήστης μπορεί να διαγράψει ή να επεξεργαστεί το σχόλιο
