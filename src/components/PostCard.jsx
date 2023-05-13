@@ -104,8 +104,13 @@ export default function PostCard({
               .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
               .map((comment) => {
                 const commentUser = users.find((user) => user.id === comment.userId);
+                // το canDeleteComment είναι true αν ο χρήστης είναι ο δημιουργός του σχολίου ή του post ή είναι admin
                 const canDeleteComment =
                   comment.userId === session.user.id || userId === session.user.id || session.user.type === 'admin';
+                // το canEditComment είναι true αν ο χρήστης είναι ο δημιουργός του σχολίου
+                const canEditComment = comment.userId === session.user.id;
+                // το showPopper είναι true αν δεν επεξεργάζεται κάποιο σχόλιο και ο χρήστης μπορεί να διαγράψει ή να επεξεργαστεί το σχόλιο
+                const showPopper = !isEditing && (canDeleteComment || canEditComment);
 
                 return (
                   <li className={`group flex${isEditing === comment.id ? ' w-full' : ''}`} key={comment.id}>
@@ -131,23 +136,27 @@ export default function PostCard({
                         <p className="mr-2 mt-0.5 text-xs text-gray-500">{timeAgo(new Date(comment.createdAt))}</p>
                       </div>
                     )}
-                    {canDeleteComment && !isEditing ? (
+                    {showPopper ? (
                       <Popper
                         className="-mt-[1.125rem] ml-0.5 self-center"
                         content={
                           <div className="py-1.5">
-                            <a
-                              className="block cursor-pointer px-3 py-1.5 text-sm font-medium text-gray-500 hover:bg-gray-100"
-                              onClick={() => setIsEditing(comment.id)}
-                            >
-                              Edit
-                            </a>
-                            <a
-                              className="block cursor-pointer px-3 py-1.5 text-sm font-medium text-gray-500 hover:bg-gray-100"
-                              onClick={() => handleDelete(comment.id)}
-                            >
-                              Delete
-                            </a>
+                            {canEditComment ? (
+                              <a
+                                className="block cursor-pointer px-3 py-1.5 text-sm font-medium text-gray-500 hover:bg-gray-100"
+                                onClick={() => setIsEditing(comment.id)}
+                              >
+                                Edit
+                              </a>
+                            ) : null}
+                            {canDeleteComment ? (
+                              <a
+                                className="block cursor-pointer px-3 py-1.5 text-sm font-medium text-gray-500 hover:bg-gray-100"
+                                onClick={() => handleDelete(comment.id)}
+                              >
+                                Delete
+                              </a>
+                            ) : null}
                           </div>
                         }
                       >
