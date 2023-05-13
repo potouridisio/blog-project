@@ -39,10 +39,10 @@ export default function PostCard({
   const [expandedBody, setExpandedBody] = useState(false);
   // το expandedComments είναι true αν έχει γίνει κλικ στο "x comments"
   const [expandedComments, setExpandedComments] = useState(false);
-  // το isEditing είναι το id του σχολίου που επεξεργάζεται ο χρήστης ή false αν δεν επεξεργάζεται κάποιο σχόλιο
-  const [isEditing, setIsEditing] = useState(false);
-  // το isDeleting είναι το id του σχολίου που θα διαγραφεί ή false αν δεν θα διαγραφεί κάποιο σχόλιο
-  const [isDeleting, setIsDeleting] = useState(false);
+  // το isEditingComment είναι το id του σχολίου που επεξεργάζεται ο χρήστης ή false αν δεν επεξεργάζεται κάποιο σχόλιο
+  const [isEditingComment, setIsEditingComment] = useState(false);
+  // το isDeletingComment είναι το id του σχολίου που θα διαγραφεί ή false αν δεν θα διαγραφεί κάποιο σχόλιο
+  const [isDeletingComment, setIsDeletingComment] = useState(false);
 
   // // η handleXComments καλείται όταν γίνεται κλικ στο "x comments"
   const handleXComments = (event) => {
@@ -110,14 +110,14 @@ export default function PostCard({
                   // το canEditComment είναι true αν ο χρήστης είναι ο δημιουργός του σχολίου
                   const canEditComment = comment.userId === session.user.id;
                   // το showPopper είναι true αν δεν επεξεργάζεται κάποιο σχόλιο και ο χρήστης μπορεί να διαγράψει ή να επεξεργαστεί το σχόλιο
-                  const showPopper = !isEditing && (canDeleteComment || canEditComment);
+                  const showPopper = !isEditingComment && (canDeleteComment || canEditComment);
 
                   return (
-                    <li className={`group flex${isEditing === comment.id ? ' w-full' : ''}`} key={comment.id}>
+                    <li className={`group flex${isEditingComment === comment.id ? ' w-full' : ''}`} key={comment.id}>
                       <Avatar className="mr-2" size="small">
                         {commentUser.name}
                       </Avatar>
-                      {isEditing === comment.id ? (
+                      {isEditingComment === comment.id ? (
                         <div className="flex w-full flex-col">
                           <CommentForm
                             initialValue={comment.body}
@@ -144,7 +144,7 @@ export default function PostCard({
                               {canEditComment ? (
                                 <a
                                   className="block cursor-pointer px-3 py-1.5 text-sm font-medium text-gray-500 hover:bg-gray-100"
-                                  onClick={() => setIsEditing(comment.id)}
+                                  onClick={() => setIsEditingComment(comment.id)}
                                 >
                                   Edit
                                 </a>
@@ -152,7 +152,7 @@ export default function PostCard({
                               {canDeleteComment ? (
                                 <a
                                   className="block cursor-pointer px-3 py-1.5 text-sm font-medium text-gray-500 hover:bg-gray-100"
-                                  onClick={() => setIsDeleting(comment.id)}
+                                  onClick={() => setIsDeletingComment(comment.id)}
                                 >
                                   Delete
                                 </a>
@@ -182,7 +182,11 @@ export default function PostCard({
         ) : null}
       </div>
 
-      <Dialog className="w-full max-w-xl" onClose={() => setIsDeleting(false)} open={isDeleting !== false}>
+      <Dialog
+        className="w-full max-w-xl"
+        onClose={() => setIsDeletingComment(false)}
+        open={isDeletingComment !== false}
+      >
         <h3 className="border-b border-b-gray-400 border-opacity-50 p-6 font-semibold">Delete Comment?</h3>
         <div className="p-6">
           <p className="text-sm text-gray-500">Are you sure you want to delete this comment?</p>
@@ -190,7 +194,7 @@ export default function PostCard({
         <div className="flex justify-end p-6">
           <button
             className="min-w-[6rem] select-none rounded bg-transparent px-4 py-2 text-sm font-medium text-blue-500 hover:bg-gray-100"
-            onClick={() => setIsDeleting(false)}
+            onClick={() => setIsDeletingComment(false)}
           >
             No
           </button>
@@ -198,9 +202,9 @@ export default function PostCard({
             className="ml-2 min-w-[6rem] select-none rounded bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600"
             onClick={() => {
               // καλούμε την onDeleteComment με το id του σχολίου που θα διαγραφεί
-              onDeleteComment(isDeleting);
-              // κάνουμε reset το isDeleting για να κλείσει το modal
-              setIsDeleting(false);
+              onDeleteComment(isDeletingComment);
+              // κάνουμε reset το isDeletingComment για να κλείσει το modal
+              setIsDeletingComment(false);
             }}
           >
             Delete
