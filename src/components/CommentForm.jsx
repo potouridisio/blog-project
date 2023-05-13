@@ -18,22 +18,36 @@ export default function CommentForm({ initialValue, onSubmit }) {
     setValue('');
   };
 
+  // το isEditing είναι true αν υπάρχει initialValue που σημαίνει ότι ο χρήστης επεξεργάζεται ένα σχόλιο
+  const isEditing = initialValue !== undefined;
+
   return (
-    <form className="w-full rounded-lg bg-gray-100 py-0.5" onSubmit={handleSubmit}>
-      <input
-        autoComplete="off"
-        autoFocus
-        className="w-full bg-transparent px-3 py-1.5 text-sm text-inherit placeholder-gray-500 focus:outline-none"
-        name="comment"
-        onChange={(event) => setValue(event.target.value)}
-        placeholder="Write a comment..."
-        value={value}
-      />
-      <div className="flex items-center justify-end px-3 pb-2">
-        <button className="-mb-1.5 -mr-2 rounded-full p-1.5 hover:bg-gray-200" type="submit">
-          <AiOutlineSend className="fill-gray-500" size={20} />
-        </button>
-      </div>
-    </form>
+    <div className="flex w-full flex-col">
+      <form className="w-full rounded-lg bg-gray-100 py-0.5" onSubmit={handleSubmit}>
+        <input
+          autoComplete="off"
+          autoFocus
+          className="w-full bg-transparent px-3 py-1.5 text-sm text-inherit placeholder-gray-500 focus:outline-none"
+          name="comment"
+          onChange={(event) => setValue(event.target.value)}
+          placeholder="Write a comment..."
+          value={value}
+        />
+        <div className="flex items-center justify-end px-3 pb-2">
+          <button className="-mb-1.5 -mr-2 rounded-full p-1.5 hover:bg-gray-200" type="submit">
+            <AiOutlineSend className="fill-gray-500" size={20} />
+          </button>
+        </div>
+      </form>
+      {isEditing ? (
+        <p className="mr-2 mt-0.5 text-xs text-gray-500">
+          Press Esc to{' '}
+          <a className="text-blue-500 hover:underline" href="#">
+            cancel
+          </a>
+          .
+        </p>
+      ) : null}
+    </div>
   );
 }
