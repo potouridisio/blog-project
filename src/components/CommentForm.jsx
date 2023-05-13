@@ -7,7 +7,7 @@ import { AiOutlineSend } from 'react-icons/ai';
 // onSubmit: η συνάρτηση που καλείται με το σχόλιο όταν γίνεται submit της φόρμας
 export default function CommentForm({ initialValue, onSubmit }) {
   // το value είναι το περιεχόμενο του input
-  const [value, setValue] = useState(initialValue);
+  const [value, setValue] = useState(initialValue ?? '');
 
   // η handleSubmit καλείται όταν γίνεται submit της φόρμας
   const handleSubmit = (event) => {
