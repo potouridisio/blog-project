@@ -14,6 +14,7 @@ import Popper from './Popper';
 // likes: τα likes του post
 // onComment: η συνάρτηση που καλείται με το σχόλιο όταν γίνεται submit της φόρμας
 // onDeleteComment: η συνάρτηση που καλείται όταν διαγράφεται ένα σχόλιο
+// onEditComment: η συνάρτηση που καλείται με το νέο σχόλιο όταν γίνεται edit ενός σχολίου
 // onLike: η συνάρτηση που καλείται όταν γίνεται like στο post
 // title: ο τίτλος του post
 // userId: το id του χρήστη που έκανε το post
@@ -25,6 +26,7 @@ export default function PostCard({
   likes,
   onComment,
   onDeleteComment,
+  // onEditComment
   onLike,
   title,
   userId,
@@ -36,6 +38,8 @@ export default function PostCard({
   const [expandedBody, setExpandedBody] = useState(false);
   // το expandedComments είναι true αν έχει γίνει κλικ στο "x comments"
   const [expandedComments, setExpandedComments] = useState(false);
+  // το isEditing είναι το id του σχολίου που επεξεργάζεται ο χρήστης ή false αν δεν επεξεργάζεται κάποιο σχόλιο
+  const [isEditing, setIsEditing] = useState(false);
 
   const handleDelete = (commentId) => {
     onDeleteComment(commentId);
@@ -104,22 +108,40 @@ export default function PostCard({
                   comment.userId === session.user.id || userId === session.user.id || session.user.type === 'admin';
 
                 return (
-                  <li className="group flex" key={comment.id}>
+                  <li className={`group flex${isEditing === comment.id ? ' w-full' : ''}`} key={comment.id}>
                     <Avatar className="mr-2" size="small">
                       {commentUser.name}
                     </Avatar>
-                    <div className="flex flex-col items-end">
-                      <div className="rounded-lg bg-gray-100 px-3 py-1.5">
-                        {commentUser ? <p className="text-sm font-semibold">{commentUser.name}</p> : null}
-                        <p className="text-sm text-gray-500">{comment.body}</p>
+                    {isEditing === comment.id ? (
+                      <div className="flex w-full flex-col">
+                        <CommentForm
+                          initialValue={comment.body}
+                          onSubmit={(newComment) => {
+                            // καλούμε την onEditComment με το id του σχολίου και το νέο σχόλιο
+                            console.log({ newComment });
+                          }}
+                        />
                       </div>
-                      <p className="mr-2 mt-0.5 text-xs text-gray-500">{timeAgo(new Date(comment.createdAt))}</p>
-                    </div>
-                    {canDeleteComment ? (
+                    ) : (
+                      <div className="flex flex-col items-end">
+                        <div className="rounded-lg bg-gray-100 px-3 py-1.5">
+                          {commentUser ? <p className="text-sm font-semibold">{commentUser.name}</p> : null}
+                          <p className="text-sm text-gray-500">{comment.body}</p>
+                        </div>
+                        <p className="mr-2 mt-0.5 text-xs text-gray-500">{timeAgo(new Date(comment.createdAt))}</p>
+                      </div>
+                    )}
+                    {canDeleteComment && !isEditing ? (
                       <Popper
                         className="-mt-[1.125rem] ml-0.5 self-center"
                         content={
                           <div className="py-1.5">
+                            <a
+                              className="block cursor-pointer px-3 py-1.5 text-sm font-medium text-gray-500 hover:bg-gray-100"
+                              onClick={() => setIsEditing(comment.id)}
+                            >
+                              Edit
+                            </a>
                             <a
                               className="block cursor-pointer px-3 py-1.5 text-sm font-medium text-gray-500 hover:bg-gray-100"
                               onClick={() => handleDelete(comment.id)}
