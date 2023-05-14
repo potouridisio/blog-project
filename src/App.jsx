@@ -6,6 +6,7 @@ import { useAuth } from './lib/auth';
 import { usePosts, useUsers } from './lib/hooks';
 
 function App() {
+  // το session είναι το session του χρήστη που έχει κάνει login
   const session = useAuth();
   // η usePosts() επιστρέφει ένα αντικείμενο με τις τιμές των isLoading και posts
   const { isLoading: isLoadingPosts, posts: initialPosts } = usePosts();

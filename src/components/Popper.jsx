@@ -11,13 +11,16 @@ export default function Popper({ children, className, trigger }) {
 
   useEffect(() => {
     const handleMouseDown = (event) => {
+      // αν δεν έχει γίνει κλικ στο trigger ή στο popper τότε κλείνουμε το popper
       if (popperRef.current && !popperRef.current.contains(event.target)) {
         setShow(false);
       }
     };
 
+    // προσθέτουμε το event listener στο document
     document.addEventListener('mousedown', handleMouseDown);
 
+    // καθαρίζουμε το event listener όταν το component καταστραφεί
     return () => {
       document.removeEventListener('mousedown', handleMouseDown);
     };
