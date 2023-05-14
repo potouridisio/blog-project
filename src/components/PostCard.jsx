@@ -59,15 +59,23 @@ export default function PostCard({
   // βρίσκουμε τον χρήστη που έκανε το post
   const postUser = users.find((user) => user.id === userId);
 
+  // το canDeletePost είναι true αν ο χρήστης είναι ο δημιουργός του post ή είναι admin
+  const canDeletePost = userId === session.user.id || session.user.role === 'admin';
+
   return (
     <>
       <div className="rounded-lg bg-white p-6 shadow">
         <div className="mb-6 flex items-center">
           <Avatar className="mr-2">{postUser.name}</Avatar>
-          <div>
+          <div className="grow">
             <p className="text-sm font-semibold">{postUser.name}</p>
             <p className="text-xs text-gray-500">{timeAgo(new Date(createdAt))}</p>
           </div>
+          {canDeletePost ? (
+            <button className="rounded-full p-1.5 hover:bg-gray-100">
+              <AiOutlineMore className="rotate-90 fill-gray-500" size={24} />
+            </button>
+          ) : null}
         </div>
         <h2 className="mb-2 text-lg font-semibold">{title}</h2>
         <p className="text-sm text-gray-500">
