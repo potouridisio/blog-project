@@ -111,11 +111,13 @@ function App() {
         <div className="h-16" />
         <div className="space-y-6 py-6">
           {posts
+            // ταξινομούμε τα posts με βάση το createdAt για να βλέπουμε πρώτα τα πιο πρόσφατα
             .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
             .map(({ id, ...post }, index) => (
               <PostCard
                 key={id}
                 onComment={(comment) => handleComment(comment, index)}
+                onDelete={() => setPosts(posts.filter((post) => post.id !== id))}
                 onDeleteComment={(commentId) => handleDeleteComment(commentId, index)}
                 onLike={() => handleLike(index)}
                 session={session}

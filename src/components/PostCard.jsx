@@ -14,6 +14,7 @@ import Popper from './Popper';
 // comments: τα σχόλια του post
 // likes: τα likes του post
 // onComment: η συνάρτηση που καλείται με το σχόλιο όταν γίνεται submit της φόρμας
+// onDelete: η συνάρτηση που καλείται όταν διαγράφεται το post
 // onDeleteComment: η συνάρτηση που καλείται όταν διαγράφεται ένα σχόλιο
 // onEditComment: η συνάρτηση που καλείται με το νέο σχόλιο όταν γίνεται edit ενός σχολίου
 // onLike: η συνάρτηση που καλείται όταν γίνεται like στο post
@@ -26,6 +27,7 @@ export default function PostCard({
   createdAt,
   likes,
   onComment,
+  onDelete,
   onDeleteComment,
   // onEditComment
   onLike,
@@ -43,6 +45,8 @@ export default function PostCard({
   const [isEditingComment, setIsEditingComment] = useState(false);
   // το isDeletingComment είναι το id του σχολίου που θα διαγραφεί ή false αν δεν θα διαγραφεί κάποιο σχόλιο
   const [isDeletingComment, setIsDeletingComment] = useState(false);
+  // // το isDeletingPost είναι true αν έχει γίνει κλικ στο "Delete Post"
+  const [isDeletingPost, setIsDeletingPost] = useState(false);
 
   // // η handleXComments καλείται όταν γίνεται κλικ στο "x comments"
   const handleXComments = (event) => {
@@ -72,9 +76,22 @@ export default function PostCard({
             <p className="text-xs text-gray-500">{timeAgo(new Date(createdAt))}</p>
           </div>
           {canDeletePost ? (
-            <button className="rounded-full p-1.5 hover:bg-gray-100">
-              <AiOutlineMore className="rotate-90 fill-gray-500" size={24} />
-            </button>
+            <Popper
+              trigger={
+                <button className="rounded-full p-1.5 hover:bg-gray-100">
+                  <AiOutlineMore className="rotate-90 fill-gray-500" size={24} />
+                </button>
+              }
+            >
+              <div className="p-2">
+                <a
+                  className="block cursor-pointer rounded px-3 py-1.5 text-sm font-medium hover:bg-gray-100"
+                  onClick={() => setIsDeletingPost(true)}
+                >
+                  Delete
+                </a>
+              </div>
+            </Popper>
           ) : null}
         </div>
         <h2 className="mb-2 text-lg font-semibold">{title}</h2>
@@ -187,6 +204,32 @@ export default function PostCard({
           </>
         ) : null}
       </div>
+
+      <Dialog className="w-full max-w-xl" onClose={() => setIsDeletingPost(false)} open={isDeletingPost}>
+        <h3 className="border-b border-b-gray-400 border-opacity-50 p-6 font-semibold">Delete Post?</h3>
+        <div className="p-6">
+          <p className="text-sm text-gray-500">Are you sure you want to delete this post?</p>
+        </div>
+        <div className="flex justify-end p-6">
+          <button
+            className="min-w-[6rem] select-none rounded bg-transparent px-4 py-2 text-sm font-medium text-blue-500 hover:bg-gray-100"
+            onClick={() => setIsDeletingPost(false)}
+          >
+            No
+          </button>
+          <button
+            className="ml-2 min-w-[6rem] select-none rounded bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600"
+            onClick={() => {
+              // καλούμε την onDelete χωρίς παραμέτρους γιατί δεν χρειάζεται να ξέρουμε το id του post που θα διαγραφεί αφού έχουμε το post στο map του App
+              onDelete();
+              // κάνουμε reset το isDeletingComment για να κλείσει το modal
+              setIsDeletingPost(false);
+            }}
+          >
+            Delete
+          </button>
+        </div>
+      </Dialog>
 
       <Dialog
         className="w-full max-w-xl"
