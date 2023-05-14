@@ -139,33 +139,33 @@ export default function PostCard({
                       {showPopper ? (
                         <Popper
                           className="-mt-[1.125rem] ml-0.5 self-center"
-                          content={
-                            <div className="py-1.5">
-                              {canEditComment ? (
-                                <a
-                                  className="block cursor-pointer px-3 py-1.5 text-sm font-medium text-gray-500 hover:bg-gray-100"
-                                  onClick={() => setIsEditingComment(comment.id)}
-                                >
-                                  Edit
-                                </a>
-                              ) : null}
-                              {canDeleteComment ? (
-                                <a
-                                  className="block cursor-pointer px-3 py-1.5 text-sm font-medium text-gray-500 hover:bg-gray-100"
-                                  onClick={() => setIsDeletingComment(comment.id)}
-                                >
-                                  Delete
-                                </a>
-                              ) : null}
-                            </div>
+                          trigger={
+                            <button
+                              className="rounded-full p-1.5 opacity-0 hover:bg-gray-100 group-hover:opacity-100"
+                              tabIndex={-1}
+                            >
+                              <AiOutlineMore className="rotate-90 fill-gray-500" size={20} />
+                            </button>
                           }
                         >
-                          <button
-                            className="rounded-full p-1.5 opacity-0 hover:bg-gray-100 group-hover:opacity-100"
-                            tabIndex={-1}
-                          >
-                            <AiOutlineMore className="rotate-90 fill-gray-500" size={20} />
-                          </button>
+                          <div className="py-1.5">
+                            {canEditComment ? (
+                              <a
+                                className="block cursor-pointer px-3 py-1.5 text-sm font-medium text-gray-500 hover:bg-gray-100"
+                                onClick={() => setIsEditingComment(comment.id)}
+                              >
+                                Edit
+                              </a>
+                            ) : null}
+                            {canDeleteComment ? (
+                              <a
+                                className="block cursor-pointer px-3 py-1.5 text-sm font-medium text-gray-500 hover:bg-gray-100"
+                                onClick={() => setIsDeletingComment(comment.id)}
+                              >
+                                Delete
+                              </a>
+                            ) : null}
+                          </div>
                         </Popper>
                       ) : null}
                     </li>

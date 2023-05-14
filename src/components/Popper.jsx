@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useRef, useState } from 'react';
+import { cloneElement, useEffect, useRef, useState } from 'react';
 
 // η Popper δέχεται τα παρακάτω props:
 // children: τα παιδιά του component
 // className: το className του component
-// content: το περιεχόμενο του popper
-export default function Popper({ children, className, content }) {
+// trigger: το component που θα χρησιμοποιηθεί ως trigger
+export default function Popper({ children, className, trigger }) {
   const popperRef = useRef(null);
   const [show, setShow] = useState(false);
 
@@ -25,20 +25,14 @@ export default function Popper({ children, className, content }) {
 
   return (
     <div className={`relative${className ? ` ${className}` : ''}`} ref={popperRef}>
-      <div
-        onClick={() => {
-          setShow(!show);
-        }}
-      >
-        {children}
-      </div>
+      {cloneElement(trigger, { onClick: () => setShow(!show) })}
       {show ? (
         <div
           className={`absolute left-1/2 z-10 mt-2${
             show ? '' : ' hidden'
           } w-32 -translate-x-1/2 transform rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5`}
         >
-          {content}
+          {children}
         </div>
       ) : null}
     </div>
