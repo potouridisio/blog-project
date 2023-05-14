@@ -1,10 +1,23 @@
-// η getInitials επιστρέφει τα αρχικά του ονόματος
+/**
+ * Returns the initials of a name.
+ *
+ * @param {string} name - The name to get the initials from.
+ *
+ * @returns {string} The initials of the name.
+ */
 export function getInitials(name) {
   const [firstName, lastName] = name.split(' ');
+
   return `${firstName[0]}${lastName[0]}`;
 }
 
-// η getInitialsColor επιστρέφει ένα χρώμα από μια λίστα χρωμάτων με βάση τα αρχικά
+/**
+ * Returns a color from a list of colors based on the initials.
+ *
+ * @param {string} initials - The initials to get the color for.
+ *
+ * @returns {string} A color from the list based on the initials.
+ */
 export function getInitialsColor(initials) {
   const colors = [
     '#f44336',
@@ -31,23 +44,41 @@ export function getInitialsColor(initials) {
     .split('')
     .map((char) => char.charCodeAt(0))
     .reduce((sum, charCode) => sum + charCode, 0);
+
   return colors[charCodeSum % colors.length];
 }
 
-// η truncate κόβει το string στα 240 χαρακτήρες και προσθέτει τρεις τελείες
+/**
+ * Truncates a string to 240 characters and adds ellipsis.
+ *
+ * @param {string} str - The string to truncate.
+ *
+ * @returns {string} The truncated string with ellipsis.
+ */
 export function truncate(str) {
   if (str.length > 240) {
     return str.slice(0, 240).split(' ').slice(0, -1).join(' ') + '...';
   }
+
   return str;
 }
 
-// η getRandomNumber επιστρέφει έναν τυχαίο αριθμό μεταξύ 1000 και 6000
+/**
+ * Returns a random number between 1000 and 6000.
+ *
+ * @returns {number} A random number between 1000 and 6000.
+ */
 export function getRandomNumber() {
   return Math.floor(Math.random() * 5000) + 1000;
 }
 
-// η timeAgo επιστρέφει τον χρόνο που έχει περάσει από μια συγκεκριμένη ημερομηνία
+/**
+ * Returns the time elapsed since a given date.
+ *
+ * @param {Date} date - The date to calculate the time since.
+ *
+ * @returns {string} The time elapsed since the date.
+ */
 export function timeAgo(date) {
   const seconds = Math.floor((new Date() - date) / 1000);
   const minutes = Math.floor(seconds / 60);

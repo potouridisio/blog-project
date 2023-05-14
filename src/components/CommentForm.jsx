@@ -2,9 +2,17 @@
 import { useState } from 'react';
 import { AiOutlineSend } from 'react-icons/ai';
 
-// η CommentForm δέχεται το παρακάτω prop:
-// initialValue: το αρχικό περιεχόμενο του input
-// onSubmit: η συνάρτηση που καλείται με το σχόλιο όταν γίνεται submit της φόρμας
+/**
+ * A form for submitting comments.
+ *
+ * @typedef {object} Props
+ * @property {string} initialValue - The initial value of the input.
+ * @property {(comment: string) => void} onSubmit - The function that will be called with the comment when the form is submitted.
+ *
+ * @param {Props} props - The props object.
+ *
+ * @returns {JSX.Element} - The rendered CommentForm component.
+ */
 export default function CommentForm({ initialValue, onSubmit }) {
   // το value είναι το περιεχόμενο του input
   const [value, setValue] = useState(initialValue ?? '');

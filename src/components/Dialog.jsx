@@ -2,11 +2,19 @@
 
 import Portal from './Portal';
 
-// το Dialog δέχεται τα παρακάτω props:
-// children: τα παιδιά του component
-// className: το className του component
-// open: true αν είναι ανοιχτό το modal διαφορετικά false
-// onClose: η συνάρτηση που καλείται όταν κλείνει το modal
+/**
+ * A modal dialog component.
+ *
+ * @typedef {object} Props
+ * @property {React.ReactNode} children - The content to display inside the dialog.
+ * @property {string} className - The className of the dialog.
+ * @property {boolean} open - True if the dialog is open, otherwise false.
+ * @property {() => void} onClose - The function called when the dialog is closed.
+ *
+ * @param {Props} props - The props object.
+ *
+ * @returns {JSX.Element} - The rendered Dialog component.
+ */
 export default function Dialog({ children, className, open, onClose }) {
   // αν το open είναι false επιστρέφουμε null
   if (!open) {

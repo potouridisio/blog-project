@@ -1,11 +1,19 @@
 /* eslint-disable react/prop-types */
 import { getInitials, getInitialsColor } from '../lib/utils';
 
-// το Avatar δέχεται τα παρακάτω props:
-// children: το όνομα του χρήστη
-// className: το className του component
-// component: το component που θα χρησιμοποιηθεί
-// size: το μέγεθος του component
+/**
+ * A component that displays a user avatar.
+ *
+ * @typedef {object} Props
+ * @property {React.ReactNode} children - The name of the user.
+ * @property {string} className - The className of the component.
+ * @property {React.ElementType} [component='div'] - The component that will be used to wrap the avatar.
+ * @property {string} [size='small'] - The size of the avatar.
+ *
+ * @param {Props} props - The props object.
+ *
+ * @returns {JSX.Element} - The rendered Avatar component.
+ */
 export default function Avatar({ children, className, component: Component = 'div', size }) {
   if (typeof children !== 'string') {
     throw new Error('children must be a string!');

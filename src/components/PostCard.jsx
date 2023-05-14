@@ -9,18 +9,33 @@ import CommentForm from './CommentForm';
 import Dialog from './Dialog';
 import Popper from './Popper';
 
-// η PostCard δέχεται τα παρακάτω props:
-// body: το κείμενο του post
-// comments: τα σχόλια του post
-// likes: τα likes του post
-// onComment: η συνάρτηση που καλείται με το σχόλιο όταν γίνεται submit της φόρμας
-// onDelete: η συνάρτηση που καλείται όταν διαγράφεται το post
-// onDeleteComment: η συνάρτηση που καλείται όταν διαγράφεται ένα σχόλιο
-// onEditComment: η συνάρτηση που καλείται με το νέο σχόλιο όταν γίνεται edit ενός σχολίου
-// onLike: η συνάρτηση που καλείται όταν γίνεται like στο post
-// title: ο τίτλος του post
-// userId: το id του χρήστη που έκανε το post
-// users: οι χρήστες της εφαρμογής
+/**
+ * A component that displays a post with its body, comments, likes, title and user information.
+ *
+ * @typedef {object} Props
+ * @property {string} body - The body text of the post.
+ * @property {object[]} comments - An array of comments associated with the post.
+ * @property {string} comments[].id - The ID of the comment.
+ * @property {string} comments[].text - The text of the comment.
+ * @property {string} comments[].createdAt - The creation date of the comment.
+ * @property {string} comments[].updatedAt - The last update date of the comment.
+ * @property {string} createdAt - The creation date of the post.
+ * @property {number} likes - The number of likes the post has received.
+ * @property {(comment: string) => void} onComment - A function that is called when the comment form is submitted.
+ * @property {() => void} onDelete - A function that is called when the post is deleted.
+ * @property {(commentId: string) => void} onDeleteComment - A function that is called when a comment is deleted.
+ * @property {(commentId: string, newText: string) => void} onEditComment - A function that is called when a comment is edited.
+ * @property {() => void} onLike - A function that is called when the like button is clicked.
+ * @property {string} title - The title of the post.
+ * @property {string} userId - The ID of the user who made the post.
+ * @property {object[]} users - An array of users in the application.
+ * @property {string} users[].id - The ID of the user.
+ * @property {string} users[].name - The name of the user.
+ *
+ * @param {Props} props - The props object.
+ *
+ * @returns {JSX.Element} - The rendered PostCard component.
+ */
 export default function PostCard({
   body,
   comments,
