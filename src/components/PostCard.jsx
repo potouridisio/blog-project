@@ -117,8 +117,6 @@ export default function PostCard({
                     comment.userId === session.user.id || userId === session.user.id || session.user.role === 'admin';
                   // το canEditComment είναι true αν ο χρήστης είναι ο δημιουργός του σχολίου
                   const canEditComment = comment.userId === session.user.id;
-                  // το showPopper είναι true αν δεν επεξεργάζεται κάποιο σχόλιο και ο χρήστης μπορεί να διαγράψει ή να επεξεργαστεί το σχόλιο
-                  const showPopper = !isEditingComment && (canDeleteComment || canEditComment);
 
                   return (
                     <li className={`group flex${isEditingComment === comment.id ? ' w-full' : ''}`} key={comment.id}>
@@ -144,7 +142,7 @@ export default function PostCard({
                           <p className="mr-2 mt-0.5 text-xs text-gray-500">{timeAgo(new Date(comment.createdAt))}</p>
                         </div>
                       )}
-                      {showPopper ? (
+                      {!isEditingComment && (canDeleteComment || canEditComment) ? (
                         <Popper
                           className="-mt-[1.125rem] ml-0.5 self-center"
                           trigger={
