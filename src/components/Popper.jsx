@@ -33,7 +33,7 @@ export default function Popper({ children, className, trigger }) {
         <div
           className={`absolute left-1/2 z-10 mt-2${
             show ? '' : ' hidden'
-          } w-32 -translate-x-1/2 transform rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5`}
+          } min-w-max -translate-x-1/2 transform rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5`}
         >
           {children}
         </div>
