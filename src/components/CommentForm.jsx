@@ -23,18 +23,18 @@ export default function CommentForm({ initialValue, onSubmit }) {
 
   return (
     <div className="flex w-full flex-col">
-      <form className="w-full rounded-lg bg-gray-100 py-0.5" onSubmit={handleSubmit}>
+      <form className="w-full rounded-lg bg-gray-100" onSubmit={handleSubmit}>
         <input
           autoComplete="off"
           autoFocus
-          className="w-full bg-transparent px-3 py-1.5 text-sm text-inherit placeholder-gray-500 focus:outline-none"
+          className="w-full bg-transparent p-2 text-sm text-inherit placeholder-gray-500 focus:outline-none"
           name="comment"
           onChange={(event) => setValue(event.target.value)}
           placeholder="Write a comment..."
           value={value}
         />
-        <div className="flex items-center justify-end px-3 pb-2">
-          <button className="-mb-1 -mr-1.5 rounded-full p-1.5 hover:bg-gray-200" type="submit">
+        <div className="flex items-center justify-end p-2 pt-0">
+          <button className="-mb-1 -mr-1 rounded-full p-1.5 hover:bg-gray-200" type="submit">
             <AiOutlineSend className="fill-gray-500" size={20} />
           </button>
         </div>

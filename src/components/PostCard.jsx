@@ -129,7 +129,7 @@ export default function PostCard({
                         </div>
                       ) : (
                         <div className="flex flex-col items-end">
-                          <div className="rounded-lg bg-gray-100 px-3 py-1.5">
+                          <div className="rounded-lg bg-gray-100 p-2">
                             {commentUser ? <p className="text-sm font-semibold">{commentUser.name}</p> : null}
                             <p className="text-sm text-gray-500">{comment.body}</p>
                           </div>
