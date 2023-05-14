@@ -156,10 +156,10 @@ export default function PostCard({
                             </button>
                           }
                         >
-                          <div className="py-1.5">
+                          <div className="p-2">
                             {canEditComment ? (
                               <a
-                                className="block cursor-pointer px-3 py-1.5 text-sm font-medium hover:bg-gray-100"
+                                className="block cursor-pointer rounded px-3 py-1.5 text-sm font-medium hover:bg-gray-100"
                                 onClick={() => setIsEditingComment(comment.id)}
                               >
                                 Edit
@@ -167,7 +167,7 @@ export default function PostCard({
                             ) : null}
                             {canDeleteComment ? (
                               <a
-                                className="block cursor-pointer px-3 py-1.5 text-sm font-medium hover:bg-gray-100"
+                                className="block cursor-pointer rounded px-3 py-1.5 text-sm font-medium hover:bg-gray-100"
                                 onClick={() => setIsDeletingComment(comment.id)}
                               >
                                 Delete
