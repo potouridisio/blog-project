@@ -12,6 +12,11 @@ import { cloneElement, useEffect, useRef, useState } from 'react';
  * @param {Props} props - The props object.
  *
  * @returns {JSX.Element} - The rendered Popper component.
+ *
+ * @example
+ * <Popper trigger={<Button>Click me!</Button>}>
+ *    <div className="p-2">Hello world!</div>
+ * </Popper>
  */
 export default function Popper({ children, className, trigger }) {
   const popperRef = useRef(null);

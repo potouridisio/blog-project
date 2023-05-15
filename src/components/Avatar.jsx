@@ -13,6 +13,10 @@ import { getInitials, getInitialsColor } from '../lib/utils';
  * @param {Props} props - The props object.
  *
  * @returns {JSX.Element} - The rendered Avatar component.
+ *
+ * @example
+ * <Avatar>John Doe</Avatar>
+ * <Avatar size="large">John Doe</Avatar>
  */
 export default function Avatar({ children, className, component: Component = 'div', size }) {
   if (typeof children !== 'string') {
