@@ -5,6 +5,7 @@ import { AiFillHeart, AiOutlineHeart, AiOutlineMore } from 'react-icons/ai';
 import { useAuth } from '../lib/auth';
 import { timeAgo, truncate } from '../lib/utils';
 import Avatar from './Avatar';
+import Button from './Button';
 import CommentForm from './CommentForm';
 import Dialog from './Dialog';
 import Popper from './Popper';
@@ -227,25 +228,19 @@ export default function PostCard({
           <p className="text-sm text-gray-500">Are you sure you want to delete this post?</p>
         </div>
         <div className="flex justify-end p-6">
-          <button
-            className="min-w-[6rem] select-none rounded bg-transparent px-4 py-2 text-sm font-medium text-blue-500 hover:bg-gray-100"
-            onClick={() => setIsDeletingPost(false)}
-            type="button"
-          >
-            No
-          </button>
-          <button
-            className="ml-2 min-w-[6rem] select-none rounded bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600"
+          <Button onClick={() => setIsDeletingPost(false)}>No</Button>
+          <Button
+            className="ml-2"
             onClick={() => {
               // καλούμε την onDelete χωρίς παραμέτρους γιατί δεν χρειάζεται να ξέρουμε το id του post που θα διαγραφεί αφού έχουμε το post στο map του App
               onDelete();
               // κάνουμε reset το isDeletingComment για να κλείσει το modal
               setIsDeletingPost(false);
             }}
-            type="button"
+            variant="contained"
           >
             Delete
-          </button>
+          </Button>
         </div>
       </Dialog>
 
@@ -259,25 +254,19 @@ export default function PostCard({
           <p className="text-sm text-gray-500">Are you sure you want to delete this comment?</p>
         </div>
         <div className="flex justify-end p-6">
-          <button
-            className="min-w-[6rem] select-none rounded bg-transparent px-4 py-2 text-sm font-medium text-blue-500 hover:bg-gray-100"
-            onClick={() => setIsDeletingComment(false)}
-            type="button"
-          >
-            No
-          </button>
-          <button
-            className="ml-2 min-w-[6rem] select-none rounded bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600"
+          <Button onClick={() => setIsDeletingComment(false)}>No</Button>
+          <Button
+            className="ml-2"
             onClick={() => {
               // καλούμε την onDeleteComment με το id του σχολίου που θα διαγραφεί
               onDeleteComment(isDeletingComment);
               // κάνουμε reset το isDeletingComment για να κλείσει το modal
               setIsDeletingComment(false);
             }}
-            type="button"
+            variant="contained"
           >
             Delete
-          </button>
+          </Button>
         </div>
       </Dialog>
     </>
