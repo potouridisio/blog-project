@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AiOutlineSend } from 'react-icons/ai';
 
 /**
@@ -16,6 +16,7 @@ import { AiOutlineSend } from 'react-icons/ai';
 export default function CommentForm({ initialValue, onSubmit }) {
   // το value είναι το περιεχόμενο του input
   const [value, setValue] = useState(initialValue ?? '');
+  const [isEditing, setIsEditing] = useState(false);
 
   // η handleSubmit καλείται όταν γίνεται submit της φόρμας
   const handleSubmit = (event) => {
@@ -26,8 +27,22 @@ export default function CommentForm({ initialValue, onSubmit }) {
     setValue('');
   };
 
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setIsEditing(false);
+        setValue(initialValue);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [initialValue]);
   // το isEditing είναι true αν υπάρχει initialValue που σημαίνει ότι ο χρήστης επεξεργάζεται ένα σχόλιο
-  const isEditing = initialValue !== undefined;
+  // const isEditing = initialValue !== undefined;
 
   return (
     <div className="flex w-full flex-col">
@@ -38,6 +53,8 @@ export default function CommentForm({ initialValue, onSubmit }) {
           className="w-full bg-transparent p-2 text-sm text-inherit placeholder-gray-500 focus:outline-none"
           name="comment"
           onChange={(event) => setValue(event.target.value)}
+          onFocus={() => setIsEditing(true)}
+          onBlur={() => setIsEditing(false)}
           placeholder="Write a comment..."
           value={value}
         />
@@ -49,11 +66,14 @@ export default function CommentForm({ initialValue, onSubmit }) {
       </form>
       {isEditing ? (
         <p className="mr-2 mt-0.5 text-xs text-gray-500">
-          Press Esc to{' '}
-          <a className="text-blue-500 hover:underline" href="#">
-            cancel
-          </a>
-          .
+          {isEditing && (
+            <>
+              Press Esc to{' '}
+              <a className="text-blue-500 hover:underline" href="#">
+                cancel
+              </a>
+            </>
+          )}
         </p>
       ) : null}
     </div>
