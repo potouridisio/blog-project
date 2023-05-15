@@ -30,7 +30,7 @@ export default function CommentForm({ initialValue, onSubmit }) {
   const isEditing = initialValue !== undefined;
 
   return (
-    <div className="flex w-full flex-col">
+    <>
       <form className="w-full rounded-lg bg-gray-100" onSubmit={handleSubmit}>
         <input
           autoComplete="off"
@@ -56,6 +56,6 @@ export default function CommentForm({ initialValue, onSubmit }) {
           .
         </p>
       ) : null}
-    </div>
+    </>
   );
 }
