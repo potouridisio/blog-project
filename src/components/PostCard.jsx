@@ -175,7 +175,7 @@ export default function PostCard({
                           <p className="mr-2 mt-0.5 text-xs text-gray-500">{timeAgo(new Date(comment.createdAt))}</p>
                         </div>
                       )}
-                      {!isEditingComment && (canDeleteComment || canEditComment) ? (
+                      {isEditingComment !== comment.id && (canDeleteComment || canEditComment) ? (
                         <Popper
                           className="-mt-[1.125rem] ml-0.5 self-center"
                           trigger={
