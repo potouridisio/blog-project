@@ -10,6 +10,8 @@ import { createPortal } from 'react-dom';
  * @param {PortalProps} props - The props for the Portal component.
  *
  * @returns {React.ReactPortal} - The React portal that renders the children.
+ *
+ * @see https://reactjs.org/docs/portals.html
  */
 export default function Portal({ children, container = document.body }) {
   return createPortal(children, container);
