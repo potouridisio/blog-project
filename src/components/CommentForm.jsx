@@ -13,9 +13,23 @@ import { AiOutlineSend } from 'react-icons/ai';
  *
  * @returns {JSX.Element} - The rendered CommentForm component.
  */
-export default function CommentForm({ initialValue, onSubmit }) {
+export default function CommentForm({ initialValue, onCancel, onSubmit }) {
+  // το isFocused είναι true αν το input έχει focus
+  const [isFocused, setIsFocused] = useState(false);
   // το value είναι το περιεχόμενο του input
   const [value, setValue] = useState(initialValue ?? '');
+
+  const handleCancel = (event) => {
+    event.preventDefault();
+
+    onCancel();
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.keyCode === 27) {
+      onCancel();
+    }
+  };
 
   // η handleSubmit καλείται όταν γίνεται submit της φόρμας
   const handleSubmit = (event) => {
@@ -37,7 +51,10 @@ export default function CommentForm({ initialValue, onSubmit }) {
           autoFocus
           className="w-full rounded-lg bg-gray-100 p-2 pb-11 pr-10 text-sm text-inherit placeholder-gray-500 focus:outline-none"
           name="comment"
+          onBlur={() => setIsFocused(false)}
           onChange={(event) => setValue(event.target.value)}
+          onFocus={() => setIsFocused(true)}
+          onKeyDown={handleKeyDown}
           placeholder="Write a comment..."
           value={value}
         />
@@ -45,14 +62,21 @@ export default function CommentForm({ initialValue, onSubmit }) {
           <AiOutlineSend className="fill-gray-500" size={20} />
         </button>
       </form>
+      {/* isEditing ? isFocused ? 'is true' : 'is false' */}
       {isEditing ? (
-        <p className="ml-2 mt-0.5 text-xs text-gray-500">
-          Press Esc to{' '}
-          <a className="text-blue-500 hover:underline" href="#">
-            cancel
+        isFocused ? (
+          <p className="ml-2 mt-0.5 text-xs text-gray-500">
+            Press Esc to{' '}
+            <a className="text-blue-500 hover:underline" href="#" onClick={handleCancel}>
+              cancel
+            </a>
+            .
+          </p>
+        ) : (
+          <a className="ml-2 mt-0.5 text-xs text-blue-500 hover:underline" href="#" onClick={handleCancel}>
+            Cancel
           </a>
-          .
-        </p>
+        )
       ) : null}
     </>
   );

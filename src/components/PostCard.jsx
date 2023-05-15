@@ -45,7 +45,7 @@ export default function PostCard({
   onComment,
   onDelete,
   onDeleteComment,
-  // onEditComment
+  onEditComment,
   onLike,
   title,
   userId,
@@ -160,9 +160,11 @@ export default function PostCard({
                         <div className="flex w-full flex-col items-start">
                           <CommentForm
                             initialValue={comment.body}
+                            onCancel={() => setIsEditingComment(false)}
                             onSubmit={(newComment) => {
                               // καλούμε την onEditComment με το id του σχολίου και το νέο σχόλιο
-                              console.log({ newComment });
+                              onEditComment(comment.id, newComment);
+                              setIsEditingComment(false);
                             }}
                           />
                         </div>

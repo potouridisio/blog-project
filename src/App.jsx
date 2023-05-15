@@ -67,6 +67,22 @@ function App() {
     setPosts(newPosts);
   };
 
+  const handleEditComment = (commentId, newComment, postIndex) => {
+    // αντιγράφουμε τον πίνακα posts
+    const newPosts = posts.slice().map((obj) => Object.assign({}, obj));
+
+    // βρίσκουμε το post στο οποίο έγινε το σχόλιο
+    const post = newPosts[postIndex];
+
+    post.comments.forEach((comment) => {
+      if (comment.id === commentId) {
+        comment.body = newComment;
+      }
+    });
+
+    setPosts(newPosts);
+  };
+
   // η handleLike() δέχεται το index του post που έγινε like
   const handleLike = (postIndex) => {
     // αντιγράφουμε τον πίνακα posts
@@ -119,6 +135,7 @@ function App() {
                 onComment={(comment) => handleComment(comment, index)}
                 onDelete={() => setPosts(posts.filter((post) => post.id !== id))}
                 onDeleteComment={(commentId) => handleDeleteComment(commentId, index)}
+                onEditComment={(commentId, comment) => handleEditComment(commentId, comment, index)}
                 onLike={() => handleLike(index)}
                 users={users}
                 {...post}
