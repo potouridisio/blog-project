@@ -93,7 +93,7 @@ export default function PostCard({
           {canDeletePost ? (
             <Popper
               trigger={
-                <button className="rounded-full p-1.5 hover:bg-gray-100">
+                <button className="rounded-full p-1.5 hover:bg-gray-100" type="button">
                   <AiOutlineMore className="rotate-90 fill-gray-500" size={24} />
                 </button>
               }
@@ -119,7 +119,7 @@ export default function PostCard({
           ) : null}
         </p>
         <div className="mt-6 flex items-center justify-between">
-          <button className="inline-flex select-none items-center text-sm text-gray-500" onClick={onLike}>
+          <button className="inline-flex select-none items-center text-sm text-gray-500" onClick={onLike} type="button">
             {likes.some((like) => like.userId === session.user.id) ? (
               <AiFillHeart className="shrink-0 fill-red-500" size={20} />
             ) : (
@@ -181,6 +181,7 @@ export default function PostCard({
                             <button
                               className="rounded-full p-1.5 opacity-0 hover:bg-gray-100 group-hover:opacity-100"
                               tabIndex={-1}
+                              type="button"
                             >
                               <AiOutlineMore className="rotate-90 fill-gray-500" size={20} />
                             </button>
@@ -229,6 +230,7 @@ export default function PostCard({
           <button
             className="min-w-[6rem] select-none rounded bg-transparent px-4 py-2 text-sm font-medium text-blue-500 hover:bg-gray-100"
             onClick={() => setIsDeletingPost(false)}
+            type="button"
           >
             No
           </button>
@@ -240,6 +242,7 @@ export default function PostCard({
               // κάνουμε reset το isDeletingComment για να κλείσει το modal
               setIsDeletingPost(false);
             }}
+            type="button"
           >
             Delete
           </button>
@@ -259,6 +262,7 @@ export default function PostCard({
           <button
             className="min-w-[6rem] select-none rounded bg-transparent px-4 py-2 text-sm font-medium text-blue-500 hover:bg-gray-100"
             onClick={() => setIsDeletingComment(false)}
+            type="button"
           >
             No
           </button>
@@ -270,6 +274,7 @@ export default function PostCard({
               // κάνουμε reset το isDeletingComment για να κλείσει το modal
               setIsDeletingComment(false);
             }}
+            type="button"
           >
             Delete
           </button>
