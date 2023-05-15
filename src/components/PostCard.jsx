@@ -31,6 +31,7 @@ import Popper from './Popper';
  * @property {object[]} users - An array of users in the application.
  * @property {string} users[].id - The ID of the user.
  * @property {string} users[].name - The name of the user.
+
  *
  * @param {Props} props - The props object.
  *
@@ -44,7 +45,7 @@ export default function PostCard({
   onComment,
   onDelete,
   onDeleteComment,
-  // onEditComment
+  onEditComment,
   onLike,
   title,
   userId,
@@ -63,17 +64,31 @@ export default function PostCard({
   // // το isDeletingPost είναι true αν έχει γίνει κλικ στο "Delete Post"
   const [isDeletingPost, setIsDeletingPost] = useState(false);
 
+
+
+
   // // η handleXComments καλείται όταν γίνεται κλικ στο "x comments"
   const handleXComments = (event) => {
     event.preventDefault();
     setExpandedComments(!expandedComments);
   };
 
+
+  const handleEdit = () => {
+    setIsEditingComment(true);
+  }
   // η handleSeeMore καλείται όταν γίνεται κλικ στο "See more"
   const handleSeeMore = (event) => {
     event.preventDefault();
     setExpandedBody(true);
   };
+
+
+  const handleCancelEdit = (cancel) => {
+    setIsEditingComment(false);
+  }
+
+
 
   // βρίσκουμε τον χρήστη που έκανε το post
   const postUser = users.find((user) => user.id === userId);
@@ -159,10 +174,18 @@ export default function PostCard({
                         <div className="flex w-full flex-col">
                           <CommentForm
                             initialValue={comment.body}
+                            onCancelEdit={handleCancelEdit}
+            
                             onSubmit={(newComment) => {
+                            onEditComment(newComment, comment.id);
+                            setIsEditingComment(false);
                               // καλούμε την onEditComment με το id του σχολίου και το νέο σχόλιο
                               console.log({ newComment });
                             }}
+                           
+                           
+                            
+                           
                           />
                         </div>
                       ) : (
@@ -178,7 +201,7 @@ export default function PostCard({
                         <Popper
                           className="-mt-[1.125rem] ml-0.5 self-center"
                           trigger={
-                            <button
+                            <button onClick={handleEdit}
                               className="rounded-full p-1.5 opacity-0 hover:bg-gray-100 group-hover:opacity-100"
                               tabIndex={-1}
                             >

@@ -67,6 +67,54 @@ function App() {
     setPosts(newPosts);
   };
 
+  const handleEdit = (commentId, postIndex, comment) => {
+    const newPosts = posts.slice().map((obj) => Object.assign({}, obj));
+    const post = newPosts[postIndex];
+
+    post.comments = post.comments.filter((comment) => comment.id !== commentId);
+
+     // προσθέτουμε το σχόλιο στο post
+     post.comments.push({
+      body: comment,
+      // το createdAt του νέου σχολίου είναι η τρέχουσα ημερομηνία
+      CreatedAt: new Date().toISOString(),
+      // το id του νέου σχολίου είναι ένα τυχαίο string
+      id: crypto.randomUUID(),
+      // το userId του νέου σχολίου είναι το id του χρήστη που έκανε login
+      userId: session.user.id,
+    });
+   
+  }
+
+  const handleEditComment = (comment, commentId, postIndex) => {
+
+
+    if (!comment) {
+      return undefined;
+    } else {
+    const newPosts = posts.slice().map((obj) => Object.assign({}, obj));
+    const post = newPosts[postIndex];
+
+    post.comments = post.comments.filter((comment) => comment.id !== commentId);
+    console.log(post.comments);
+
+     // προσθέτουμε το σχόλιο στο post
+     post.comments.push({
+      body: comment,
+      // το createdAt του νέου σχολίου είναι η τρέχουσα ημερομηνία
+      createdAt: new Date().toISOString(),
+      // το id του νέου σχολίου είναι ένα τυχαίο string
+      id: crypto.randomUUID(),
+      // το userId του νέου σχολίου είναι το id του χρήστη που έκανε login
+      userId: session.user.id,
+    });
+setPosts(newPosts);
+    console.log(post.comments);
+   
+  }
+  }
+
+
   // η handleLike() δέχεται το index του post που έγινε like
   const handleLike = (postIndex) => {
     // αντιγράφουμε τον πίνακα posts
@@ -120,6 +168,7 @@ function App() {
                 onDelete={() => setPosts(posts.filter((post) => post.id !== id))}
                 onDeleteComment={(commentId) => handleDeleteComment(commentId, index)}
                 onLike={() => handleLike(index)}
+                onEditComment={(comment, commentId) =>handleEditComment(comment, commentId, index )}
                 session={session}
                 users={users}
                 {...post}

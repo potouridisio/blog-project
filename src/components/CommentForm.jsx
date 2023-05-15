@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { AiOutlineSend } from 'react-icons/ai';
 
 /**
@@ -13,18 +13,47 @@ import { AiOutlineSend } from 'react-icons/ai';
  *
  * @returns {JSX.Element} - The rendered CommentForm component.
  */
-export default function CommentForm({ initialValue, onSubmit }) {
+export default function CommentForm({ initialValue, onSubmit, onCancelEdit}) {
   // το value είναι το περιεχόμενο του input
   const [value, setValue] = useState(initialValue ?? '');
+  const [cancelEdit, setCancelEdit] = useState(false);
 
   // η handleSubmit καλείται όταν γίνεται submit της φόρμας
   const handleSubmit = (event) => {
     event.preventDefault();
+    if(cancelEdit){
+      setCancelEdit(false);
+    }else{
     // καλούμε την onSubmit με το value
     onSubmit(value);
     // κάνουμε reset το value
     setValue('');
+  
+    }
   };
+
+
+  const handleChange = (event) => {
+      setValue(event.target.value);
+  }
+
+  const handleCancel= (event) => {
+    event.preventDefault();
+    onCancelEdit(true);
+    }
+
+  useEffect(() => {
+    const handleEsc = (event) => {
+      if(event.key === 'Escape') {
+        onCancelEdit(true);
+      }
+    }
+    window.addEventListener('keydown', handleEsc);
+
+    return () => {
+      window.removeEventListener('keydown', handleEsc);
+    }
+  }, [onCancelEdit])
 
   // το isEditing είναι true αν υπάρχει initialValue που σημαίνει ότι ο χρήστης επεξεργάζεται ένα σχόλιο
   const isEditing = initialValue !== undefined;
@@ -37,7 +66,7 @@ export default function CommentForm({ initialValue, onSubmit }) {
           autoFocus
           className="w-full bg-transparent p-2 text-sm text-inherit placeholder-gray-500 focus:outline-none"
           name="comment"
-          onChange={(event) => setValue(event.target.value)}
+          onChange={handleChange}
           placeholder="Write a comment..."
           value={value}
         />
@@ -50,7 +79,7 @@ export default function CommentForm({ initialValue, onSubmit }) {
       {isEditing ? (
         <p className="mr-2 mt-0.5 text-xs text-gray-500">
           Press Esc to{' '}
-          <a className="text-blue-500 hover:underline" href="#">
+          <a onClick={handleCancel} className="text-blue-500 hover:underline" href="#">
             cancel
           </a>
           .
