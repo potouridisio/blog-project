@@ -41,8 +41,8 @@ export default function CommentForm({ initialValue, onSubmit }) {
           placeholder="Write a comment..."
           value={value}
         />
-        <div className="flex items-center justify-end p-2 pt-0">
-          <button className="-mb-1 -mr-1 rounded-full p-1.5 hover:bg-gray-200" type="submit">
+        <div className="flex h-9 items-center justify-end px-2">
+          <button className="-mr-2 rounded-full p-1.5 hover:bg-gray-200" type="submit">
             <AiOutlineSend className="fill-gray-500" size={20} />
           </button>
         </div>
