@@ -16,6 +16,7 @@ import { AiOutlineSend } from 'react-icons/ai';
 export default function CommentForm({ initialValue, onSubmit }) {
   // το value είναι το περιεχόμενο του input
   const [value, setValue] = useState(initialValue ?? '');
+  const [isFocused, setIsFocused] = useState(false)
 
   // η handleSubmit καλείται όταν γίνεται submit της φόρμας
   const handleSubmit = (event) => {
@@ -40,6 +41,8 @@ export default function CommentForm({ initialValue, onSubmit }) {
           onChange={(event) => setValue(event.target.value)}
           placeholder="Write a comment..."
           value={value}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
         />
         <div className="flex items-center justify-end p-2 pt-0">
           <button className="-mb-1 -mr-1 rounded-full p-1.5 hover:bg-gray-200" type="submit">
@@ -47,7 +50,7 @@ export default function CommentForm({ initialValue, onSubmit }) {
           </button>
         </div>
       </form>
-      {isEditing ? (
+      {isEditing && isFocused? (
         <p className="mr-2 mt-0.5 text-xs text-gray-500">
           Press Esc to{' '}
           <a className="text-blue-500 hover:underline" href="#">
@@ -55,7 +58,11 @@ export default function CommentForm({ initialValue, onSubmit }) {
           </a>
           .
         </p>
-      ) : null}
+      ) :  <p className="mr-2 mt-0.5 text-xs text-gray-500">
+      <a className="text-blue-500 hover:underline" href="#">
+        cancel
+      </a>
+    </p>}
     </div>
   );
 }
