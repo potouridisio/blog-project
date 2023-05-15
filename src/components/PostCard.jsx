@@ -82,7 +82,7 @@ export default function PostCard({
   // το canDeletePost είναι true αν ο χρήστης είναι ο δημιουργός του post ή είναι admin
   const canDeletePost = userId === session.user.id || session.user.role === 'admin';
 
-  return (
+    return (
     <>
       <div className="rounded-lg bg-white p-6 shadow">
         <div className="mb-6 flex items-center">
@@ -164,6 +164,7 @@ export default function PostCard({
                               // καλούμε την onEditComment με το id του σχολίου και το νέο σχόλιο
                               console.log({ newComment });
                             }}
+                            onEscape= {(e) =>  e.key === "Escape" && setIsEditingComment(false)}
                           />
                         </div>
                       ) : (
