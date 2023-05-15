@@ -120,7 +120,6 @@ function App() {
                 onDelete={() => setPosts(posts.filter((post) => post.id !== id))}
                 onDeleteComment={(commentId) => handleDeleteComment(commentId, index)}
                 onLike={() => handleLike(index)}
-                session={session}
                 users={users}
                 {...post}
               />
