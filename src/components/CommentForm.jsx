@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { AiOutlineSend } from 'react-icons/ai';
 
 /**
@@ -14,6 +14,7 @@ import { AiOutlineSend } from 'react-icons/ai';
  * @returns {JSX.Element} - The rendered CommentForm component.
  */
 export default function CommentForm({ initialValue, onSubmit }) {
+  const inputRef = useRef(null);
   // το value είναι το περιεχόμενο του input
   const [value, setValue] = useState(initialValue ?? '');
 
@@ -39,9 +40,10 @@ export default function CommentForm({ initialValue, onSubmit }) {
           name="comment"
           onChange={(event) => setValue(event.target.value)}
           placeholder="Write a comment..."
+          ref={inputRef}
           value={value}
         />
-        <div className="flex h-9 items-center justify-end px-2">
+        <div className="flex h-9 cursor-text items-center justify-end px-2" onClick={() => inputRef.current?.focus()}>
           <button className="-mr-2 rounded-full p-1.5 hover:bg-gray-200" type="submit">
             <AiOutlineSend className="fill-gray-500" size={20} />
           </button>
