@@ -14,6 +14,7 @@ import { AiOutlineSend } from 'react-icons/ai';
  * @returns {JSX.Element} - The rendered CommentForm component.
  */
 export default function CommentForm({ initialValue, onSubmit }) {
+  // το inputRef είναι ένα ref που θα χρησιμοποιήσουμε για να κάνουμε focus το input όταν ο χρήστης κάνει κλικ στο σχόλιο
   const inputRef = useRef(null);
   // το value είναι το περιεχόμενο του input
   const [value, setValue] = useState(initialValue ?? '');
