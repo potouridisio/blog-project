@@ -99,6 +99,28 @@ function App() {
     return <div className="flex min-h-screen items-center justify-center">Loading...</div>;
   }
 
+
+  function handleEditComment (postId, commentId, value, key) {
+    if (key === "Enter"){
+        const newPosts = posts.slice().map((obj) => Object.assign({}, obj));
+         
+        const post = newPosts[postId];
+         
+        post.comments.push({
+          body: value,
+         
+          createdAt: new Date().toISOString(),
+         
+          id: crypto.randomUUID(),
+          
+          userId: session.user.id,
+        });
+  
+       
+        setPosts(newPosts);
+      }
+    }
+
   return (
     <div className="flex min-h-screen bg-gray-100">
       <header className="fixed left-0 top-0 z-50 w-full bg-white shadow">
@@ -122,6 +144,7 @@ function App() {
                 onLike={() => handleLike(index)}
                 users={users}
                 {...post}
+                onEditComment= {(e) => handleEditComment(post.id, commnet.id, e.target.value, e.key)}
               />
             ))}
         </div>

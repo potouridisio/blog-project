@@ -82,6 +82,7 @@ export default function PostCard({
   // το canDeletePost είναι true αν ο χρήστης είναι ο δημιουργός του post ή είναι admin
   const canDeletePost = userId === session.user.id || session.user.role === 'admin';
 
+
     return (
     <>
       <div className="rounded-lg bg-white p-6 shadow">
