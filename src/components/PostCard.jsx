@@ -157,7 +157,7 @@ export default function PostCard({
                         {commentUser.name}
                       </Avatar>
                       {isEditingComment === comment.id ? (
-                        <div className="flex w-full flex-col">
+                        <div className="flex w-full flex-col items-start">
                           <CommentForm
                             initialValue={comment.body}
                             onSubmit={(newComment) => {

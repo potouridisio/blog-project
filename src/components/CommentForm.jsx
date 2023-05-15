@@ -51,7 +51,7 @@ export default function CommentForm({ initialValue, onSubmit }) {
         </div>
       </form>
       {isEditing ? (
-        <p className="mr-2 mt-0.5 text-xs text-gray-500">
+        <p className="ml-2 mt-0.5 text-xs text-gray-500">
           Press Esc to{' '}
           <a className="text-blue-500 hover:underline" href="#">
             cancel
