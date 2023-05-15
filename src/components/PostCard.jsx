@@ -165,6 +165,7 @@ export default function PostCard({
                               console.log({ newComment });
                             }}
                             onEscape= {(e) =>  e.key === "Escape" && setIsEditingComment(false)}
+                            onCancel = {() => setIsEditingComment(false)}
                           />
                         </div>
                       ) : (

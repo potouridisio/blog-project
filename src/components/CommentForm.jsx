@@ -13,7 +13,7 @@ import { AiOutlineSend } from 'react-icons/ai';
  *
  * @returns {JSX.Element} - The rendered CommentForm component.
  */
-export default function CommentForm({ initialValue, onSubmit, onEscape }) {
+export default function CommentForm({ initialValue, onSubmit, onEscape, onCancel }) {
   // το value είναι το περιεχόμενο του input
   const [value, setValue] = useState(initialValue ?? '');
   const [isFocused, setIsFocused] = useState(false)
@@ -54,13 +54,13 @@ export default function CommentForm({ initialValue, onSubmit, onEscape }) {
       {isEditing && isFocused? (
         <p className="mr-2 mt-0.5 text-xs text-gray-500">
           Press Esc to{' '}
-          <a className="text-blue-500 hover:underline" href="#">
+          <a className="text-blue-500 hover:underline" href="#" onClick={onCancel} >
             cancel
           </a>
           .
         </p>
       ) :  <p className="mr-2 mt-0.5 text-xs text-gray-500">
-      <a className="text-blue-500 hover:underline" href="#">
+      <a className="text-blue-500 hover:underline" href="#" onClick={onCancel}>
         cancel
       </a>
     </p>}
