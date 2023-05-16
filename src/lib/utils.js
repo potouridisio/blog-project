@@ -44,7 +44,6 @@ export function getInitialsColor(initials) {
     .split('')
     .map((char) => char.charCodeAt(0))
     .reduce((sum, charCode) => sum + charCode, 0);
-
   return colors[charCodeSum % colors.length];
 }
 

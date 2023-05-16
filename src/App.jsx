@@ -56,7 +56,6 @@ function App() {
   const handleDeleteComment = (commentId, postIndex) => {
     // αντιγράφουμε τον πίνακα posts
     const newPosts = posts.slice().map((obj) => Object.assign({}, obj));
-
     // βρίσκουμε το post στο οποίο έγινε το σχόλιο
     const post = newPosts[postIndex];
 
@@ -70,7 +69,6 @@ function App() {
   const handleEditComment = (commentId, newComment, postIndex) => {
     // αντιγράφουμε τον πίνακα posts
     const newPosts = posts.slice().map((obj) => Object.assign({}, obj));
-
     // βρίσκουμε το post στο οποίο έγινε το σχόλιο
     const post = newPosts[postIndex];
 
@@ -87,10 +85,8 @@ function App() {
   const handleLike = (postIndex) => {
     // αντιγράφουμε τον πίνακα posts
     const newPosts = posts.slice().map((obj) => Object.assign({}, obj));
-
     // βρίσκουμε το post που έγινε like
     const post = newPosts[postIndex];
-
     // βρίσκουμε το like του χρήστη στο post
     const like = post.likes.find((like) => like.userId === session.user.id);
 

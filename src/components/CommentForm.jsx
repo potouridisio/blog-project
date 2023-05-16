@@ -23,7 +23,6 @@ export default function CommentForm({ initialValue, onCancel, onSubmit }) {
   // η handleCancel καλείται όταν πατιέται το cancel
   const handleCancel = (event) => {
     event.preventDefault();
-
     onCancel();
   };
 
