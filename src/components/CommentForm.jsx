@@ -66,12 +66,11 @@ export default function CommentForm({ initialValue, onCancel, onSubmit }) {
           <AiOutlineSend className="fill-gray-500" size={20} />
         </button>
       </form>
-      {/* isEditing ? isFocused ? 'is true' : 'is false' */}
       {isEditing ? (
         isFocused ? (
           <p className="ml-2 mt-0.5 text-xs text-gray-500">
             Press Esc to{' '}
-            <a className="text-blue-500 hover:underline" href="#" onClick={handleCancel}>
+            <a className="text-blue-500 hover:underline" href="#" onMouseDown={onCancel}>
               cancel
             </a>
             .
