@@ -19,12 +19,15 @@ export default function CommentForm({ initialValue, onCancel, onSubmit }) {
   // το value είναι το περιεχόμενο του input
   const [value, setValue] = useState(initialValue ?? '');
 
+  // η handleCancel καλείται όταν πατιέται το cancel
   const handleCancel = (event) => {
     event.preventDefault();
 
     onCancel();
   };
 
+  // η handleKeyDown καλείται όταν πατιέται ένα πλήκτρο
+  // αν το πλήκτρο είναι το Esc τότε καλούμε την onCancel
   const handleKeyDown = (event) => {
     if (event.keyCode === 27) {
       onCancel();
