@@ -7,6 +7,7 @@ import { AiOutlineSend } from 'react-icons/ai';
  *
  * @typedef {object} Props
  * @property {string} initialValue - The initial value of the input.
+ * @property {() => void} onCancel - The function that will be called when the form is cancelled.
  * @property {(comment: string) => void} onSubmit - The function that will be called with the comment when the form is submitted.
  *
  * @param {Props} props - The props object.
