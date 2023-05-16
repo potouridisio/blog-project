@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { useEffect } from 'react';
 
 import Portal from './Portal';
 
@@ -16,6 +17,22 @@ import Portal from './Portal';
  * @returns {JSX.Element} - The rendered Dialog component.
  */
 export default function Dialog({ children, className, open, onClose }) {
+  useEffect(() => {
+    const handleEscape = (event) => {
+      if (event.keyCode === 27) {
+        onClose();
+      }
+    };
+
+    if (open) {
+      window.addEventListener('keydown', handleEscape);
+    }
+
+    return () => {
+      window.removeEventListener('keydown', handleEscape);
+    };
+  }, [onClose, open]);
+
   // αν το open είναι false επιστρέφουμε null
   if (!open) {
     return null;
