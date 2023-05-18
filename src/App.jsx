@@ -12,8 +12,6 @@ function App() {
   const { isLoading: isLoadingUsers, users } = useUsers();
   const isLoadingInitialData = isLoadingPosts || isLoadingUsers;
 
-  console.log({ session, isLoadingPosts, initialPosts, posts, isLoadingUsers, users });
-
   useEffect(() => {
     if (initialPosts) {
       setPosts(initialPosts);

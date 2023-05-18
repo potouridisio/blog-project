@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 export function usePosts() {
-  const [posts, setPosts] = useState(undefined);
+  const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     fetch('/api/posts')
@@ -10,13 +10,13 @@ export function usePosts() {
   }, []);
 
   return {
-    isLoading: !posts,
+    isLoading: !posts.length,
     posts,
   };
 }
 
 export function useSession() {
-  const [session, setSession] = useState(undefined);
+  const [session, setSession] = useState({ user: null });
 
   useEffect(() => {
     fetch('/api/session')
@@ -25,13 +25,13 @@ export function useSession() {
   }, []);
 
   return {
-    isLoading: !session,
+    isLoading: !session.user,
     session,
   };
 }
 
 export function useUsers() {
-  const [users, setUsers] = useState(undefined);
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     fetch('/api/users')
@@ -40,7 +40,7 @@ export function useUsers() {
   }, []);
 
   return {
-    isLoading: !users,
+    isLoading: !users.length,
     users,
   };
 }
