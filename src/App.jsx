@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+
 import Avatar from './components/Avatar';
 import PostCard from './components/PostCard';
 import { useAuth } from './lib/auth';
