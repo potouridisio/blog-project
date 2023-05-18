@@ -18,6 +18,14 @@ function App() {
     }
   }, [initialPosts]);
 
+  /**
+   * Handles adding a comment to a post.
+   *
+   * @param {string} comment - The comment to be added.
+   * @param {number} postIndex - The index of the post.
+   *
+   * @returns {void}
+   */
   const handleAddComment = (comment, postIndex) => {
     if (!comment) {
       return undefined;
@@ -31,10 +39,19 @@ function App() {
         id: crypto.randomUUID(),
         userId: session.user.id,
       });
+
       setPosts(newPosts);
     }
   };
 
+  /**
+   * Handles deleting a comment from a post.
+   *
+   * @param {string} commentId - The ID of the comment to be deleted.
+   * @param {number} postIndex - The index of the post.
+   *
+   * @returns {void}
+   */
   const handleDeleteComment = (commentId, postIndex) => {
     const newPosts = posts.slice().map((obj) => Object.assign({}, obj));
     const post = newPosts[postIndex];
@@ -45,6 +62,15 @@ function App() {
     setPosts(newPosts);
   };
 
+  /**
+   * Handles editing a comment in a post.
+   *
+   * @param {string} commentId - The ID of the comment to be edited.
+   * @param {string} newComment - The updated comment content.
+   * @param {number} postIndex - The index of the post.
+   *
+   * @returns {void}
+   */
   const handleEditComment = (commentId, newComment, postIndex) => {
     const newPosts = posts.slice().map((obj) => Object.assign({}, obj));
     const post = newPosts[postIndex];
@@ -58,18 +84,25 @@ function App() {
     setPosts(newPosts);
   };
 
+  /**
+   * Handles toggling the like status of a post.
+   *
+   * @param {number} postIndex - The index of the post.
+   *
+   * @returns {void}
+   */
   const handleToggleLike = (postIndex) => {
     const newPosts = posts.slice().map((obj) => Object.assign({}, obj));
     const post = newPosts[postIndex];
-    const like = post.likes.find((like) => like.userId === session.user.id);
+    const likeIndex = post.likes.findIndex((like) => like.userId === session.user.id);
 
-    if (like) {
-      post.likes = post.likes.filter((like) => like.userId !== session.user.id);
-    } else {
+    if (likeIndex === -1) {
       post.likes.push({
         id: crypto.randomUUID(),
         userId: session.user.id,
       });
+    } else {
+      post.likes.splice(likeIndex, 1);
     }
 
     setPosts(newPosts);
