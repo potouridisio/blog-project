@@ -1,5 +1,13 @@
 import { useEffect, useState } from 'react';
 
+/**
+ * Custom hook for fetching and managing posts.
+ *
+ * @returns {{
+ *   isLoading: boolean,
+ *   posts: Array<Object>
+ * }}
+ */
 export function usePosts() {
   const [posts, setPosts] = useState([]);
 
@@ -15,6 +23,14 @@ export function usePosts() {
   };
 }
 
+/**
+ * Custom hook for fetching and managing user session.
+ *
+ * @returns {{
+ *   isLoading: boolean,
+ *   session: Object
+ * }}
+ */
 export function useSession() {
   const [session, setSession] = useState({ user: null });
 
@@ -30,6 +46,14 @@ export function useSession() {
   };
 }
 
+/**
+ * Custom hook for fetching and managing users.
+ *
+ * @returns {{
+ *   isLoading: boolean,
+ *   users: Array<Object>
+ * }}
+ */
 export function useUsers() {
   const [users, setUsers] = useState([]);
 
