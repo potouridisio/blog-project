@@ -2,7 +2,6 @@
 import { useState } from 'react';
 import { AiFillHeart, AiOutlineHeart, AiOutlineMore } from 'react-icons/ai';
 
-import { useAuth } from '../lib/auth';
 import { timeAgo, truncate } from '../lib/utils';
 import Avatar from './Avatar';
 import Button from './Button';
@@ -27,6 +26,7 @@ import Popper from './Popper';
  * @property {(commentId: string) => void} onDeleteComment - A function that is called when a comment is deleted.
  * @property {(commentId: string, newText: string) => void} onEditComment - A function that is called when a comment is edited.
  * @property {() => void} onToggleLike - A function that is called when the like button is clicked.
+ *
  * @property {string} title - The title of the post.
  * @property {string} userId - The ID of the user who made the post.
  * @property {object[]} users - An array of users in the application.
@@ -47,11 +47,11 @@ export default function PostCard({
   onDeleteComment,
   onEditComment,
   onToggleLike,
+  session,
   title,
   userId,
   users,
 }) {
-  const session = useAuth();
   const [expandedBody, setExpandedBody] = useState(false);
   const [expandedComments, setExpandedComments] = useState(false);
   const [isEditingComment, setIsEditingComment] = useState(false);

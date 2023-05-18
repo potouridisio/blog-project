@@ -1,10 +1,14 @@
-import { Outlet } from 'react-router';
+/* eslint-disable react-refresh/only-export-components */
+import { Outlet, useLoaderData } from 'react-router';
 
 import Avatar from '../components/Avatar';
-import { useAuth } from '../lib/auth';
+
+export function loader() {
+  return fetch('/api/session');
+}
 
 function Root() {
-  const session = useAuth();
+  const session = useLoaderData();
 
   return (
     <div className="flex min-h-screen bg-gray-100">
@@ -16,7 +20,7 @@ function Root() {
       </header>
       <main className="mx-auto max-w-6xl grow p-6">
         <div className="h-16" />
-        <Outlet />
+        <Outlet context={session} />
       </main>
     </div>
   );

@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
+import { useOutletContext } from 'react-router';
 
 import PostCard from '../components/PostCard';
-import { useAuth } from '../lib/auth';
 import { usePosts, useUsers } from '../lib/hooks';
 
+export function loader() {
+  return { team: 'PAOK!' };
+}
+
 function Posts() {
-  const session = useAuth();
+  const session = useOutletContext();
   const { isLoading: isLoadingPosts, posts: initialPosts } = usePosts();
   const [posts, setPosts] = useState(initialPosts);
   const { isLoading: isLoadingUsers, users } = useUsers();
@@ -144,6 +148,7 @@ function Posts() {
             onDeleteComment={(commentId) => handleDeleteComment(commentId, index)}
             onEditComment={(commentId, comment) => handleEditComment(commentId, comment, index)}
             onToggleLike={() => handleToggleLike(index)}
+            session={session}
             users={users}
             {...post}
           />
