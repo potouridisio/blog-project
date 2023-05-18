@@ -86,19 +86,16 @@ function Posts() {
   const handleEditComment = (commentId, newComment, postIndex) => {
     const newPosts = posts.slice().map((obj) => Object.assign({}, obj));
     const post = newPosts[postIndex];
+    const commentIndex = post.comments.findIndex((comment) => comment.id === commentId);
 
-    post.comments.forEach((comment) => {
-      if (comment.id === commentId) {
-        comment.body = newComment;
+    post.comments[commentIndex].body = newComment;
 
-        fetch(`/api/posts/${post.id}/comments/${commentId}`, {
-          body: JSON.stringify({ body: newComment }),
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-      }
+    fetch(`/api/posts/${post.id}/comments/${commentId}`, {
+      body: JSON.stringify({ body: newComment }),
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
 
     setPosts(newPosts);
