@@ -15,35 +15,60 @@ import { AiOutlineSend } from 'react-icons/ai';
  * @returns {JSX.Element} - The rendered CommentForm component.
  */
 export default function CommentForm({ initialValue, onCancel, onSubmit }) {
-  // το isFocused είναι true αν το input έχει focus
   const [isFocused, setIsFocused] = useState(false);
-  // το value είναι το περιεχόμενο του input
   const [value, setValue] = useState(initialValue ?? '');
 
-  // η handleCancel καλείται όταν πατιέται το cancel
+  /**
+   * Handles the cancellation event for an edit comment form.
+   *
+   * This function is triggered when the user cancels editing a comment.
+   *
+   * @param {Event} event - The cancellation event.
+   *
+   * @returns {void}
+   */
   const handleCancel = (event) => {
     event.preventDefault();
+
     onCancel();
   };
 
-  // η handleKeyDown καλείται όταν πατιέται ένα πλήκτρο
-  // αν το πλήκτρο είναι το Esc τότε καλούμε την onCancel
+  /**
+   * Handles the key down event.
+   *
+   * This function is triggered when a key is pressed down.
+   *
+   * If the pressed key is the escape key (keyCode 27), it triggers the onCancel function.
+   *
+   * @param {Event} event - The key down event.
+   *
+   * @returns {void}
+   */
   const handleKeyDown = (event) => {
     if (event.keyCode === 27) {
       onCancel();
     }
   };
 
-  // η handleSubmit καλείται όταν γίνεται submit της φόρμας
+  /**
+   * Handles the form submission event.
+   *
+   * This function is triggered when the form is submitted.
+   *
+   * It prevents the default form submission behavior, calls the onSubmit function with the value, and resets the value.
+   *
+   * @param {Event} event - The form submission event.
+   *
+   * @returns {void}
+   */
   const handleSubmit = (event) => {
     event.preventDefault();
-    // καλούμε την onSubmit με το value
+
     onSubmit(value);
-    // κάνουμε reset το value
+
     setValue('');
   };
 
-  // το isEditing είναι true αν υπάρχει initialValue που σημαίνει ότι ο χρήστης επεξεργάζεται ένα σχόλιο
   const isEditing = initialValue !== undefined;
 
   return (
