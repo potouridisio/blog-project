@@ -51,35 +51,66 @@ export default function PostCard({
   userId,
   users,
 }) {
-  // το session είναι το session του χρήστη που έχει κάνει login
   const session = useAuth();
-  // το expandedBody είναι true αν έχει γίνει κλικ στο "See more"
   const [expandedBody, setExpandedBody] = useState(false);
-  // το expandedComments είναι true αν έχει γίνει κλικ στο "x comments"
   const [expandedComments, setExpandedComments] = useState(false);
-  // το isEditingComment είναι το id του σχολίου που επεξεργάζεται ο χρήστης ή false αν δεν επεξεργάζεται κάποιο σχόλιο
   const [isEditingComment, setIsEditingComment] = useState(false);
-  // το isDeletingComment είναι το id του σχολίου που θα διαγραφεί ή false αν δεν θα διαγραφεί κάποιο σχόλιο
   const [isDeletingComment, setIsDeletingComment] = useState(false);
-  // // το isDeletingPost είναι true αν έχει γίνει κλικ στο "Delete Post"
   const [isDeletingPost, setIsDeletingPost] = useState(false);
 
-  // // η handleXComments καλείται όταν γίνεται κλικ στο "x comments"
-  const handleXComments = (event) => {
-    event.preventDefault();
-    setExpandedComments(!expandedComments);
+  /**
+   * Handles the request to delete a comment.
+   *
+   * This function informs the parent component to initiate the deletion of a comment.
+   *
+   * @returns {void}
+   */
+  const handleDeleteComment = () => {
+    onDeleteComment(isDeletingComment);
+
+    setIsDeletingComment(false);
   };
 
-  // η handleSeeMore καλείται όταν γίνεται κλικ στο "See more"
+  /**
+   * Handles the request to delete a post.
+   *
+   * This function informs the parent component to initiate the deletion of a post.
+   *
+   * @returns {void}
+   */
+  const handleDeletePost = () => {
+    onDelete();
+
+    setIsDeletingPost(false);
+  };
+
+  /**
+   * Handles expanding the post body to see more content.
+   *
+   * @param {Event} event - The event triggering the expansion of the post body.
+   *
+   * @returns {void}
+   */
   const handleSeeMore = (event) => {
     event.preventDefault();
+
     setExpandedBody(true);
   };
 
-  // βρίσκουμε τον χρήστη που έκανε το post
-  const postUser = users.find((user) => user.id === userId);
+  /**
+   * Handles expanding/collapsing the comments of a post.
+   *
+   * @param {Event} event - The event triggering the expansion/collapse of comments.
+   *
+   * @returns {void}
+   */
+  const handleXComments = (event) => {
+    event.preventDefault();
 
-  // το canDeletePost είναι true αν ο χρήστης είναι ο δημιουργός του post ή είναι admin
+    setExpandedComments(!expandedComments);
+  };
+
+  const postUser = users.find((user) => user.id === userId);
   const canDeletePost = userId === session.user.id || session.user.role === 'admin';
 
   return (
@@ -149,10 +180,8 @@ export default function PostCard({
                 .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
                 .map((comment) => {
                   const commentUser = users.find((user) => user.id === comment.userId);
-                  // το canDeleteComment είναι true αν ο χρήστης είναι ο δημιουργός του σχολίου ή του post ή είναι admin
                   const canDeleteComment =
                     comment.userId === session.user.id || userId === session.user.id || session.user.role === 'admin';
-                  // το canEditComment είναι true αν ο χρήστης είναι ο δημιουργός του σχολίου
                   const canEditComment = comment.userId === session.user.id;
 
                   return (
@@ -166,7 +195,6 @@ export default function PostCard({
                             initialValue={comment.body}
                             onCancel={() => setIsEditingComment(false)}
                             onSubmit={(newComment) => {
-                              // καλούμε την onEditComment με το id του σχολίου και το νέο σχόλιο
                               onEditComment(comment.id, newComment);
                               setIsEditingComment(false);
                             }}
@@ -235,16 +263,7 @@ export default function PostCard({
         </div>
         <div className="flex justify-end p-6">
           <Button onClick={() => setIsDeletingPost(false)}>No</Button>
-          <Button
-            className="ml-2"
-            onClick={() => {
-              // καλούμε την onDelete χωρίς παραμέτρους γιατί δεν χρειάζεται να ξέρουμε το id του post που θα διαγραφεί αφού έχουμε το post στο map του App
-              onDelete();
-              // κάνουμε reset το isDeletingComment για να κλείσει το modal
-              setIsDeletingPost(false);
-            }}
-            variant="contained"
-          >
+          <Button className="ml-2" onClick={handleDeletePost} variant="contained">
             Delete
           </Button>
         </div>
@@ -261,16 +280,7 @@ export default function PostCard({
         </div>
         <div className="flex justify-end p-6">
           <Button onClick={() => setIsDeletingComment(false)}>No</Button>
-          <Button
-            className="ml-2"
-            onClick={() => {
-              // καλούμε την onDeleteComment με το id του σχολίου που θα διαγραφεί
-              onDeleteComment(isDeletingComment);
-              // κάνουμε reset το isDeletingComment για να κλείσει το modal
-              setIsDeletingComment(false);
-            }}
-            variant="contained"
-          >
+          <Button className="ml-2" onClick={handleDeleteComment} variant="contained">
             Delete
           </Button>
         </div>

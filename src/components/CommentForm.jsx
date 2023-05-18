@@ -19,7 +19,7 @@ export default function CommentForm({ initialValue, onCancel, onSubmit }) {
   const [value, setValue] = useState(initialValue ?? '');
 
   /**
-   * Handles the cancellation event for an edit comment form.
+   * Handles the cancellation event for editing a comment.
    *
    * This function is triggered when the user cancels editing a comment.
    *
@@ -38,7 +38,7 @@ export default function CommentForm({ initialValue, onCancel, onSubmit }) {
    *
    * This function is triggered when a key is pressed down.
    *
-   * If the pressed key is the escape key (keyCode 27), it triggers the onCancel function.
+   * If the pressed key is the escape key (keyCode 27), it cancels editing the comment.
    *
    * @param {Event} event - The key down event.
    *
@@ -51,13 +51,9 @@ export default function CommentForm({ initialValue, onCancel, onSubmit }) {
   };
 
   /**
-   * Handles the form submission event.
+   * Handles the submission of the edited comment.
    *
-   * This function is triggered when the form is submitted.
-   *
-   * It prevents the default form submission behavior, calls the onSubmit function with the value, and resets the value.
-   *
-   * @param {Event} event - The form submission event.
+   * @param {Event} event - The submission event.
    *
    * @returns {void}
    */
