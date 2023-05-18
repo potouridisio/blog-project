@@ -186,12 +186,20 @@ app.post('/posts', (req, res) => {
         console.error(err);
         res.status(500).json({ error: 'Internal server error' });
       } else {
-        res.status(201).json({ id: postId });
+        const post = {
+          id: postId,
+          title: title,
+          body: body,
+          createdAt: createdAt,
+          userId: userId,
+          likes: [],
+          comments: [],
+        };
+        res.status(201).json(post);
       }
     },
   );
 });
-
 // Delete post
 app.delete('/posts/:postId', (req, res) => {
   const { postId } = req.params;
@@ -250,7 +258,14 @@ app.post('/posts/:postId/comments', (req, res) => {
         console.error(err);
         res.status(500).json({ error: 'Internal server error' });
       } else {
-        res.status(201).json({ id: commentId });
+        const comment = {
+          id: commentId,
+          body: body,
+          createdAt: createdAt,
+          userId: userId,
+          postId: postId,
+        };
+        res.status(201).json(comment);
       }
     },
   );
