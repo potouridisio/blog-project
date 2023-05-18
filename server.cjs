@@ -159,6 +159,55 @@ app.get('/users', (req, res) => {
   });
 });
 
+// Get posts of a specific user
+app.get('/users/:userId/posts', (req, res) => {
+  const { userId } = req.params;
+
+  db.all('SELECT * FROM posts WHERE userId = ?', [userId], (err, rows) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Internal server error' });
+    } else {
+      const posts = rows.map((row) => {
+        const post = { ...row };
+        post.likes = [];
+        post.comments = [];
+        return post;
+      });
+
+      db.all('SELECT * FROM likes', [], (likesErr, likesRows) => {
+        if (likesErr) {
+          console.error(likesErr);
+          res.status(500).json({ error: 'Internal server error' });
+        } else {
+          likesRows.forEach((likeRow) => {
+            const post = posts.find((p) => p.id === likeRow.postId);
+            if (post) {
+              post.likes.push(likeRow);
+            }
+          });
+
+          db.all('SELECT * FROM comments', [], (commentsErr, commentsRows) => {
+            if (commentsErr) {
+              console.error(commentsErr);
+              res.status(500).json({ error: 'Internal server error' });
+            } else {
+              commentsRows.forEach((commentRow) => {
+                const post = posts.find((p) => p.id === commentRow.postId);
+                if (post) {
+                  post.comments.push(commentRow);
+                }
+              });
+
+              res.json(posts);
+            }
+          });
+        }
+      });
+    }
+  });
+});
+
 // Get session
 app.get('/session', (req, res) => {
   db.get('SELECT * FROM users LIMIT 1', [], (err, row) => {
@@ -200,6 +249,7 @@ app.post('/posts', (req, res) => {
     },
   );
 });
+
 // Delete post
 app.delete('/posts/:postId', (req, res) => {
   const { postId } = req.params;
