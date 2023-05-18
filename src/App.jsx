@@ -38,8 +38,9 @@ function App() {
   const handleDeleteComment = (commentId, postIndex) => {
     const newPosts = posts.slice().map((obj) => Object.assign({}, obj));
     const post = newPosts[postIndex];
+    const commentIndex = post.comments.findIndex((comment) => comment.id === commentId);
 
-    post.comments = post.comments.filter((comment) => comment.id !== commentId);
+    post.comments.splice(commentIndex, 1);
 
     setPosts(newPosts);
   };
