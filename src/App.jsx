@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import Posts from './routes/Posts';
+import Posts, { loader as postsLoader } from './routes/Posts';
 import Root, { loader as rootLoader } from './routes/Root';
 
 const router = createBrowserRouter([
@@ -12,6 +12,7 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Posts />,
+        loader: postsLoader,
       },
     ],
   },

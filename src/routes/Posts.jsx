@@ -1,19 +1,23 @@
+/* eslint-disable react-refresh/only-export-components */
 import { useEffect, useState } from 'react';
-import { useOutletContext } from 'react-router';
+import { useLoaderData, useOutletContext } from 'react-router';
 
 import PostCard from '../components/PostCard';
-import { usePosts, useUsers } from '../lib/hooks';
 
-export function loader() {
-  return { team: 'PAOK!' };
+export async function loader() {
+  const posts = await fetch('/api/posts');
+  const users = await fetch('/api/users');
+
+  return {
+    posts: await posts.json(),
+    users: await users.json(),
+  };
 }
 
 function Posts() {
   const session = useOutletContext();
-  const { isLoading: isLoadingPosts, posts: initialPosts } = usePosts();
+  const { posts: initialPosts, users } = useLoaderData();
   const [posts, setPosts] = useState(initialPosts);
-  const { isLoading: isLoadingUsers, users } = useUsers();
-  const isLoadingInitialData = isLoadingPosts || isLoadingUsers;
 
   useEffect(() => {
     if (initialPosts) {
@@ -131,10 +135,6 @@ function Posts() {
 
     setPosts(newPosts);
   };
-
-  if (isLoadingInitialData) {
-    return <div className="flex min-h-screen items-center justify-center">Loading...</div>;
-  }
 
   return (
     <div className="space-y-6 py-6">
