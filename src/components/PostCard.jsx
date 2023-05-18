@@ -22,7 +22,7 @@ import Popper from './Popper';
  * @property {string} comments[].updatedAt - The last update date of the comment.
  * @property {string} createdAt - The creation date of the post.
  * @property {number} likes - The number of likes the post has received.
- * @property {(comment: string) => void} onComment - A function that is called when the comment form is submitted.
+ * @property {(comment: string) => void} onAddComment - A function that is called when the comment form is submitted.
  * @property {() => void} onDelete - A function that is called when the post is deleted.
  * @property {(commentId: string) => void} onDeleteComment - A function that is called when a comment is deleted.
  * @property {(commentId: string, newText: string) => void} onEditComment - A function that is called when a comment is edited.
@@ -42,7 +42,7 @@ export default function PostCard({
   comments,
   createdAt,
   likes,
-  onComment,
+  onAddComment,
   onDelete,
   onDeleteComment,
   onEditComment,
@@ -217,7 +217,7 @@ export default function PostCard({
                 <Avatar className="mr-2" size="small">
                   {session.user.name}
                 </Avatar>
-                <CommentForm onSubmit={onComment} />
+                <CommentForm onSubmit={onAddComment} />
               </li>
             </ul>
           </>

@@ -17,7 +17,7 @@ function App() {
     }
   }, [initialPosts]);
 
-  const handleComment = (comment, postIndex) => {
+  const handleAddComment = (comment, postIndex) => {
     if (!comment) {
       return undefined;
     } else {
@@ -93,7 +93,7 @@ function App() {
             .map(({ id, ...post }, index) => (
               <PostCard
                 key={id}
-                onComment={(comment) => handleComment(comment, index)}
+                onAddComment={(comment) => handleAddComment(comment, index)}
                 onDelete={() => setPosts(posts.filter((post) => post.id !== id))}
                 onDeleteComment={(commentId) => handleDeleteComment(commentId, index)}
                 onEditComment={(commentId, comment) => handleEditComment(commentId, comment, index)}
