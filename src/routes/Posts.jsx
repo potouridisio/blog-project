@@ -5,12 +5,9 @@ import { useLoaderData, useOutletContext } from 'react-router';
 import PostCard from '../components/PostCard';
 
 export async function loader() {
-  const posts = await fetch('/api/posts');
-  const users = await fetch('/api/users');
-
   return {
-    posts: await posts.json(),
-    users: await users.json(),
+    posts: await fetch('/api/posts').then((res) => res.json()),
+    users: await fetch('/api/users').then((res) => res.json()),
   };
 }
 
@@ -70,8 +67,6 @@ function Posts() {
 
     post.comments.splice(commentIndex, 1);
 
-    // /posts/:postId/comments/:commentId
-    // DELETE
     fetch(`/api/posts/${post.id}/comments/${commentId}`, {
       method: 'DELETE',
     });
@@ -96,9 +91,6 @@ function Posts() {
       if (comment.id === commentId) {
         comment.body = newComment;
 
-        // /posts/:postId/comments/:commentId
-        // PUT
-        // { body: newComment }
         fetch(`/api/posts/${post.id}/comments/${commentId}`, {
           body: JSON.stringify({ body: newComment }),
           method: 'PUT',
