@@ -67,11 +67,11 @@ function Posts() {
 
     post.comments.splice(commentIndex, 1);
 
+    setPosts(newPosts);
+
     fetch(`/api/posts/${post.id}/comments/${commentId}`, {
       method: 'DELETE',
     });
-
-    setPosts(newPosts);
   };
 
   /**
@@ -90,6 +90,8 @@ function Posts() {
 
     post.comments[commentIndex].body = newComment;
 
+    setPosts(newPosts);
+
     fetch(`/api/posts/${post.id}/comments/${commentId}`, {
       body: JSON.stringify({ body: newComment }),
       method: 'PUT',
@@ -97,8 +99,6 @@ function Posts() {
         'Content-Type': 'application/json',
       },
     });
-
-    setPosts(newPosts);
   };
 
   /**
