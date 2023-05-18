@@ -7,7 +7,7 @@ import { AiOutlineSend } from 'react-icons/ai';
  *
  * @typedef {object} Props
  * @property {string} initialValue - The initial value of the input.
- * @property {() => void} onCancel - The function that will be called when the form is cancelled.
+ * @property {() => void} [onCancel] - The function that will be called when the form is cancelled.
  * @property {(comment: string) => void} onSubmit - The function that will be called with the comment when the form is submitted.
  *
  * @param {Props} props - The props object.
@@ -30,7 +30,9 @@ export default function CommentForm({ initialValue, onCancel, onSubmit }) {
   const handleCancel = (event) => {
     event.preventDefault();
 
-    onCancel();
+    if (onCancel) {
+      onCancel();
+    }
   };
 
   /**
@@ -46,7 +48,9 @@ export default function CommentForm({ initialValue, onCancel, onSubmit }) {
    */
   const handleKeyDown = (event) => {
     if (event.keyCode === 27) {
-      onCancel();
+      if (onCancel) {
+        onCancel();
+      }
     }
   };
 
