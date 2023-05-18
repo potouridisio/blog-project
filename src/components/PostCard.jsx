@@ -26,7 +26,7 @@ import Popper from './Popper';
  * @property {(commentId: string) => void} onDeleteComment - A function that is called when a comment is deleted.
  * @property {(commentId: string, newText: string) => void} onEditComment - A function that is called when a comment is edited.
  * @property {() => void} onToggleLike - A function that is called when the like button is clicked.
- *
+ * @property {object} session - The session object.
  * @property {string} title - The title of the post.
  * @property {string} userId - The ID of the user who made the post.
  * @property {object[]} users - An array of users in the application.
