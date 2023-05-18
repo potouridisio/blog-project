@@ -63,15 +63,6 @@ export function truncate(str) {
 }
 
 /**
- * Returns a random number between 1000 and 6000.
- *
- * @returns {number} A random number between 1000 and 6000.
- */
-export function getRandomNumber() {
-  return Math.floor(Math.random() * 5000) + 1000;
-}
-
-/**
  * Returns the time elapsed since a given date.
  *
  * @param {Date} date - The date to calculate the time since.

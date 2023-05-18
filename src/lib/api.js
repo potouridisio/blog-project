@@ -1,4 +1,4 @@
-import { POSTS, USERS } from './constants';
+import { POSTS, USERS } from '../../data';
 import { getRandomNumber } from './utils';
 
 // Προσομοιώνουμε την αποστολή αιτήματος στον server με την χρήση της setTimeout

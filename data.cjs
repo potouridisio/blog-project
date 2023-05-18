@@ -1,82 +1,83 @@
-export const USERS = [
+/* eslint-disable no-undef */
+const { v4: uuidv4 } = require('uuid');
+
+const USERS = [
   {
     email: 'adam.johnson@example',
-    id: crypto.randomUUID(),
+    id: uuidv4(),
     name: 'Adam Johnson',
     role: 'admin',
   },
   {
     email: 'emily.green@example',
-    id: crypto.randomUUID(),
+    id: uuidv4(),
     name: 'Emily Green',
     role: 'admin',
   },
   {
     email: 'robert.davis@example',
-    id: crypto.randomUUID(),
+    id: uuidv4(),
     name: 'Robert Davis',
     role: 'user',
   },
   {
-    id: crypto.randomUUID(),
+    id: uuidv4(),
     name: 'Sophie White',
     email: 'sophie.white@example.com',
     role: 'user',
   },
   {
     email: 'john.smith@example',
-    id: crypto.randomUUID(),
+    id: uuidv4(),
     name: 'John Smith',
     role: 'admin',
   },
   {
     email: 'sarah.jones@example',
-    id: crypto.randomUUID(),
+    id: uuidv4(),
     name: 'Sarah Jones',
     role: 'user',
   },
   {
     email: 'mike.doe@example',
-    id: crypto.randomUUID(),
+    id: uuidv4(),
     name: 'Mike Doe',
     role: 'user',
   },
 ];
 
-export const POSTS = [
+const POSTS = [
   {
     body: "If you're just starting out with front-end development, there are a few things you should keep in mind. First, focus on the basics. Learn HTML, CSS, and JavaScript inside and out before moving on to more advanced topics. Second, don't be afraid to make mistakes. Learning by doing is one of the most effective ways to improve your skills. Finally, be patient. Learning front-end development takes time and practice, but the rewards are well worth it.",
     comments: [
       {
         body: 'Great advice! Thanks for sharing.',
         createdAt: '2023-05-06T09:10:41.702Z',
-        id: crypto.randomUUID(),
-        // χρησιμοποιούμε το id του χρήστη από τον πίνακα USERS για να συνδέσουμε το σχόλιο με τον χρήστη
-        // επειδή αν χρησιμοποιούσαμε το crypto.randomUUID() θα έφτιαχνε ένα νέο id και δεν θα μπορούσαμε να συνδέσουμε το σχόλιο με τον χρήστη
+        id: uuidv4(),
         userId: USERS[1].id,
       },
       {
         body: 'I totally agree. Learning the basics is crucial.',
         createdAt: '2023-05-05T16:34:22.056Z',
-        id: crypto.randomUUID(),
+        id: uuidv4(),
         userId: USERS[2].id,
       },
       {
         body: "I'm having a hard time with CSS. Any tips?",
         createdAt: '2023-05-04T18:45:19.333Z',
-        id: crypto.randomUUID(),
+        id: uuidv4(),
         userId: USERS[3].id,
       },
     ],
     createdAt: '2023-05-06T09:10:41.702Z',
-    id: crypto.randomUUID(),
+    id: uuidv4(),
     likes: [
       {
-        id: crypto.randomUUID(),
+        id: uuidv4(),
         userId: USERS[0].id,
       },
       {
-        id: crypto.randomUUID(),
+        id: uuidv4(),
         userId: USERS[2].id,
       },
     ],
@@ -89,21 +90,21 @@ export const POSTS = [
       {
         body: "I've been trying to learn responsive design. It's challenging, but I know it's worth it.",
         createdAt: '2023-05-06T01:22:05.452Z',
-        id: crypto.randomUUID(),
+        id: uuidv4(),
         userId: USERS[2].id,
       },
       {
         body: "I completely agree. Responsive design is a must-have in today's digital landscape.",
         createdAt: '2023-05-05T11:56:17.932Z',
-        id: crypto.randomUUID(),
+        id: uuidv4(),
         userId: USERS[3].id,
       },
     ],
     createdAt: '2023-05-06T01:22:05.452Z',
-    id: crypto.randomUUID(),
+    id: uuidv4(),
     likes: [
       {
-        id: crypto.randomUUID(),
+        id: uuidv4(),
         userId: USERS[1].id,
       },
     ],
@@ -116,41 +117,41 @@ export const POSTS = [
       {
         body: "I've been using React for a while now and I love it.",
         createdAt: '2023-05-05T08:30:00.000Z',
-        id: crypto.randomUUID(),
+        id: uuidv4(),
         userId: USERS[1].id,
       },
       {
         body: "I'm just starting out with front-end development. Which framework do you recommend?",
         createdAt: '2023-05-05T09:15:00.000Z',
-        id: crypto.randomUUID(),
+        id: uuidv4(),
         userId: USERS[2].id,
       },
       {
         body: "I'm not very familiar with Git. Do you have any resources to recommend?",
         createdAt: '2023-05-05T10:00:00.000Z',
-        id: crypto.randomUUID(),
+        id: uuidv4(),
         userId: USERS[3].id,
       },
       {
         body: "I recommend checking out the Git documentation on their official website. It's very thorough and easy to follow.",
         createdAt: '2023-05-06T11:30:00.000Z',
-        id: crypto.randomUUID(),
+        id: uuidv4(),
         userId: USERS[0].id,
       },
     ],
     createdAt: '2023-05-05T08:30:00.000Z',
-    id: crypto.randomUUID(),
+    id: uuidv4(),
     likes: [
       {
-        id: crypto.randomUUID(),
+        id: uuidv4(),
         userId: USERS[1].id,
       },
       {
-        id: crypto.randomUUID(),
+        id: uuidv4(),
         userId: USERS[2].id,
       },
       {
-        id: crypto.randomUUID(),
+        id: uuidv4(),
         userId: USERS[3].id,
       },
     ],
@@ -163,35 +164,35 @@ export const POSTS = [
       {
         body: "I've been hearing a lot about static site generators lately. Thanks for the recommendation!",
         createdAt: '2023-05-11T12:45:00.000Z',
-        id: crypto.randomUUID(),
+        id: uuidv4(),
         userId: USERS[4].id,
       },
       {
         body: "I've used Gatsby before and it's amazing. Highly recommend it!",
         createdAt: '2023-05-11T14:20:00.000Z',
-        id: crypto.randomUUID(),
+        id: uuidv4(),
         userId: USERS[2].id,
       },
       {
         body: 'Static site generators are definitely the way of the future. They make it so easy to create high-performing websites.',
         createdAt: '2023-05-11T16:30:00.000Z',
-        id: crypto.randomUUID(),
+        id: uuidv4(),
         userId: USERS[3].id,
       },
     ],
     createdAt: '2023-05-11T12:45:00.000Z',
-    id: crypto.randomUUID(),
+    id: uuidv4(),
     likes: [
       {
-        id: crypto.randomUUID(),
+        id: uuidv4(),
         userId: USERS[0].id,
       },
       {
-        id: crypto.randomUUID(),
+        id: uuidv4(),
         userId: USERS[2].id,
       },
       {
-        id: crypto.randomUUID(),
+        id: uuidv4(),
         userId: USERS[3].id,
       },
     ],
@@ -204,21 +205,21 @@ export const POSTS = [
       {
         body: 'I have been using AWS Lambda for some time now and it has made my life so much easier.',
         createdAt: '2023-05-10T13:45:22.056Z',
-        id: crypto.randomUUID(),
+        id: uuidv4(),
         userId: USERS[0].id,
       },
       {
         body: 'I am new to serverless architecture. Can you recommend any resources to get started?',
         createdAt: '2023-05-11T09:15:00.000Z',
-        id: crypto.randomUUID(),
+        id: uuidv4(),
         userId: USERS[3].id,
       },
     ],
     createdAt: '2023-05-10T13:45:22.056Z',
-    id: crypto.randomUUID(),
+    id: uuidv4(),
     likes: [
       {
-        id: crypto.randomUUID(),
+        id: uuidv4(),
         userId: USERS[2].id,
       },
     ],
@@ -231,25 +232,25 @@ export const POSTS = [
       {
         body: 'I recently started using a CDN for my website and it has made a huge difference in page load times.',
         createdAt: '2023-05-09T18:30:00.000Z',
-        id: crypto.randomUUID(),
+        id: uuidv4(),
         userId: USERS[2].id,
       },
       {
         body: 'Thanks for the tips! I will definitely keep these in mind when optimizing my website.',
         createdAt: '2023-05-10T11:00:00.000Z',
-        id: crypto.randomUUID(),
+        id: uuidv4(),
         userId: USERS[3].id,
       },
     ],
     createdAt: '2023-05-09T18:30:00.000Z',
-    id: crypto.randomUUID(),
+    id: uuidv4(),
     likes: [
       {
-        id: crypto.randomUUID(),
+        id: uuidv4(),
         userId: USERS[0].id,
       },
       {
-        id: crypto.randomUUID(),
+        id: uuidv4(),
         userId: USERS[1].id,
       },
     ],
@@ -257,3 +258,5 @@ export const POSTS = [
     userId: USERS[2].id,
   },
 ];
+
+module.exports = { POSTS, USERS };
