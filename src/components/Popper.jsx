@@ -23,17 +23,25 @@ export default function Popper({ children, className, trigger }) {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
+    /**
+     * Handles the mouse down event.
+     *
+     * This function is triggered when a mouse button is pressed down.
+     *
+     * If the popperRef exists and the event target is not inside the popperRef, it sets the show state to false.
+     *
+     * @param {Event} event - The mouse down event.
+     *
+     * @returns {void}
+     */
     const handleMouseDown = (event) => {
-      // αν δεν έχει γίνει κλικ στο trigger ή στο popper τότε κλείνουμε το popper
       if (popperRef.current && !popperRef.current.contains(event.target)) {
         setShow(false);
       }
     };
 
-    // προσθέτουμε το event listener στο document
     document.addEventListener('mousedown', handleMouseDown);
 
-    // καθαρίζουμε το event listener όταν το component καταστραφεί
     return () => {
       document.removeEventListener('mousedown', handleMouseDown);
     };
