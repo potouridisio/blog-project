@@ -26,7 +26,7 @@ import Popper from './Popper';
  * @property {() => void} onDelete - A function that is called when the post is deleted.
  * @property {(commentId: string) => void} onDeleteComment - A function that is called when a comment is deleted.
  * @property {(commentId: string, newText: string) => void} onEditComment - A function that is called when a comment is edited.
- * @property {() => void} onLike - A function that is called when the like button is clicked.
+ * @property {() => void} onToggleLike - A function that is called when the like button is clicked.
  * @property {string} title - The title of the post.
  * @property {string} userId - The ID of the user who made the post.
  * @property {object[]} users - An array of users in the application.
@@ -46,7 +46,7 @@ export default function PostCard({
   onDelete,
   onDeleteComment,
   onEditComment,
-  onLike,
+  onToggleLike,
   title,
   userId,
   users,
@@ -120,7 +120,11 @@ export default function PostCard({
           ) : null}
         </p>
         <div className="mt-6 flex items-center justify-between">
-          <button className="inline-flex select-none items-center text-sm text-gray-500" onClick={onLike} type="button">
+          <button
+            className="inline-flex select-none items-center text-sm text-gray-500"
+            onClick={onToggleLike}
+            type="button"
+          >
             {likes.some((like) => like.userId === session.user.id) ? (
               <AiFillHeart className="shrink-0 fill-red-500" size={20} />
             ) : (

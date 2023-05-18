@@ -56,7 +56,7 @@ function App() {
     setPosts(newPosts);
   };
 
-  const handleLike = (postIndex) => {
+  const handleToggleLike = (postIndex) => {
     const newPosts = posts.slice().map((obj) => Object.assign({}, obj));
     const post = newPosts[postIndex];
     const like = post.likes.find((like) => like.userId === session.user.id);
@@ -97,7 +97,7 @@ function App() {
                 onDelete={() => setPosts(posts.filter((post) => post.id !== id))}
                 onDeleteComment={(commentId) => handleDeleteComment(commentId, index)}
                 onEditComment={(commentId, comment) => handleEditComment(commentId, comment, index)}
-                onLike={() => handleLike(index)}
+                onToggleLike={() => handleToggleLike(index)}
                 users={users}
                 {...post}
               />
