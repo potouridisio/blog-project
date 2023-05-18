@@ -33,14 +33,18 @@ function App() {
       const newPosts = posts.slice().map((obj) => Object.assign({}, obj));
       const post = newPosts[postIndex];
 
-      post.comments.push({
-        body: comment,
-        createdAt: new Date().toISOString(),
-        id: crypto.randomUUID(),
-        userId: session.user.id,
-      });
-
-      setPosts(newPosts);
+      fetch(`/api/posts/${post.id}/comments`, {
+        body: JSON.stringify({ body: comment, userId: session.user.id }),
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((res) => res.json())
+        .then((comment) => {
+          post.comments.push(comment);
+          setPosts(newPosts);
+        });
     }
   };
 
@@ -58,6 +62,12 @@ function App() {
     const commentIndex = post.comments.findIndex((comment) => comment.id === commentId);
 
     post.comments.splice(commentIndex, 1);
+
+    // /posts/:postId/comments/:commentId
+    // DELETE
+    fetch(`/api/posts/${post.id}/comments/${commentId}`, {
+      method: 'DELETE',
+    });
 
     setPosts(newPosts);
   };
@@ -78,6 +88,17 @@ function App() {
     post.comments.forEach((comment) => {
       if (comment.id === commentId) {
         comment.body = newComment;
+
+        // /posts/:postId/comments/:commentId
+        // PUT
+        // { body: newComment }
+        fetch(`/api/posts/${post.id}/comments/${commentId}`, {
+          body: JSON.stringify({ body: newComment }),
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
       }
     });
 
