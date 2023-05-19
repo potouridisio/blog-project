@@ -117,25 +117,20 @@ function Posts() {
       fetch(`/api/posts/${post.id}/like`, {
         body: JSON.stringify({ userId: session.user.id }),
         method: 'POST',
-        header: {
+        headers: {
           'Content-Type': 'application/json',
         },
       })
         .then((res) => res.json())
-        .then(
-          post.likes.push({
-            id: crypto.randomUUID(),
-            userId: session.user.id,
-          }),
-        );
+        .then((like) => {
+          post.likes.push(like);
+          setPosts(newPosts);
+        });
     } else {
+      const likeId = post.likes[likeIndex];
       post.likes.splice(likeIndex, 1);
-    }
-
-    setPosts(newPosts);
-
-    if (likeIndex === 1) {
-      fetch(`/api/posts/${post.id}/like`, {
+      setPosts(newPosts);
+      fetch(`/api/posts/${post.id}/like/${likeId}`, {
         body: JSON.stringify({ userId: session.user.id }),
         method: 'DELETE',
       });
