@@ -134,10 +134,12 @@ function Posts() {
 
     setPosts(newPosts);
 
-    fetch(`/api/posts/${post.id}/like`, {
-      body: JSON.stringify({ userId: session.user.id }),
-      method: 'DELETE',
-    });
+    if (likeIndex === 1) {
+      fetch(`/api/posts/${post.id}/like`, {
+        body: JSON.stringify({ userId: session.user.id }),
+        method: 'DELETE',
+      });
+    }
   };
 
   return (
