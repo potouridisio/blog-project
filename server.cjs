@@ -268,13 +268,23 @@ app.delete('/posts/:postId', (req, res) => {
 app.post('/posts/:postId/like', (req, res) => {
   const { postId } = req.params;
   const { userId } = req.body;
+  const likeId = uuidv4();
 
-  db.run('INSERT INTO likes (id, userId, postId) VALUES (?, ?, ?)', [uuidv4(), userId, postId], (err) => {
+  db.run('INSERT INTO likes (id, userId, postId) VALUES (?, ?, ?)', [likeId, userId, postId], (err) => {
     if (err) {
       console.error(err);
       res.status(500).json({ error: 'Internal server error' });
     } else {
-      res.sendStatus(201);
+      // Retrieve the added like object
+      const query = 'SELECT * FROM likes WHERE id = ?';
+      db.get(query, [likeId], (likeErr, likeRow) => {
+        if (likeErr) {
+          console.error(likeErr);
+          res.status(500).json({ error: 'Internal server error' });
+        } else {
+          res.status(201).json(likeRow);
+        }
+      });
     }
   });
 });
