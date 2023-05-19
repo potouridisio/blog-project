@@ -127,10 +127,9 @@ function Posts() {
           setPosts(newPosts);
         });
     } else {
-      const like = post.likes[likeIndex];
       post.likes.splice(likeIndex, 1);
       setPosts(newPosts);
-      fetch(`/api/posts/${post.id}/like/${like.id}`, {
+      fetch(`/api/posts/${post.id}/like/`, {
         body: JSON.stringify({ userId: session.user.id }),
         method: 'DELETE',
         headers: {
