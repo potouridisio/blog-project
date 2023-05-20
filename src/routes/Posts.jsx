@@ -5,10 +5,12 @@ import { useLoaderData, useOutletContext } from 'react-router';
 import PostCard from '../components/PostCard';
 
 export async function loader() {
-  return {
-    posts: await fetch('/api/posts').then((res) => res.json()),
-    users: await fetch('/api/users').then((res) => res.json()),
-  };
+  const [posts, users] = await Promise.all([
+    fetch('/api/posts').then((res) => res.json()),
+    fetch('/api/users').then((res) => res.json()),
+  ]);
+
+  return { posts, users };
 }
 
 function Posts() {
