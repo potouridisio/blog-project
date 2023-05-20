@@ -1,7 +1,6 @@
-/* eslint-disable no-undef */
-const { v4: uuidv4 } = require('uuid');
+import { v4 as uuidv4 } from 'uuid';
 
-const USERS = [
+export const USERS = [
   {
     email: 'adam.johnson@example',
     id: uuidv4(),
@@ -46,7 +45,7 @@ const USERS = [
   },
 ];
 
-const POSTS = [
+export const POSTS = [
   {
     body: "If you're just starting out with front-end development, there are a few things you should keep in mind. First, focus on the basics. Learn HTML, CSS, and JavaScript inside and out before moving on to more advanced topics. Second, don't be afraid to make mistakes. Learning by doing is one of the most effective ways to improve your skills. Finally, be patient. Learning front-end development takes time and practice, but the rewards are well worth it.",
     comments: [
@@ -258,5 +257,3 @@ const POSTS = [
     userId: USERS[2].id,
   },
 ];
-
-module.exports = { POSTS, USERS };

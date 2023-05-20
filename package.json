@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "concurrently \"npm run dev-react\" \"npm run start-server\"",
     "dev-react": "vite",
-    "start-server": "node server.cjs",
+    "start-server": "node server.js",
     "build": "vite build",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",

@@ -1,8 +1,8 @@
-/* eslint-disable no-undef */
-const express = require('express');
-const sqlite3 = require('sqlite3').verbose();
-const { v4: uuidv4 } = require('uuid');
-const { POSTS, USERS } = require('./data.cjs'); // Import the POSTS and USERS arrays
+import express from 'express';
+import sqlite3 from 'sqlite3';
+import { v4 as uuidv4 } from 'uuid';
+
+import { POSTS, USERS } from './data.js';
 
 // Create a new Express app
 const app = express();
