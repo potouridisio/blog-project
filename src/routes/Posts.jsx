@@ -77,6 +77,27 @@ function Posts() {
   };
 
   /**
+   * Handles deleting a post.
+   *
+   * @param {number} postIndex - The index of the post.
+   *
+   * @returns {void}
+   * */
+  const handleDeletePost = (postIndex) => {
+    const newPosts = posts.slice().map((obj) => Object.assign({}, obj));
+
+    newPosts.splice(postIndex, 1);
+
+    setPosts(newPosts);
+
+    const post = posts[postIndex];
+
+    fetch(`/api/posts/${post.id}`, {
+      method: 'DELETE',
+    });
+  };
+
+  /**
    * Handles editing a comment in a post.
    *
    * @param {string} commentId - The ID of the comment to be edited.
@@ -135,7 +156,7 @@ function Posts() {
           <PostCard
             key={id}
             onAddComment={(comment) => handleAddComment(comment, index)}
-            onDelete={() => setPosts(posts.filter((post) => post.id !== id))}
+            onDelete={() => handleDeletePost(index)}
             onDeleteComment={(commentId) => handleDeleteComment(commentId, index)}
             onEditComment={(commentId, comment) => handleEditComment(commentId, comment, index)}
             onToggleLike={() => handleToggleLike(index)}
