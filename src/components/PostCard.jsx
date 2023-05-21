@@ -1,13 +1,16 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
-import { AiFillHeart, AiOutlineHeart, AiOutlineMore } from 'react-icons/ai';
+import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
+
+import { Menu } from '@headlessui/react';
+import { EllipsisHorizontalIcon as EllipsisHorizontalIcon24 } from '@heroicons/react/24/solid';
+import { EllipsisHorizontalIcon as EllipsisHorizontalIcon20 } from '@heroicons/react/20/solid';
 
 import { timeAgo, truncate } from '../lib/utils';
 import Avatar from './Avatar';
 import Button from './Button';
 import CommentForm from './CommentForm';
 import Dialog from './Dialog';
-import Popper from './Popper';
 
 /**
  * A component that displays a post with its body, comments, likes, title and user information.
@@ -123,22 +126,25 @@ export default function PostCard({
             <p className="text-xs text-gray-500">{timeAgo(new Date(createdAt))}</p>
           </div>
           {canDeletePost ? (
-            <Popper
-              trigger={
-                <button className="rounded-full p-1.5 hover:bg-gray-100" type="button">
-                  <AiOutlineMore className="rotate-90 fill-gray-500" size={24} />
-                </button>
-              }
-            >
-              <div className="p-2">
-                <a
-                  className="block cursor-pointer rounded px-3 py-1.5 text-sm font-medium hover:bg-gray-100"
-                  onClick={() => setIsDeletingPost(true)}
-                >
-                  Delete
-                </a>
-              </div>
-            </Popper>
+            <Menu as="div" className="relative">
+              <Menu.Button className="rounded-full p-1.5 hover:bg-gray-100">
+                <EllipsisHorizontalIcon24 className="h-6 w-6 text-gray-500" />
+              </Menu.Button>
+              <Menu.Items className="absolute left-1/2 z-10 mt-2 min-w-max -translate-x-1/2 transform rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+                <div className="p-2">
+                  <Menu.Item
+                    as="a"
+                    className="block cursor-pointer rounded px-3 py-1.5 text-sm font-medium hover:bg-gray-100"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      setIsDeletingPost(true);
+                    }}
+                  >
+                    Delete
+                  </Menu.Item>
+                </div>
+              </Menu.Items>
+            </Menu>
           ) : null}
         </div>
         <h2 className="mb-2 text-lg font-semibold">{title}</h2>
@@ -210,37 +216,42 @@ export default function PostCard({
                         </div>
                       )}
                       {isEditingComment !== comment.id && (canDeleteComment || canEditComment) ? (
-                        <Popper
-                          className="-mt-[1.125rem] ml-0.5 self-center"
-                          trigger={
-                            <button
-                              className="rounded-full p-1.5 opacity-0 hover:bg-gray-100 group-hover:opacity-100"
-                              tabIndex={-1}
-                              type="button"
-                            >
-                              <AiOutlineMore className="rotate-90 fill-gray-500" size={20} />
-                            </button>
-                          }
-                        >
-                          <div className="p-2">
-                            {canEditComment ? (
-                              <a
-                                className="block cursor-pointer rounded px-3 py-1.5 text-sm font-medium hover:bg-gray-100"
-                                onClick={() => setIsEditingComment(comment.id)}
-                              >
-                                Edit
-                              </a>
-                            ) : null}
-                            {canDeleteComment ? (
-                              <a
-                                className="block cursor-pointer rounded px-3 py-1.5 text-sm font-medium hover:bg-gray-100"
-                                onClick={() => setIsDeletingComment(comment.id)}
-                              >
-                                Delete
-                              </a>
-                            ) : null}
-                          </div>
-                        </Popper>
+                        <Menu as="div" className="relative -mt-[1.125rem] ml-0.5 self-center">
+                          <Menu.Button
+                            className="rounded-full p-1.5 opacity-0 hover:bg-gray-100 group-hover:opacity-100"
+                            tabIndex={-1}
+                          >
+                            <EllipsisHorizontalIcon20 className="h-5 w-5 text-gray-500" />
+                          </Menu.Button>
+                          <Menu.Items className="absolute left-1/2 z-10 mt-2 min-w-max -translate-x-1/2 transform rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+                            <div className="p-2">
+                              {canEditComment ? (
+                                <Menu.Item
+                                  as="a"
+                                  className="block cursor-pointer rounded px-3 py-1.5 text-sm font-medium hover:bg-gray-100"
+                                  onClick={(event) => {
+                                    event.preventDefault();
+                                    setIsEditingComment(comment.id);
+                                  }}
+                                >
+                                  Edit
+                                </Menu.Item>
+                              ) : null}
+                              {canDeleteComment ? (
+                                <Menu.Item
+                                  as="a"
+                                  className="block cursor-pointer rounded px-3 py-1.5 text-sm font-medium hover:bg-gray-100"
+                                  onClick={(event) => {
+                                    event.preventDefault();
+                                    setIsDeletingComment(comment.id);
+                                  }}
+                                >
+                                  Delete
+                                </Menu.Item>
+                              ) : null}
+                            </div>
+                          </Menu.Items>
+                        </Menu>
                       ) : null}
                     </li>
                   );
