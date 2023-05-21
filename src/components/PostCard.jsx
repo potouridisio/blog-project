@@ -1,10 +1,9 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
-import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 
 import { Menu } from '@headlessui/react';
 import { EllipsisHorizontalIcon as EllipsisHorizontalIcon24 } from '@heroicons/react/24/solid';
-import { EllipsisHorizontalIcon as EllipsisHorizontalIcon20 } from '@heroicons/react/20/solid';
+import { EllipsisHorizontalIcon as EllipsisHorizontalIcon20, HeartIcon } from '@heroicons/react/20/solid';
 
 import { timeAgo, truncate } from '../lib/utils';
 import Avatar from './Avatar';
@@ -115,6 +114,7 @@ export default function PostCard({
 
   const postUser = users.find((user) => user.id === userId);
   const canDeletePost = userId === session.user.id || session.user.role === 'admin';
+  const likesPost = likes.some((like) => like.userId === session.user.id);
 
   return (
     <>
@@ -157,16 +157,8 @@ export default function PostCard({
           ) : null}
         </p>
         <div className="mt-6 flex items-center justify-between">
-          <button
-            className="inline-flex select-none items-center text-sm text-gray-500"
-            onClick={onToggleLike}
-            type="button"
-          >
-            {likes.some((like) => like.userId === session.user.id) ? (
-              <AiFillHeart className="shrink-0 fill-red-500" size={20} />
-            ) : (
-              <AiOutlineHeart className="shrink-0 fill-gray-500" size={20} />
-            )}
+          <button className="inline-flex select-none items-center text-sm" onClick={onToggleLike} type="button">
+            <HeartIcon className={`h-5 w-5 ${likesPost ? 'text-red-500' : 'text-gray-400 text-opacity-50'}`} />
             &nbsp;
             {likes.length}
           </button>
