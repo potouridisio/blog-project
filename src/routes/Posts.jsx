@@ -33,25 +33,21 @@ function Posts() {
    * @returns {void}
    */
   const handleAddComment = (comment, postIndex) => {
-    if (!comment) {
-      return undefined;
-    } else {
-      const newPosts = posts.slice().map((obj) => Object.assign({}, obj));
-      const post = newPosts[postIndex];
+    const newPosts = posts.slice().map((obj) => Object.assign({}, obj));
+    const post = newPosts[postIndex];
 
-      fetch(`/api/posts/${post.id}/comments`, {
-        body: JSON.stringify({ body: comment, userId: session.user.id }),
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-        .then((res) => res.json())
-        .then((comment) => {
-          post.comments.push(comment);
-          setPosts(newPosts);
-        });
-    }
+    fetch(`/api/posts/${post.id}/comments`, {
+      body: JSON.stringify({ body: comment, userId: session.user.id }),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((res) => res.json())
+      .then((comment) => {
+        post.comments.push(comment);
+        setPosts(newPosts);
+      });
   };
 
   /**

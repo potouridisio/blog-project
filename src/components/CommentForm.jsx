@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
-import { AiOutlineSend } from 'react-icons/ai';
+
+import { PaperAirplaneIcon } from '@heroicons/react/20/solid';
 
 /**
  * A form for submitting comments.
@@ -86,8 +87,16 @@ export default function CommentForm({ initialValue, onCancel, onSubmit }) {
           placeholder="Write a comment..."
           value={value}
         />
-        <button className="absolute bottom-1 right-1 rounded-full p-1.5 hover:bg-gray-200" type="submit">
-          <AiOutlineSend className="fill-gray-500" size={20} />
+        <button
+          className={`absolute bottom-1 right-1 rounded-full p-1.5${
+            value !== '' ? ' hover:bg-gray-200' : ''
+          } disabled:cursor-not-allowed`}
+          disabled={value === ''}
+          type="submit"
+        >
+          <PaperAirplaneIcon
+            className={`h-5 w-5 ${value === '' ? 'text-gray-400 text-opacity-50' : 'text-blue-500'}`}
+          />
         </button>
       </form>
       {isEditing ? (
