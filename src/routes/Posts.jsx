@@ -133,15 +133,29 @@ function Posts() {
     const likeIndex = post.likes.findIndex((like) => like.userId === session.user.id);
 
     if (likeIndex === -1) {
-      post.likes.push({
-        id: crypto.randomUUID(),
-        userId: session.user.id,
-      });
+      fetch(`/api/posts/${post.id}/like`, {
+        body: JSON.stringify({ userId: session.user.id }),
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((res) => res.json())
+        .then((like) => {
+          post.likes.push(like);
+          setPosts(newPosts);
+        });
     } else {
       post.likes.splice(likeIndex, 1);
+      setPosts(newPosts);
+      fetch(`/api/posts/${post.id}/like/`, {
+        body: JSON.stringify({ userId: session.user.id }),
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
     }
-
-    setPosts(newPosts);
   };
 
   return (
