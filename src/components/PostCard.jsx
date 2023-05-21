@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
 
-import { Menu } from '@headlessui/react';
+import { Dialog, Menu } from '@headlessui/react';
 import { EllipsisHorizontalIcon as EllipsisHorizontalIcon24 } from '@heroicons/react/24/solid';
 import { EllipsisHorizontalIcon as EllipsisHorizontalIcon20, HeartIcon } from '@heroicons/react/20/solid';
 
@@ -9,7 +9,6 @@ import { timeAgo, truncate } from '../lib/utils';
 import Avatar from './Avatar';
 import Button from './Button';
 import CommentForm from './CommentForm';
-import Dialog from './Dialog';
 
 /**
  * A component that displays a post with its body, comments, likes, title and user information.
@@ -132,15 +131,22 @@ export default function PostCard({
               </Menu.Button>
               <Menu.Items className="absolute left-1/2 z-10 mt-2 min-w-max -translate-x-1/2 transform rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
                 <div className="p-2">
-                  <Menu.Item
-                    as="a"
-                    className="block cursor-pointer rounded px-3 py-1.5 text-sm font-medium hover:bg-gray-100"
-                    onClick={(event) => {
-                      event.preventDefault();
-                      setIsDeletingPost(true);
-                    }}
-                  >
-                    Delete
+                  <Menu.Item>
+                    {({ close }) => (
+                      <a
+                        className="block cursor-pointer rounded px-3 py-1.5 text-sm font-medium hover:bg-gray-100"
+                        href="#"
+                        onClick={(event) => {
+                          event.preventDefault();
+
+                          setIsDeletingPost(true);
+
+                          close();
+                        }}
+                      >
+                        Delete
+                      </a>
+                    )}
                   </Menu.Item>
                 </div>
               </Menu.Items>
@@ -218,27 +224,41 @@ export default function PostCard({
                           <Menu.Items className="absolute left-1/2 z-10 mt-2 min-w-max -translate-x-1/2 transform rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
                             <div className="p-2">
                               {canEditComment ? (
-                                <Menu.Item
-                                  as="a"
-                                  className="block cursor-pointer rounded px-3 py-1.5 text-sm font-medium hover:bg-gray-100"
-                                  onClick={(event) => {
-                                    event.preventDefault();
-                                    setIsEditingComment(comment.id);
-                                  }}
-                                >
-                                  Edit
+                                <Menu.Item>
+                                  {({ close }) => (
+                                    <a
+                                      className="block cursor-pointer rounded px-3 py-1.5 text-sm font-medium hover:bg-gray-100"
+                                      href="#"
+                                      onClick={(event) => {
+                                        event.preventDefault();
+
+                                        setIsEditingComment(comment.id);
+
+                                        close();
+                                      }}
+                                    >
+                                      Edit
+                                    </a>
+                                  )}
                                 </Menu.Item>
                               ) : null}
                               {canDeleteComment ? (
-                                <Menu.Item
-                                  as="a"
-                                  className="block cursor-pointer rounded px-3 py-1.5 text-sm font-medium hover:bg-gray-100"
-                                  onClick={(event) => {
-                                    event.preventDefault();
-                                    setIsDeletingComment(comment.id);
-                                  }}
-                                >
-                                  Delete
+                                <Menu.Item>
+                                  {({ close }) => (
+                                    <a
+                                      className="block cursor-pointer rounded px-3 py-1.5 text-sm font-medium hover:bg-gray-100"
+                                      href="#"
+                                      onClick={(event) => {
+                                        event.preventDefault();
+
+                                        setIsDeletingComment(comment.id);
+
+                                        close();
+                                      }}
+                                    >
+                                      Delete
+                                    </a>
+                                  )}
                                 </Menu.Item>
                               ) : null}
                             </div>
@@ -259,34 +279,40 @@ export default function PostCard({
         ) : null}
       </div>
 
-      <Dialog className="w-full max-w-xl" onClose={() => setIsDeletingPost(false)} open={isDeletingPost}>
-        <h3 className="border-b border-b-gray-400 border-opacity-50 p-6 font-semibold">Delete Post?</h3>
-        <div className="p-6">
-          <p className="text-sm text-gray-500">Are you sure you want to delete this post?</p>
-        </div>
-        <div className="flex justify-end p-6">
-          <Button onClick={() => setIsDeletingPost(false)}>No</Button>
-          <Button className="ml-2" onClick={handleDeletePost} variant="contained">
-            Delete
-          </Button>
-        </div>
+      <Dialog onClose={() => setIsDeletingPost(false)} open={isDeletingPost}>
+        <div aria-hidden="true" className="fixed left-0 top-0 z-50 h-full w-full bg-gray-700 opacity-75" />
+        <Dialog.Panel className="fixed left-1/2 top-1/2 z-50 w-full max-w-xl -translate-x-1/2 -translate-y-1/2 transform rounded-lg bg-white shadow-lg">
+          <Dialog.Title className="border-b border-b-gray-400 border-opacity-50 p-6 font-semibold">
+            Delete Post?
+          </Dialog.Title>
+          <div className="p-6">
+            <p className="text-sm text-gray-500">Are you sure you want to delete this post?</p>
+          </div>
+          <div className="flex justify-end p-6">
+            <Button onClick={() => setIsDeletingPost(false)}>No</Button>
+            <Button className="ml-2" onClick={handleDeletePost} variant="contained">
+              Delete
+            </Button>
+          </div>
+        </Dialog.Panel>
       </Dialog>
 
-      <Dialog
-        className="w-full max-w-xl"
-        onClose={() => setIsDeletingComment(false)}
-        open={isDeletingComment !== false}
-      >
-        <h3 className="border-b border-b-gray-400 border-opacity-50 p-6 font-semibold">Delete Comment?</h3>
-        <div className="p-6">
-          <p className="text-sm text-gray-500">Are you sure you want to delete this comment?</p>
-        </div>
-        <div className="flex justify-end p-6">
-          <Button onClick={() => setIsDeletingComment(false)}>No</Button>
-          <Button className="ml-2" onClick={handleDeleteComment} variant="contained">
-            Delete
-          </Button>
-        </div>
+      <Dialog onClose={() => setIsDeletingComment(false)} open={isDeletingComment !== false}>
+        <div aria-hidden="true" className="fixed left-0 top-0 z-50 h-full w-full bg-gray-700 opacity-75" />
+        <Dialog.Panel className="fixed left-1/2 top-1/2 z-50 w-full max-w-xl -translate-x-1/2 -translate-y-1/2 transform rounded-lg bg-white shadow-lg">
+          <Dialog.Title className="border-b border-b-gray-400 border-opacity-50 p-6 font-semibold">
+            Delete Comment?
+          </Dialog.Title>
+          <div className="p-6">
+            <p className="text-sm text-gray-500">Are you sure you want to delete this comment?</p>
+          </div>
+          <div className="flex justify-end p-6">
+            <Button onClick={() => setIsDeletingComment(false)}>No</Button>
+            <Button className="ml-2" onClick={handleDeleteComment} variant="contained">
+              Delete
+            </Button>
+          </div>
+        </Dialog.Panel>
       </Dialog>
     </>
   );
