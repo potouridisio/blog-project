@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useLoaderData, useOutletContext } from 'react-router';
 
 import PostCard from '../components/PostCard';
+import { isRouteErrorResponse } from 'react-router-dom';
 
 export async function loader() {
   const [posts, users] = await Promise.all([
@@ -127,21 +128,31 @@ function Posts() {
    *
    * @returns {void}
    */
-  const handleToggleLike = (postIndex) => {
+  const handleToggleLike = (likeId, postIndex) => {
     const newPosts = posts.slice().map((obj) => Object.assign({}, obj));
     const post = newPosts[postIndex];
     const likeIndex = post.likes.findIndex((like) => like.userId === session.user.id);
 
     if (likeIndex === -1) {
-      post.likes.push({
-        id: crypto.randomUUID(),
-        userId: session.user.id,
-      });
+      fetch(`/api/posts/${post.id}/like`, {
+        body: JSON.stringify({ userId: session.user.Id }),
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((response) => response.json())
+        .then((like) => {
+          post.likes.push(like);
+          setPosts(newPosts);
+        });
     } else {
       post.likes.splice(likeIndex, 1);
+      setPosts(newPosts);
+      fetch(`/api/posts/${post.id}/like/${likeId}`, {
+        method: 'DELETE',
+      });
     }
-
-    setPosts(newPosts);
   };
 
   return (
@@ -155,7 +166,7 @@ function Posts() {
             onDelete={() => handleDeletePost(index)}
             onDeleteComment={(commentId) => handleDeleteComment(commentId, index)}
             onEditComment={(commentId, comment) => handleEditComment(commentId, comment, index)}
-            onToggleLike={() => handleToggleLike(index)}
+            onToggleLike={(likeId) => handleToggleLike(likeId, index)}
             session={session}
             users={users}
             {...post}
