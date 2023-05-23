@@ -127,21 +127,41 @@ function Posts() {
    *
    * @returns {void}
    */
+
   const handleToggleLike = (postIndex) => {
     const newPosts = posts.slice().map((obj) => Object.assign({}, obj));
     const post = newPosts[postIndex];
     const likeIndex = post.likes.findIndex((like) => like.userId === session.user.id);
 
     if (likeIndex === -1) {
-      post.likes.push({
-        id: crypto.randomUUID(),
-        userId: session.user.id,
-      });
+      fetch(`/api/posts/${post.id}/like`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: session.user.id,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          post.likes.push(data);
+          setPosts(newPosts);
+        });
     } else {
       post.likes.splice(likeIndex, 1);
-    }
+      setPosts(newPosts);
 
-    setPosts(newPosts);
+      fetch(`/api/posts/${post.id}/like`, {
+        method: 'DELETE',
+        body: JSON.stringify({
+          userId: session.user.id,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    }
   };
 
   return (
