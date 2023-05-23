@@ -121,7 +121,6 @@ function Posts() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          id: crypto.randomUUID(),
           userId: session.user.id,
         }),
       })
@@ -134,13 +133,15 @@ function Posts() {
       post.likes.splice(likeIndex, 1);
       setPosts(newPosts);
 
-      fetch(`/api/posts/${post.id}/likes/${likeId}`, {
+      fetch(`/api/posts/${post.id}/like`, {
         method: 'DELETE',
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          post.likes = data.likes;
-        });
+        body: JSON.stringify({
+          userId: session.user.id,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
     }
   };
 
