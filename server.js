@@ -13,16 +13,108 @@ const db = new Database(":memory:");
 
 // Schema setup
 db.exec(`
-  CREATE TABLE users (username TEXT PRIMARY KEY, password TEXT);
-  CREATE TABLE sessions (token TEXT PRIMARY KEY, username TEXT);
-  CREATE TABLE posts (id TEXT PRIMARY KEY, title TEXT, content TEXT, author TEXT);
-  CREATE TABLE comments (id TEXT PRIMARY KEY, postId TEXT, content TEXT, author TEXT);
+  CREATE TABLE users (
+    username TEXT PRIMARY KEY,
+    password TEXT
+  );
+
+  CREATE TABLE sessions (
+    token TEXT PRIMARY KEY,
+    username TEXT
+  );
+
+  CREATE TABLE posts (
+    id TEXT PRIMARY KEY,
+    title TEXT,
+    content TEXT,
+    author TEXT,
+    createdAt TEXT
+  );
+
+  CREATE TABLE comments (
+    id TEXT PRIMARY KEY,
+    postId TEXT,
+    content TEXT,
+    author TEXT,
+    createdAt TEXT
+  );
 `);
 
-db.prepare(`INSERT INTO users (username, password) VALUES (?, ?)`).run(
-  "student",
-  "pass"
+// Create users
+const users = [
+  { username: "student", password: "pass" }, // real login user
+  { username: "alice", password: "x" },
+  { username: "bob", password: "x" },
+  { username: "carol", password: "x" },
+  { username: "dave", password: "x" },
+];
+
+const userInsert = db.prepare(
+  `INSERT INTO users (username, password) VALUES (?, ?)`,
 );
+
+users.forEach((user) => userInsert.run(user.username, user.password));
+
+// Helpers
+function getRandomDate(start, end) {
+  return new Date(
+    start.getTime() + Math.random() * (end.getTime() - start.getTime()),
+  );
+}
+function pickRandomUser() {
+  return users[Math.floor(Math.random() * users.length)].username;
+}
+
+const now = new Date();
+const postInsert = db.prepare(
+  `INSERT INTO posts (id, title, content, author, createdAt) VALUES (?, ?, ?, ?, ?)`,
+);
+const commentInsert = db.prepare(
+  `INSERT INTO comments (id, postId, content, author, createdAt) VALUES (?, ?, ?, ?, ?)`,
+);
+
+// Generate mock posts
+const mockPosts = [
+  { title: "Welcome to the Blog", content: "This is your first post!" },
+  { title: "Second Post", content: "Another day, another post." },
+  { title: "Learning SQLite", content: "SQLite is light, fast, and easy!" },
+  { title: "Using Vite", content: "Vite makes frontend fast and fun." },
+  { title: "Tailwind Rocks", content: "No more fighting CSS." },
+  { title: "Writing APIs", content: "RESTful routes keep things simple." },
+  { title: "In-memory Databases", content: "Perfect for quick dev cycles." },
+  { title: "Frontend Talks to Backend", content: "Fetch and go!" },
+  { title: "Keeping State with LocalStorage", content: "Easy token auth." },
+  { title: "Final Mock Post", content: "You made it to the end." },
+];
+
+const postIds = [];
+
+mockPosts.forEach((post) => {
+  const createdAt = getRandomDate(
+    new Date(now.getTime() - 1000 * 60 * 60 * 24 * 10),
+    now,
+  ); // within last 10 days
+  const id = uuidv4();
+  const author = pickRandomUser();
+  postInsert.run(id, post.title, post.content, author, createdAt.toISOString());
+  postIds.push({ id, createdAt });
+});
+
+// Generate comments (2-4 per post, never before post)
+postIds.forEach(({ id: postId, createdAt: postDate }) => {
+  const commentCount = Math.floor(Math.random() * 3) + 2;
+  for (let i = 0; i < commentCount; i++) {
+    const commentTime = getRandomDate(new Date(postDate), now);
+    const author = pickRandomUser();
+    commentInsert.run(
+      uuidv4(),
+      postId,
+      `Comment ${i + 1} on post ${postId.slice(0, 6)}`,
+      author,
+      commentTime.toISOString(),
+    );
+  }
+});
 
 // Auth middleware
 function authenticate(req, res, next) {
@@ -48,7 +140,7 @@ app.post("/login", (req, res) => {
   const token = "token-" + uuidv4();
   db.prepare(`INSERT INTO sessions (token, username) VALUES (?, ?)`).run(
     token,
-    username
+    username,
   );
   res.json({ token });
 });
@@ -63,7 +155,7 @@ app.post("/posts", authenticate, (req, res) => {
   const id = uuidv4();
   const { title, content } = req.body;
   db.prepare(
-    `INSERT INTO posts (id, title, content, author) VALUES (?, ?, ?, ?)`
+    `INSERT INTO posts (id, title, content, author) VALUES (?, ?, ?, ?)`,
   ).run(id, title, content, req.username);
   res.status(201).json({ id, title, content, author: req.username });
 });
@@ -86,7 +178,7 @@ app.put("/posts/:id", authenticate, (req, res) => {
   db.prepare(`UPDATE posts SET title = ?, content = ? WHERE id = ?`).run(
     title,
     content,
-    req.params.id
+    req.params.id,
   );
 
   const updated = db
@@ -117,7 +209,7 @@ app.post("/posts/:postId/comments", authenticate, (req, res) => {
   const id = uuidv4();
   const { content } = req.body;
   db.prepare(
-    `INSERT INTO comments (id, postId, content, author) VALUES (?, ?, ?, ?)`
+    `INSERT INTO comments (id, postId, content, author) VALUES (?, ?, ?, ?)`,
   ).run(id, req.params.postId, content, req.username);
 
   res
@@ -134,7 +226,7 @@ app.put("/comments/:id", authenticate, (req, res) => {
   const { content } = req.body;
   db.prepare(`UPDATE comments SET content = ? WHERE id = ?`).run(
     content,
-    req.params.id
+    req.params.id,
   );
 
   const updated = db
