@@ -3,7 +3,7 @@ import "./style.css";
 const token = localStorage.getItem("token");
 
 if (token) {
-  window.location.href = "/posts";
+  window.location.href = "/";
 }
 
 const form = document.getElementById("loginForm");
@@ -43,6 +43,6 @@ form.addEventListener("submit", async (event) => {
   } else {
     localStorage.setItem("token", json.token);
 
-    window.location.href = "/posts";
+    window.location.href = "/";
   }
 });
