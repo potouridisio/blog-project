@@ -11,10 +11,8 @@ const form = document.getElementById("loginForm");
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
 
-  const formData = new FormData(event.target);
-
-  const username = formData.get("username");
-  const password = formData.get("password");
+  const username = event.target.username.value;
+  const password = event.target.password.value;
 
   const response = await fetch("http://localhost:3000/login", {
     body: JSON.stringify({ username, password }),
