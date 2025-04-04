@@ -20,7 +20,7 @@ for (const post of posts) {
   const postLink = document.createElement("a");
 
   postLink.className =
-    "block px-4 py-2.5 text-sm text-indigo-900 hover:bg-indigo-300/70 focus:bg-indigo-300/70 focus:outline-0";
+    "flex items-center justify-between px-4 py-2.5 text-sm text-indigo-900 hover:bg-indigo-300/70 focus:bg-indigo-300/70 focus:outline-0";
   postLink.href = "#";
   postLink.textContent = post.title;
   postLink.addEventListener("click", async (event) => {
