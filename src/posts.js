@@ -34,12 +34,12 @@ for (const post of posts) {
     />
   </svg> `;
   removePostButton.className =
-    "-mr-2 cursor-pointer pointer-events-auto hover:bg-indigo-200/50 p-2";
+    "-mr-2 cursor-pointer hover:bg-indigo-200/50 p-2 opacity-0 hover:opacity-100 ";
   removePostButton.id = "removePost";
   removePostButton.title = "Remove post";
   removePostButton.type = "button";
   postLink.className =
-    "flex items-center justify-between px-4 py-2.5 text-sm text-indigo-900 hover:bg-indigo-300/70 focus:bg-indigo-300/70 focus:outline-0";
+    " flex items-center justify-between px-4 py-2.5 text-sm text-indigo-900 hover:bg-indigo-300/70 focus:bg-indigo-300/70 focus:outline-0";
   postLink.href = "#";
   postLink.textContent = post.title;
 
