@@ -39,6 +39,33 @@ for (const post of posts) {
 
     postTitle.textContent = json.title;
     postContent.textContent = json.content;
+
+    const commentsResponse = await fetch(
+      `http://localhost:3000/posts/${post.id}/comments`,
+      {
+        headers: {
+          Authorization: token,
+        },
+      },
+    );
+
+    const commentsJson = await commentsResponse.json();
+
+    const commentsList = document.getElementById("commentsList");
+
+    commentsList.innerHTML = "";
+
+    for (const comment of commentsJson) {
+      const commentListItem = document.createElement("li");
+
+      commentListItem.innerHTML = `
+        <h4 class="text-sm font-semibold text-indigo-700">${comment.author}</h4>
+        <p class="mb-2 text-xs text-indigo-500">${comment.createdAt}</p>
+        <p class="text-sm text-indigo-900">${comment.content}</p>
+      `;
+
+      commentsList.appendChild(commentListItem);
+    }
   });
 
   postsNav.appendChild(postLink);
