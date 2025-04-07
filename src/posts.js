@@ -1,5 +1,10 @@
 import "./style.css";
 
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime);
+
 const token = localStorage.getItem("token");
 
 if (!token) {
@@ -60,7 +65,7 @@ for (const post of posts) {
 
       commentListItem.innerHTML = `
         <h4 class="text-sm font-semibold text-indigo-700">${comment.author}</h4>
-        <p class="mb-2 text-xs text-indigo-500">${comment.createdAt}</p>
+        <p class="mb-2 text-xs text-indigo-500">${dayjs(comment.createdAt).fromNow()}</p>
         <p class="text-sm text-indigo-900">${comment.content}</p>
       `;
 
