@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -10,13 +10,11 @@
   </head>
   <body class="flex min-h-dvh bg-indigo-100">
     <aside class="w-60 flex-none bg-indigo-300">
-      <nav id="postsNav"></nav>
+      <nav class="py-1.5" id="postsNav">
+      </nav>
     </aside>
-    <main class="p-6">
-      <h2
-        class="mb-4 text-xl font-semibold text-indigo-500"
-        id="postTitle"
-      ></h2>
+    <main class="p-6 grow">
+      <h2 class="mb-4 text-xl font-semibold text-indigo-500" id="postTitle"></h2>
       <p class="text-sm text-indigo-900" id="postContent"></p>
     </main>
     <script type="module" src="/src/posts.js"></script>
