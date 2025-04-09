@@ -1,5 +1,7 @@
 import "./style.css";
 
+import { login } from "./api";
+
 const token = localStorage.getItem("token");
 
 if (token) {
@@ -14,22 +16,14 @@ form.addEventListener("submit", async (event) => {
   const username = event.target.username.value;
   const password = event.target.password.value;
 
-  const response = await fetch("http://localhost:3000/login", {
-    body: JSON.stringify({ username, password }),
-    headers: {
-      "Content-Type": "application/json",
-    },
-    method: "POST",
-  });
+  const user = await login(username, password);
 
-  const json = await response.json();
-
-  if ("error" in json) {
+  if ("error" in user) {
     const errorMessage = document.createElement("p");
 
     errorMessage.className = "mb-6 text-center text-sm text-red-500";
     errorMessage.id = "errorMessage";
-    errorMessage.textContent = json.error;
+    errorMessage.textContent = user.error;
 
     const existingErrorMessage = document.getElementById("errorMessage");
 
@@ -39,7 +33,7 @@ form.addEventListener("submit", async (event) => {
 
     form.insertAdjacentElement("afterbegin", errorMessage);
   } else {
-    localStorage.setItem("token", json.token);
+    localStorage.setItem("token", user.token);
 
     window.location.href = "/";
   }

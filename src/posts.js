@@ -3,6 +3,8 @@ import "./style.css";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
+import { getComments, getPost, getPosts } from "./api";
+
 dayjs.extend(relativeTime);
 
 const token = localStorage.getItem("token");
@@ -11,56 +13,35 @@ if (!token) {
   window.location.href = "/login";
 }
 
-const response = await fetch("http://localhost:3000/posts", {
-  headers: {
-    Authorization: token,
-  },
-});
-
-const posts = await response.json();
+const posts = await getPosts(token);
 
 const postsNav = document.getElementById("postsNav");
 
-for (const post of posts) {
+for (const { id, title } of posts) {
   const postLink = document.createElement("a");
 
   postLink.className =
     "block px-4 py-2.5 text-sm text-indigo-900 hover:bg-indigo-300/70 focus:bg-indigo-300/70 focus:outline-0";
   postLink.href = "#";
-  postLink.textContent = post.title;
+  postLink.textContent = title;
   postLink.addEventListener("click", async (event) => {
     event.preventDefault();
 
-    const response = await fetch(`http://localhost:3000/posts/${post.id}`, {
-      headers: {
-        Authorization: token,
-      },
-    });
-
-    const json = await response.json();
+    const post = await getPost(id, token);
 
     const postTitle = document.getElementById("postTitle");
     const postContent = document.getElementById("postContent");
 
-    postTitle.textContent = json.title;
-    postContent.textContent = json.content;
+    postTitle.textContent = post.title;
+    postContent.textContent = post.content;
 
-    const commentsResponse = await fetch(
-      `http://localhost:3000/posts/${post.id}/comments`,
-      {
-        headers: {
-          Authorization: token,
-        },
-      },
-    );
-
-    const commentsJson = await commentsResponse.json();
+    const comments = await getComments(post.id, token);
 
     const commentsList = document.getElementById("commentsList");
 
     commentsList.innerHTML = "";
 
-    for (const comment of commentsJson) {
+    for (const comment of comments) {
       const commentListItem = document.createElement("li");
 
       commentListItem.innerHTML = `
