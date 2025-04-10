@@ -9,13 +9,19 @@ export function renderPosts(posts, token) {
   const postsNav = document.getElementById("postsNav");
 
   postsNav.addEventListener("click", async (event) => {
-    const post = await getPost(event.target.dataset.postId, token);
+    const postId = event.target.dataset.postId;
+
+    const post = await getPost(postId, token);
 
     renderPost(post);
 
     const comments = await getComments(post.id, token);
 
     renderComments(comments);
+
+    const commentForm = document.getElementById("commentForm");
+
+    commentForm.setAttribute("data-post-id", postId);
   });
 
   for (const post of posts) {
@@ -39,7 +45,7 @@ function renderPost(post) {
   postContent.textContent = post.content;
 }
 
-function renderComments(comments) {
+export function renderComments(comments) {
   const commentsList = document.getElementById("commentsList");
 
   commentsList.innerHTML = "";
