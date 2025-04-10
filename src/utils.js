@@ -55,42 +55,4 @@ function renderComments(comments) {
 
     commentsList.appendChild(commentListItem);
   }
-
-  const commentForm = createCommentForm();
-
-  commentsList.insertAdjacentElement("afterend", commentForm);
-}
-
-function createCommentForm(postId, token) {
-  const commentForm = document.createElement("form");
-
-  commentForm.id = "commentForm";
-
-  const existingCommentForm = document.getElementById("commentForm");
-
-  if (existingCommentForm) {
-    existingCommentForm.remove();
-  }
-
-  commentForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-
-    const content = event.target.content.value;
-
-    const response = await fetch(
-      `http://localhost:3000/posts/${postId}/comments`,
-      {
-        body: JSON.stringify({ content }),
-        headers: {
-          Authorization: token,
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-      },
-    );
-
-    const json = await response.json();
-  });
-
-  return commentForm;
 }

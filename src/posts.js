@@ -12,3 +12,13 @@ if (!token) {
 const posts = await getPosts(token);
 
 renderPosts(posts, token);
+
+const commentForm = document.getElementById("commentForm");
+
+commentForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const content = event.target.content.value;
+
+  console.log({ content });
+});
