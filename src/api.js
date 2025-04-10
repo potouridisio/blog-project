@@ -12,12 +12,22 @@ export async function login(username, password) {
   return json;
 }
 
+function logout() {
+  localStorage.removeItem("token");
+}
+
 export async function getPosts(token) {
   const response = await fetch("http://localhost:3000/posts", {
     headers: {
       Authorization: token,
     },
   });
+
+  if (response.status === 401) {
+    logout();
+
+    window.location.href = "/login";
+  }
 
   const json = await response.json();
 
