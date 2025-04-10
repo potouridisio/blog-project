@@ -8,24 +8,24 @@ dayjs.extend(relativeTime);
 export function renderPosts(posts, token) {
   const postsNav = document.getElementById("postsNav");
 
-  for (const { id, title } of posts) {
+  postsNav.addEventListener("click", async (event) => {
+    const post = await getPost(event.target.dataset.postId, token);
+
+    renderPost(post);
+
+    const comments = await getComments(post.id, token);
+
+    renderComments(comments);
+  });
+
+  for (const post of posts) {
     const postLink = document.createElement("a");
 
     postLink.className =
       "block px-4 py-2.5 text-sm font-medium text-indigo-900 hover:bg-indigo-300/70 focus:bg-indigo-300/70 focus:outline-0";
+    postLink.setAttribute("data-post-id", post.id);
     postLink.href = "#";
-    postLink.textContent = title;
-    postLink.addEventListener("click", async (event) => {
-      event.preventDefault();
-
-      const post = await getPost(id, token);
-
-      renderPost(post);
-
-      const comments = await getComments(post.id, token);
-
-      renderComments(comments);
-    });
+    postLink.textContent = post.title;
 
     postsNav.appendChild(postLink);
   }
