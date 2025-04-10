@@ -7,8 +7,14 @@
     <meta name="description" content="A blog project." />
     <meta name="keywords" content="blog, posts, project" />
     <title>Posts - Blog Project</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
   </head>
-  <body class="flex min-h-dvh bg-indigo-100">
+  <body class="flex min-h-dvh">
     <aside class="w-60 flex-none bg-indigo-300/50">
       <nav class="py-1.5" id="postsNav"></nav>
     </aside>
@@ -18,9 +24,9 @@
         id="postTitle"
       ></h2>
       <p class="mb-4 text-sm text-indigo-900" id="postContent"></p>
-      <h3 class="mb-2 text-lg font-medium text-indigo-500">Comments</h3>
+      <h3 class="mb-2 text-lg font-semibold text-indigo-500">Comments</h3>
       <ul class="mb-4 space-y-4" id="commentsList"></ul>
-      <h4 class="mb-2 font-medium text-indigo-500" id="addCommentTitle">
+      <h4 class="mb-2 font-semibold text-indigo-500" id="addCommentTitle">
         Add a comment
       </h4>
       <form class="space-y-2" id="commentForm">
