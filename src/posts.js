@@ -1,6 +1,6 @@
 import "./style.css";
 
-import { getComments, getPosts } from "./api";
+import { addComment, getComments, getPosts } from "./api";
 import { renderPosts, renderComments } from "./utils";
 
 const token = localStorage.getItem("token");
@@ -21,19 +21,7 @@ commentForm.addEventListener("submit", async (event) => {
   const postId = event.target.dataset.postId;
   const content = event.target.content.value;
 
-  const response = await fetch(
-    `http://localhost:3000/posts/${postId}/comments`,
-    {
-      body: JSON.stringify({ content }),
-      headers: {
-        Authorization: token,
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-    },
-  );
-
-  await response.json();
+  await addComment(postId, content, token);
 
   const comments = await getComments(postId, token);
 
