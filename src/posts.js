@@ -61,3 +61,23 @@ commentForm.addEventListener("submit", async (event) => {
     "indigo",
   );
 });
+
+const openModal = document.querySelector("[data-open-modal]");
+const modal = document.querySelector("[data-modal]");
+const dialog = document.querySelector("dialog");
+
+openModal.addEventListener("click", () => {
+  modal.showModal();
+});
+
+dialog.addEventListener("click", (e) => {
+  const dialogDimensions = dialog.getBoundingClientRect();
+  if (
+    e.clientX < dialogDimensions.left ||
+    e.clientX > dialogDimensions.right ||
+    e.clientY < dialogDimensions.top ||
+    e.clientY > dialogDimensions.bottom
+  ) {
+    dialog.close();
+  }
+});
