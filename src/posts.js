@@ -1,7 +1,8 @@
 import "./style.css";
 
-import { addComment, getComments, getPosts } from "./api";
+import { addComment, getComments, getPosts, addPost } from "./api";
 import { renderPosts, renderComments } from "./utils";
+import { doc } from "prettier";
 
 const token = localStorage.getItem("token");
 
@@ -65,19 +66,46 @@ commentForm.addEventListener("submit", async (event) => {
 const openModal = document.querySelector("[data-open-modal]");
 const modal = document.querySelector("[data-modal]");
 const dialog = document.querySelector("dialog");
+const cancelButton = document.getElementById("cancelButton");
 
 openModal.addEventListener("click", () => {
   modal.showModal();
 });
 
-dialog.addEventListener("click", (e) => {
+cancelButton.addEventListener("click", (event) => {
+  modal.close();
+});
+
+dialog.addEventListener("click", (event) => {
   const dialogDimensions = dialog.getBoundingClientRect();
   if (
-    e.clientX < dialogDimensions.left ||
-    e.clientX > dialogDimensions.right ||
-    e.clientY < dialogDimensions.top ||
-    e.clientY > dialogDimensions.bottom
+    event.clientX < dialogDimensions.left ||
+    event.clientX > dialogDimensions.right ||
+    event.clientY < dialogDimensions.top ||
+    event.clientY > dialogDimensions.bottom
   ) {
-    dialog.close();
+    modal.close();
   }
+});
+const addPostForm = document.getElementById("addPostForm");
+
+addPostForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const title = event.target.title.value;
+  const content = event.target.content.value;
+
+  // if (!title || !content) {
+  //
+  // return;};
+
+  await addPost(title, content, token);
+
+  const updatedPosts = await getPosts(token);
+
+  document.getElementById("postsNav").innerHTML = "";
+  renderPosts(updatedPosts, token);
+
+  event.target.reset();
+  modal.close();
 });

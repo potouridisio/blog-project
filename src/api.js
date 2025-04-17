@@ -79,20 +79,17 @@ export async function addComment(postId, content, token) {
   return json;
 }
 
-// export async function addPost(postId, content, token) {
-//   const response = await fetch(
-//     `http://localhost:3000/${post}`,
-//     {
-//       body: JSON.stringify({ content }),
-//       headers: {
-//         Authorization: token,
-//         "Content-Type": "application/json",
-//       },
-//       method: "POST",
-//     },
-//   );
+export async function addPost(title, content, token) {
+  const response = await fetch("http://localhost:3000/posts", {
+    body: JSON.stringify({ title, content }),
+    headers: {
+      Authorization: token,
+      "Content-Type": "application/json",
+    },
+    method: "POST",
+  });
 
-//   const json = await response.json();
+  const json = await response.json();
 
-//   return json;
-// }
+  return json;
+}
