@@ -22,6 +22,17 @@ export function renderPosts(posts, token) {
     const commentForm = document.getElementById("commentForm");
 
     commentForm.setAttribute("data-post-id", postId);
+    const commentInput = document.querySelector("#commentForm textarea");
+    const errorMessage = document.getElementById("errorMessage");
+
+    if (errorMessage) errorMessage.remove();
+
+    if (commentInput) {
+      resetInputStyles(
+        commentInput,
+        "w-full resize-none rounded-md border border-indigo-300 bg-white px-4 py-2 text-sm text-indigo-900 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none",
+      );
+    }
   });
 
   for (const post of posts) {
