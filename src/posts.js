@@ -36,9 +36,17 @@ commentForm.addEventListener("submit", async (event) => {
     }
 
     event.target.content.insertAdjacentElement("afterend", errorMessage);
-    event.target.content.className = event.target.content.className.replaceAll(
-      "indigo",
-      "red",
+    const contentInput = event.target.content;
+
+    contentInput.classList.add(
+      "border-red-300",
+      "focus:border-red-500",
+      "focus:ring-red-500",
+    );
+    contentInput.classList.remove(
+      "border-indigo-300",
+      "focus:border-indigo-500",
+      "focus:ring-indigo-500",
     );
     event.target.content.focus();
 
@@ -57,9 +65,15 @@ commentForm.addEventListener("submit", async (event) => {
 
   existingErrorMessage.remove();
 
-  event.target.content.className = event.target.content.className.replaceAll(
-    "red",
-    "indigo",
+  contentInput.classList.remove(
+    "border-red-300",
+    "focus:border-red-500",
+    "focus:ring-red-500",
+  );
+  contentInput.classList.add(
+    "border-indigo-300",
+    "focus:border-indigo-500",
+    "focus:ring-indigo-500",
   );
 });
 
@@ -109,14 +123,29 @@ addPostForm.addEventListener("submit", async (event) => {
     contentInput.insertAdjacentElement("afterend", errorMessage);
 
     if (!title) {
-      titleInput.className = titleInput.className.replaceAll("indigo", "red");
+      titleInput.classList.add(
+        "border-red-300",
+        "focus:border-red-500",
+        "focus:ring-red-500",
+      );
+      titleInput.classList.remove(
+        "border-indigo-300",
+        "focus:border-indigo-500",
+        "focus:ring-indigo-500",
+      );
       titleInput.focus();
     }
 
     if (!content) {
-      contentInput.className = contentInput.className.replaceAll(
-        "indigo",
-        "red",
+      contentInput.classList.add(
+        "border-red-300",
+        "focus:border-red-500",
+        "focus:ring-red-500",
+      );
+      contentInput.classList.remove(
+        "border-indigo-300",
+        "focus:border-indigo-500",
+        "focus:ring-indigo-500",
       );
       if (title) contentInput.focus();
     }
@@ -133,8 +162,27 @@ addPostForm.addEventListener("submit", async (event) => {
   const existingError = document.getElementById("postErrorMessage");
   if (existingError) existingError.remove();
 
-  titleInput.className = titleInput.className.replaceAll("red", "indigo");
-  contentInput.className = contentInput.className.replaceAll("red", "indigo");
+  titleInput.classList.remove(
+    "border-red-300",
+    "focus:border-red-500",
+    "focus:ring-red-500",
+  );
+  titleInput.classList.add(
+    "border-indigo-300",
+    "focus:border-indigo-500",
+    "focus:ring-indigo-500",
+  );
+
+  contentInput.classList.remove(
+    "border-red-300",
+    "focus:border-red-500",
+    "focus:ring-red-500",
+  );
+  contentInput.classList.add(
+    "border-indigo-300",
+    "focus:border-indigo-500",
+    "focus:ring-indigo-500",
+  );
 
   event.target.reset();
   modal.close();
