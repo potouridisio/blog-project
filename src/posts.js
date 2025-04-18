@@ -76,7 +76,7 @@ cancelButton.addEventListener("click", (event) => {
   modal.close();
 });
 
-dialog.addEventListener("click", (event) => {
+dialog.addEventListener("mousedown", (event) => {
   const dialogDimensions = dialog.getBoundingClientRect();
   if (
     event.clientX < dialogDimensions.left ||
@@ -87,6 +87,7 @@ dialog.addEventListener("click", (event) => {
     modal.close();
   }
 });
+
 const addPostForm = document.getElementById("addPostForm");
 
 addPostForm.addEventListener("submit", async (event) => {
@@ -94,10 +95,34 @@ addPostForm.addEventListener("submit", async (event) => {
 
   const title = event.target.title.value;
   const content = event.target.content.value;
+  const titleInput = event.target.title;
+  const contentInput = event.target.content;
+  if (!title || !content) {
+    const errorMessage = document.createElement("p");
+    errorMessage.id = "postErrorMessage";
+    errorMessage.className = "mt-2 text-sm text-red-500";
+    errorMessage.textContent = "Both title and content are required";
 
-  // if (!title || !content) {
-  //
-  // return;};
+    const existingError = document.getElementById("postErrorMessage");
+    if (existingError) existingError.remove();
+
+    contentInput.insertAdjacentElement("afterend", errorMessage);
+
+    if (!title) {
+      titleInput.className = titleInput.className.replaceAll("indigo", "red");
+      titleInput.focus();
+    }
+
+    if (!content) {
+      contentInput.className = contentInput.className.replaceAll(
+        "indigo",
+        "red",
+      );
+      if (title) contentInput.focus();
+    }
+
+    return;
+  }
 
   await addPost(title, content, token);
 
@@ -105,6 +130,11 @@ addPostForm.addEventListener("submit", async (event) => {
 
   document.getElementById("postsNav").innerHTML = "";
   renderPosts(updatedPosts, token);
+  const existingError = document.getElementById("postErrorMessage");
+  if (existingError) existingError.remove();
+
+  titleInput.className = titleInput.className.replaceAll("red", "indigo");
+  contentInput.className = contentInput.className.replaceAll("red", "indigo");
 
   event.target.reset();
   modal.close();
