@@ -87,6 +87,18 @@ openModal.addEventListener("click", () => {
 });
 
 cancelButton.addEventListener("click", (event) => {
+  const error = document.getElementById("postErrorMessage");
+  const titleInput = document.querySelector("#addPostForm input[name='title']");
+  const contentInput = document.querySelector(
+    "#addPostForm textarea[name='content']",
+  );
+  if (error) error.remove();
+
+  titleInput.className =
+    "w-full rounded-md border-none bg-indigo-50 px-4 py-2.5 text-sm text-indigo-900 focus:bg-indigo-100 focus:ring-2 focus:ring-indigo-300 focus:outline-none";
+  contentInput.className =
+    "w-full resize-none rounded-md border-none bg-indigo-50 px-4 py-2.5 text-sm text-indigo-900 focus:bg-indigo-100 focus:ring-2 focus:ring-indigo-300 focus:outline-none";
+
   modal.close();
 });
 
