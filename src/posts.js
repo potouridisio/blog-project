@@ -1,7 +1,12 @@
 import "./style.css";
 
 import { addComment, getComments, getPosts, addPost } from "./api";
-import { renderPosts, renderComments, resetFormStyles } from "./utils";
+import {
+  renderPosts,
+  renderComments,
+  resetFormStyles,
+  setInputErrorStyles,
+} from "./utils";
 import { doc } from "prettier";
 
 const token = localStorage.getItem("token");
@@ -36,18 +41,7 @@ commentForm.addEventListener("submit", async (event) => {
     }
 
     event.target.content.insertAdjacentElement("afterend", errorMessage);
-    const contentInput = event.target.content;
-
-    contentInput.classList.add(
-      "border-red-300",
-      "focus:border-red-500",
-      "focus:ring-red-500",
-    );
-    contentInput.classList.remove(
-      "border-indigo-300",
-      "focus:border-indigo-500",
-      "focus:ring-indigo-500",
-    );
+    setInputErrorStyles(event.target.content);
     event.target.content.focus();
 
     return;
@@ -61,20 +55,7 @@ commentForm.addEventListener("submit", async (event) => {
 
   event.target.content.value = "";
 
-  const existingErrorMessage = document.getElementById("errorMessage");
-
-  existingErrorMessage.remove();
-
-  contentInput.classList.remove(
-    "border-red-300",
-    "focus:border-red-500",
-    "focus:ring-red-500",
-  );
-  contentInput.classList.add(
-    "border-indigo-300",
-    "focus:border-indigo-500",
-    "focus:ring-indigo-500",
-  );
+  resetFormStyles();
 });
 
 const openModal = document.querySelector("[data-open-modal]");
@@ -126,30 +107,12 @@ addPostForm.addEventListener("submit", async (event) => {
     contentInput.insertAdjacentElement("afterend", errorMessage);
 
     if (!title) {
-      titleInput.classList.add(
-        "border-red-300",
-        "focus:border-red-500",
-        "focus:ring-red-500",
-      );
-      titleInput.classList.remove(
-        "border-indigo-300",
-        "focus:border-indigo-500",
-        "focus:ring-indigo-500",
-      );
+      setInputErrorStyles(titleInput);
       titleInput.focus();
     }
 
     if (!content) {
-      contentInput.classList.add(
-        "border-red-300",
-        "focus:border-red-500",
-        "focus:ring-red-500",
-      );
-      contentInput.classList.remove(
-        "border-indigo-300",
-        "focus:border-indigo-500",
-        "focus:ring-indigo-500",
-      );
+      setInputErrorStyles(contentInput);
       if (title) contentInput.focus();
     }
 

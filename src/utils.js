@@ -77,10 +77,23 @@ export function resetFormStyles() {
   if (postError) postError.remove();
   if (commentError) commentError.remove();
 
-  titleInput.className =
+  const defaultClasses =
     "w-full resize-none rounded-md border-none bg-indigo-50 px-4 py-2.5 text-sm text-indigo-900 focus:bg-indigo-100 focus:ring-2 focus:ring-indigo-300 focus:outline-none";
-  postContentInput.className =
-    "w-full resize-none rounded-md border-none bg-indigo-50 px-4 py-2.5 text-sm text-indigo-900 focus:bg-indigo-100 focus:ring-2 focus:ring-indigo-300 focus:outline-none";
-  commentContentInput.className =
-    "w-full resize-none rounded-md border-none bg-indigo-50 px-4 py-2.5 text-sm text-indigo-900 focus:bg-indigo-100 focus:ring-2 focus:ring-indigo-300 focus:outline-none";
+
+  titleInput.className = defaultClasses;
+  postContentInput.className = defaultClasses;
+  commentContentInput.className = defaultClasses;
+}
+
+export function setInputErrorStyles(input) {
+  input.classList.add(
+    "border-red-300",
+    "focus:border-red-500",
+    "focus:ring-red-500",
+  );
+  input.classList.remove(
+    "border-indigo-300",
+    "focus:border-indigo-500",
+    "focus:ring-indigo-500",
+  );
 }
