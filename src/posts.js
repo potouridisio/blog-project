@@ -1,7 +1,7 @@
 import "./style.css";
 
 import { addComment, getComments, getPosts, addPost } from "./api";
-import { renderPosts, renderComments } from "./utils";
+import { renderPosts, renderComments, resetFormStyles } from "./utils";
 import { doc } from "prettier";
 
 const token = localStorage.getItem("token");
@@ -87,17 +87,7 @@ openModal.addEventListener("click", () => {
 });
 
 cancelButton.addEventListener("click", (event) => {
-  const error = document.getElementById("postErrorMessage");
-  const titleInput = document.querySelector("#addPostForm input[name='title']");
-  const contentInput = document.querySelector(
-    "#addPostForm textarea[name='content']",
-  );
-  if (error) error.remove();
-
-  titleInput.className =
-    "w-full rounded-md border-none bg-indigo-50 px-4 py-2.5 text-sm text-indigo-900 focus:bg-indigo-100 focus:ring-2 focus:ring-indigo-300 focus:outline-none";
-  contentInput.className =
-    "w-full resize-none rounded-md border-none bg-indigo-50 px-4 py-2.5 text-sm text-indigo-900 focus:bg-indigo-100 focus:ring-2 focus:ring-indigo-300 focus:outline-none";
+  resetFormStyles();
 
   modal.close();
 });
@@ -110,6 +100,7 @@ dialog.addEventListener("mousedown", (event) => {
     event.clientY < dialogDimensions.top ||
     event.clientY > dialogDimensions.bottom
   ) {
+    resetFormStyles();
     modal.close();
   }
 });

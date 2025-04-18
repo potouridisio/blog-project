@@ -62,3 +62,25 @@ export function renderComments(comments) {
     commentsList.appendChild(commentListItem);
   }
 }
+
+export function resetFormStyles() {
+  const postError = document.getElementById("postErrorMessage");
+  const commentError = document.getElementById("errorMessage");
+  const titleInput = document.querySelector("#addPostForm input[name='title']");
+  const postContentInput = document.querySelector(
+    "#addPostForm textarea[name='content']",
+  );
+  const commentContentInput = document.querySelector(
+    "#commentForm textarea[name='content']",
+  );
+
+  if (postError) postError.remove();
+  if (commentError) commentError.remove();
+
+  titleInput.className =
+    "w-full resize-none rounded-md border-none bg-indigo-50 px-4 py-2.5 text-sm text-indigo-900 focus:bg-indigo-100 focus:ring-2 focus:ring-indigo-300 focus:outline-none";
+  postContentInput.className =
+    "w-full resize-none rounded-md border-none bg-indigo-50 px-4 py-2.5 text-sm text-indigo-900 focus:bg-indigo-100 focus:ring-2 focus:ring-indigo-300 focus:outline-none";
+  commentContentInput.className =
+    "w-full resize-none rounded-md border-none bg-indigo-50 px-4 py-2.5 text-sm text-indigo-900 focus:bg-indigo-100 focus:ring-2 focus:ring-indigo-300 focus:outline-none";
+}
