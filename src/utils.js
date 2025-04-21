@@ -22,6 +22,17 @@ export function renderPosts(posts, token) {
     const commentForm = document.getElementById("commentForm");
 
     commentForm.setAttribute("data-post-id", postId);
+    const commentInput = document.querySelector("#commentForm textarea");
+    const errorMessage = document.getElementById("errorMessage");
+
+    if (errorMessage) errorMessage.remove();
+
+    if (commentInput) {
+      resetInputStyles(
+        commentInput,
+        "w-full resize-none rounded-md border border-indigo-300 bg-white px-4 py-2 text-sm text-indigo-900 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none",
+      );
+    }
   });
 
   for (const post of posts) {
@@ -61,4 +72,39 @@ export function renderComments(comments) {
 
     commentsList.appendChild(commentListItem);
   }
+}
+
+export function resetFormStyles() {
+  const postError = document.getElementById("postErrorMessage");
+  const commentError = document.getElementById("errorMessage");
+  const titleInput = document.querySelector("#addPostForm input[name='title']");
+  const postContentInput = document.querySelector(
+    "#addPostForm textarea[name='content']",
+  );
+  const commentContentInput = document.querySelector(
+    "#commentForm textarea[name='content']",
+  );
+
+  if (postError) postError.remove();
+  if (commentError) commentError.remove();
+
+  const defaultClasses =
+    "w-full resize-none rounded-md border-none bg-indigo-50 px-4 py-2.5 text-sm text-indigo-900 focus:bg-indigo-100 focus:ring-2 focus:ring-indigo-300 focus:outline-none";
+
+  titleInput.className = defaultClasses;
+  postContentInput.className = defaultClasses;
+  commentContentInput.className = defaultClasses;
+}
+
+export function setInputErrorStyles(input) {
+  input.classList.add(
+    "border-red-300",
+    "focus:border-red-500",
+    "focus:ring-red-500",
+  );
+  input.classList.remove(
+    "border-indigo-300",
+    "focus:border-indigo-500",
+    "focus:ring-indigo-500",
+  );
 }
