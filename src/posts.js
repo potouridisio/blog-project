@@ -61,3 +61,26 @@ commentForm.addEventListener("submit", async (event) => {
     "indigo",
   );
 });
+
+const addpostbtn = document.getElementById("openDialog");
+const EnterNewPost = document.getElementById("EnterNewPost");
+const cancelbtn = EnterNewPost.querySelector("#cancelbtn");
+
+addpostbtn.addEventListener("click", () => {
+  EnterNewPost.showModal();
+});
+cancelbtn.addEventListener("click", (e) => {
+  EnterNewPost.close();
+});
+EnterNewPost.addEventListener("submit", async (event) =>{
+  event.preventDefault();
+
+  const NewTitle = event.target.NewTitleContent.value;
+  const NewContent = event.target.NewPostContent.value;
+  await addNewPost(NewTitle , NewContent, token);
+  const NewPosts = await getPosts(token);
+  const clearDoubles = document.getElementById("postsNav");
+  clearDoubles.innerHTML = "";
+  renderPosts(NewPosts, token);
+  EnterNewPost.close();
+});
