@@ -72,19 +72,19 @@
     <dialog id="dialog" class="backdrop:backdrop-blur-md fixed top-1/2 left-1/2 z-50 w-full max-w-lg pt-6 pb-6 pr-12 pl-12 -translate-x-1/2 -translate-y-1/2 rounded-xl ">
       <form id="newPostForm">
         <div class="mb-4 flex flex-col">
-          <label class="mb-2 font-semibold text-indigo-500" for="title">Post title:</label>
+          <label class="mb-2 font-semibold text-indigo-500" for="postTitle">Post title:</label>
           <input
-            name="title" 
+            name="postTitle" 
             type="text"
             class="w-full rounded-md bg-indigo-50 px-4 py-2.5 text-sm text-indigo-900 focus:bg-indigo-100 focus:ring-2 focus:ring-indigo-300 focus:outline-none"
           >
-          <label class="mb-2 font-semibold text-indigo-500" for="content">Post content:</label>
+          <label class="mb-2 font-semibold text-indigo-500" for="postContent">Post content:</label>
           <textarea
-            name="content"
+            name="postContent"
             class="w-full rounded-md bg-indigo-50 px-4 py-2.5 text-sm text-indigo-900 focus:bg-indigo-100 focus:ring-2 focus:ring-indigo-300 focus:outline-none"
           ></textarea>
         </div>
-        <div class="flex">
+        <div class="flex" name="postButtons">
           <button
             id="closePostBtn"
             class="w-full rounded-md bg-white px-4 py-2.5 text-sm font-semibold text-indigo-500 hover:cursor-pointer hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-300 focus:outline-0"

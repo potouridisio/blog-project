@@ -1,6 +1,6 @@
 import "./style.css";
 
-import { addComment, getComments, getPosts } from "./api";
+import { addComment, getComments, getPosts, addPost } from "./api";
 import { renderPosts, renderComments } from "./utils";
 
 const token = localStorage.getItem("token");
@@ -65,7 +65,7 @@ commentForm.addEventListener("submit", async (event) => {
 const newPostBtnEl = document.getElementById("newPostBtn");
 
 const dialog = document.getElementById("dialog");
-const saveButton = document.getElementById("savePostBtn");
+const newPostForm = document.getElementById("newPostForm");
 const closeButton = document.getElementById("closePostBtn");
 
 newPostBtnEl.addEventListener("click",() => {
@@ -77,8 +77,40 @@ closeButton.addEventListener("click", () => {
   dialog.close();
 });
 
-saveButton.addEventListener("click",(event)=>{
+newPostForm.addEventListener("submit",async (event)=>{
   event.preventDefault();
 
+  console.log(event.target.postButtons)
   
+  const postTitle = event.target.postTitle.value;
+  const postContent = event.target.postContent.value;
+
+  
+
+  if (!postContent || !postTitle) {
+    const errorMessage = document.createElement("p");
+
+    errorMessage.className = "mt-2 text-sm text-red-500";
+    errorMessage.id = "errorMessage";
+    errorMessage.textContent = "Content field is required";
+
+    const existingErrorMessage = document.getElementById("errorMessage");
+
+    if (existingErrorMessage) {
+      existingErrorMessage.remove();
+    }
+    //error message add
+    // event.target.postButtons.insertAdjacentElement("afterend", errorMessage);
+    // event.target.postButtons.className = event.target.postButtons.className.replaceAll(
+    //   "indigo",
+    //   "red",
+    // );
+    // event.target.content.focus();
+
+    return;
+  }
+  console.log(postTitle, postContent)
+  await addPost(postTitle, postContent, token);
+  dialog.close();
+  renderPosts(await getPosts(token), token)
 });
