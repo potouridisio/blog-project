@@ -1,6 +1,6 @@
 import "./style.css";
 
-import { addComment, getComments, getPosts } from "./api";
+import { addComment, addNewPost, getComments, getPosts } from "./api";
 import { renderPosts, renderComments } from "./utils";
 
 const token = localStorage.getItem("token");
@@ -77,10 +77,34 @@ EnterNewPost.addEventListener("submit", async (event) =>{
 
   const NewTitle = event.target.NewTitleContent.value;
   const NewContent = event.target.NewPostContent.value;
+
+  if (!NewTitle || !NewContent){
+    const errorMessage = document.createElement("p");
+
+    errorMessage.className = "mt-2 text-sm text-red-500";
+    errorMessage.id = "NewPosterrorMessage";
+    errorMessage.textContent = "Title and content are required";
+
+    const existingErrorMessage = document.getElementById("NewPosterrorMessage");
+
+    if (existingErrorMessage) {
+      existingErrorMessage.remove();
+    }
+
+    event.target.content.insertAdjacentElement("afterend", errorMessage);
+    event.target.content.className = event.target.content.className.replaceAll(
+      "red",
+      "indigo",
+    );
+  }
   await addNewPost(NewTitle , NewContent, token);
   const NewPosts = await getPosts(token);
   const clearDoubles = document.getElementById("postsNav");
   clearDoubles.innerHTML = "";
   renderPosts(NewPosts, token);
+  const existingErrorMessage = document.getElementById("NewPosterrorMessage");
+  if (existingErrorMessage){
+    existingErrorMessage.remove();
+  }
   EnterNewPost.close();
 });
