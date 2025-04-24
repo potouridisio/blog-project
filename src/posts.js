@@ -92,7 +92,7 @@ newPostForm.addEventListener("submit",async (event)=>{
 
     errorMessage.className = "mt-2 text-sm text-red-500";
     errorMessage.id = "errorMessage";
-    errorMessage.textContent = "Content field is required";
+    errorMessage.textContent = "All fields are required";
 
     const existingErrorMessage = document.getElementById("errorMessage");
 
@@ -100,17 +100,24 @@ newPostForm.addEventListener("submit",async (event)=>{
       existingErrorMessage.remove();
     }
     //error message add
-    // event.target.postButtons.insertAdjacentElement("afterend", errorMessage);
-    // event.target.postButtons.className = event.target.postButtons.className.replaceAll(
-    //   "indigo",
-    //   "red",
-    // );
-    // event.target.content.focus();
-
+    event.target.postContent.insertAdjacentElement("afterend", errorMessage);
+    
     return;
   }
-  console.log(postTitle, postContent)
-  await addPost(postTitle, postContent, token);
-  dialog.close();
-  renderPosts(await getPosts(token), token)
+  try {
+    await addPost(postTitle, postContent, token);
+    
+    dialog.close();
+
+    alert("Post added succesfully!!!");
+
+    event.target.postTitle.value = "";
+    event.target.postContent.value = "";
+
+    renderPosts(await getPosts(token), token)
+
+  } catch (error) {
+    alert(error);
+  }
+  
 });
