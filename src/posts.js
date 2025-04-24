@@ -61,3 +61,24 @@ commentForm.addEventListener("submit", async (event) => {
     "indigo",
   );
 });
+
+const newPostBtnEl = document.getElementById("newPostBtn");
+
+const dialog = document.getElementById("dialog");
+const saveButton = document.getElementById("savePostBtn");
+const closeButton = document.getElementById("closePostBtn");
+
+newPostBtnEl.addEventListener("click",() => {
+  dialog.showModal();
+  
+});
+
+closeButton.addEventListener("click", () => {
+  dialog.close();
+});
+
+saveButton.addEventListener("click",(event)=>{
+  event.preventDefault();
+
+  
+});
