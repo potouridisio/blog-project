@@ -1,6 +1,6 @@
 import "./style.css";
 
-import { addComment, getComments, getPosts } from "./api";
+import { addComment, getComments, getPosts, addPost } from "./api";
 import { renderPosts, renderComments } from "./utils";
 
 const token = localStorage.getItem("token");
@@ -60,4 +60,79 @@ commentForm.addEventListener("submit", async (event) => {
     "red",
     "indigo",
   );
+});
+
+const newPostBtnEl = document.getElementById("newPostBtn");
+
+const dialog = document.getElementById("dialog");
+const newPostForm = document.getElementById("newPostForm");
+const closeButton = document.getElementById("closePostBtn");
+
+newPostBtnEl.addEventListener("click",() => {
+  dialog.showModal();
+  
+});
+
+closeButton.addEventListener("click", () => {
+  dialog.close();
+});
+
+newPostForm.addEventListener("submit",async (event)=>{
+  event.preventDefault();
+
+  console.log(event.target.postButtons)
+  
+  const postTitle = event.target.postTitle.value;
+  const postContent = event.target.postContent.value;
+
+  
+
+  if (!postContent || !postTitle) {
+    const errorMessage = document.createElement("p");
+
+    errorMessage.className = "mt-2 text-sm text-red-500";
+    errorMessage.id = "errorMessage";
+    errorMessage.textContent = "All fields are required";
+
+    const existingErrorMessage = document.getElementById("errorMessage");
+
+    if (existingErrorMessage) {
+      existingErrorMessage.remove();
+    }
+    //error message add
+    event.target.postContent.insertAdjacentElement("afterend", errorMessage);
+    
+    return;
+  }
+  try {
+    await addPost(postTitle, postContent, token);
+    
+    const successMessage = document.createElement("p");
+
+    successMessage.className = "mt-2 text-sm text-green-500";
+    successMessage.id = "successMessage";
+    successMessage.textContent = "Post added succesfully!!!";
+
+    const existingSuccessMessage = document.getElementById("successMessage");
+
+    if (existingSuccessMessage) {
+      existingSuccessMessage.remove();
+    }
+    
+    event.target.postContent.insertAdjacentElement("afterend", successMessage);
+    
+
+    setTimeout(() => {
+      dialog.close();
+    }, 5000);
+    
+    event.target.postTitle.value = "";
+    event.target.postContent.value = "";
+
+    renderPosts(await getPosts(token), token)
+
+  } catch (error) {
+    alert(error);
+  }
+  
 });

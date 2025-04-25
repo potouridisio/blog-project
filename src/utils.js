@@ -8,6 +8,8 @@ dayjs.extend(relativeTime);
 export function renderPosts(posts, token) {
   const postsNav = document.getElementById("postsNav");
 
+  postsNav.innerHTML = "";
+  
   postsNav.addEventListener("click", async (event) => {
     const postId = event.target.dataset.postId;
 
