@@ -107,10 +107,25 @@ newPostForm.addEventListener("submit",async (event)=>{
   try {
     await addPost(postTitle, postContent, token);
     
-    dialog.close();
+    const successMessage = document.createElement("p");
 
-    alert("Post added succesfully!!!");
+    successMessage.className = "mt-2 text-sm text-green-500";
+    successMessage.id = "successMessage";
+    successMessage.textContent = "Post added succesfully!!!";
 
+    const existingSuccessMessage = document.getElementById("successMessage");
+
+    if (existingSuccessMessage) {
+      existingSuccessMessage.remove();
+    }
+    
+    event.target.postContent.insertAdjacentElement("afterend", successMessage);
+    
+
+    setTimeout(() => {
+      dialog.close();
+    }, 5000);
+    
     event.target.postTitle.value = "";
     event.target.postContent.value = "";
 
